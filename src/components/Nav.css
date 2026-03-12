@@ -1,0 +1,96 @@
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  transition:
+    transform 0.6s var(--ease-out),
+    background 0.5s ease,
+    padding 0.5s var(--ease-out);
+}
+
+.nav--hidden  { transform: translateY(-100%); }
+.nav--visible { transform: translateY(0); }
+
+.nav--scrolled {
+  padding: 1.2rem 4rem;
+  background: rgba(8, 8, 8, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Logo */
+.nav__logo {
+  background: none;
+  border: none;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0;
+}
+.nav__logo:hover { color: var(--accent); }
+
+/* Links */
+.nav__links {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+.nav__link {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: color 0.3s ease;
+  animation: navFadeIn 0.6s var(--ease-out) both;
+}
+
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.nav__link-num {
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  transition: color 0.3s;
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0; width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.4s var(--ease-out);
+}
+
+.nav__link:hover { color: var(--text); }
+.nav__link:hover .nav__link-num { color: var(--accent); }
+.nav__link:hover::after { width: 100%; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .nav, .nav--scrolled { padding: 1.4rem 1.5rem; }
+  .nav__links { gap: 1.5rem; }
+  .nav__link-num { display: none; }
+}
