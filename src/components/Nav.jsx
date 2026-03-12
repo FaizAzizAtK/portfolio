@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { data } from '../data'
+import { ScribbleStar } from './Icons'
 import './Nav.css'
 
 export default function Nav() {
@@ -8,21 +9,18 @@ export default function Nav() {
 
   useEffect(() => {
     let lastY = window.scrollY
-
     const onScroll = () => {
       const y = window.scrollY
       setVisible(y < lastY || y < 80)
       setScrolled(y > 80)
       lastY = y
     }
-
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const scrollTo = (id) => {
+  const scrollTo = (id) =>
     document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   return (
     <nav className={`nav ${visible ? 'nav--visible' : 'nav--hidden'} ${scrolled ? 'nav--scrolled' : ''}`}>
@@ -30,18 +28,14 @@ export default function Nav() {
         className="nav__logo"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >
+        <ScribbleStar size={14} color="var(--accent)" className="nav__logo-star" />
         {data.name}
       </button>
 
       <ul className="nav__links">
-        {data.nav.links.map((link, i) => (
+        {data.nav.links.map((link) => (
           <li key={link}>
-            <button
-              className="nav__link"
-              onClick={() => scrollTo(link)}
-              style={{ animationDelay: `${0.1 + i * 0.07}s` }}
-            >
-              <span className="nav__link-num">0{i + 1}</span>
+            <button className="nav__link" onClick={() => scrollTo(link)}>
               {link}
             </button>
           </li>

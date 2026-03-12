@@ -1,4 +1,3 @@
-/* ── Hero ─────────────────────────────────────── */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -9,111 +8,134 @@
   overflow: hidden;
 }
 
-/* ── Ambient blobs ────────────────────────────── */
-.hero__blob {
+/* ── Floating doodles ─────────────────────────── */
+.hero__doodle {
   position: absolute;
-  border-radius: 50%;
   pointer-events: none;
-  filter: blur(120px);
+  opacity: 0;
+  animation: doodleFadeIn 0.6s var(--ease-out) forwards;
 }
-.hero__blob--1 {
-  width: 500px; height: 500px;
-  top: -120px; left: -80px;
-  background: radial-gradient(circle, rgba(200, 144, 58, 0.07) 0%, transparent 70%);
-  animation: blobFloat 14s ease-in-out infinite alternate;
+.hero__doodle--a {
+  top: 16%; right: 28%;
+  animation-delay: 1.2s;
+  animation-name: doodleFloat;
+  animation-duration: 0.8s;
 }
-.hero__blob--2 {
-  width: 400px; height: 400px;
-  bottom: 0; right: -60px;
-  background: radial-gradient(circle, rgba(200, 144, 58, 0.04) 0%, transparent 70%);
-  animation: blobFloat 18s ease-in-out infinite alternate-reverse;
+.hero__doodle--b {
+  top: 22%; right: 18%;
+  animation-delay: 1.5s;
+  animation-name: doodleFloat;
+  animation-duration: 0.8s;
 }
-@keyframes blobFloat {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(30px, 40px) scale(1.08); }
+.hero__doodle--c {
+  bottom: 28%; right: 35%;
+  animation-delay: 1.8s;
+  animation-name: doodleFloat;
+  animation-duration: 0.8s;
+}
+.hero__doodle--d {
+  top: 38%; right: 12%;
+  animation-delay: 2s;
+  animation-name: doodleFloat;
+  animation-duration: 0.8s;
 }
 
-/* ── Greeting ─────────────────────────────────── */
+@keyframes doodleFloat {
+  from { opacity: 0; transform: scale(0.5) rotate(-20deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* Slow idle float on the doodles */
+.hero__doodle--a { animation: doodleFloat 0.8s var(--ease-out) 1.2s both, idleFloat 6s ease-in-out 2s infinite; }
+.hero__doodle--b { animation: doodleFloat 0.8s var(--ease-out) 1.5s both, idleFloat 8s ease-in-out 2.5s infinite alternate; }
+.hero__doodle--c { animation: doodleFloat 0.8s var(--ease-out) 1.8s both, idleFloat 7s ease-in-out 3s infinite; }
+.hero__doodle--d { animation: doodleFloat 0.8s var(--ease-out) 2.0s both, idleFloat 9s ease-in-out 2s infinite alternate; }
+
+@keyframes idleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(8deg); }
+}
+
+/* ── Content ──────────────────────────────────── */
+.hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Greeting */
 .hero__greeting {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   opacity: 0;
-  animation: slideUp 0.7s var(--ease-out) both;
+  animation: slideUp 0.7s var(--ease-out) 0.2s both;
 }
-.hero__greeting-dash {
-  display: inline-block;
-  width: 2.5rem;
-  height: 1px;
-  background: var(--accent);
-  flex-shrink: 0;
-}
+.hero__greeting-wave { flex-shrink: 0; }
 
-/* ── Name ─────────────────────────────────────── */
+/* Name */
 .hero__name {
   display: flex;
   flex-direction: column;
-  line-height: 0.88;
-  margin-bottom: 2.5rem;
-  overflow: hidden;
-}
-
-.hero__name-line {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(5.5rem, 16vw, 15rem);
-  font-weight: 300;
-  letter-spacing: -0.025em;
-}
-
-.hero__name-line--italic {
-  font-style: italic;
-  color: var(--accent);
-  padding-left: 2rem;           /* stagger indent */
-}
-
-/* Individual char reveal */
-.char {
-  display: inline-block;
+  margin-bottom: 2rem;
   opacity: 0;
-  transform: translateY(70%) rotate(5deg);
-  animation: charReveal 0.75s var(--ease-out) forwards;
-}
-@keyframes charReveal {
-  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+  animation: slideUp 0.8s var(--ease-out) 0.45s both;
 }
 
-/* ── Role typewriter ──────────────────────────── */
+.hero__name-first,
+.hero__name-second {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 16vw, 14rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.hero__name-second {
+  position: relative;
+  color: var(--accent);
+  padding-left: 1.5rem;   /* stagger indent */
+}
+
+/* Squiggle underline sits below the second name */
+.hero__squiggle {
+  position: absolute;
+  bottom: -0.3em;
+  left: 1.5rem;
+  display: block;
+  line-height: 0;
+}
+
+/* Role */
 .hero__role {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 0.5rem;
   opacity: 0;
-  animation: slideUp 0.7s var(--ease-out) both;
+  animation: slideUp 0.7s var(--ease-out) 0.9s both;
 }
-.hero__role-dash {
-  font-family: var(--font-mono);
-  color: var(--accent);
-  font-size: 1.1rem;
+.hero__role-bracket {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--text-dim);
   line-height: 1;
 }
 .hero__typewriter {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 2.2vw, 1.35rem);
-  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.3rem);
   color: var(--text-muted);
-  letter-spacing: 0.04em;
   min-height: 1.6em;
 }
 .hero__caret {
   display: inline-block;
-  margin-left: 2px;
+  margin-left: 1px;
   color: var(--accent);
   animation: caretBlink 1s step-end infinite;
 }
@@ -131,76 +153,45 @@
   align-items: center;
   justify-content: space-between;
   opacity: 0;
-  animation: slideUp 0.7s var(--ease-out) 1.8s both;
+  animation: slideUp 0.7s var(--ease-out) 1.4s both;
 }
 
 .hero__scroll {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 0.7rem;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
 }
+.hero__scroll-icon {
+  transition: transform 0.5s var(--ease-out);
+}
+.hero__scroll:hover .hero__scroll-icon {
+  transform: translateY(5px);
+}
 .hero__scroll-label {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
   transition: color 0.3s;
 }
 .hero__scroll:hover .hero__scroll-label { color: var(--accent); }
 
-.hero__scroll-track {
-  display: block;
-  width: 72px; height: 1px;
-  background: var(--border);
-  position: relative;
-  overflow: hidden;
-}
-.hero__scroll-bead {
-  display: block;
-  position: absolute;
-  top: -3px; left: -8px;
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: beadScroll 2.2s var(--ease-in-out) infinite;
-}
-@keyframes beadScroll {
-  0%   { left: -8px;   opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { left: 100%;   opacity: 0; }
-}
-
 .hero__location {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-dim);
 }
 
-/* ── Decorative numeral ───────────────────────── */
-.hero__numeral {
-  position: absolute;
-  right: -1rem; bottom: -4rem;
-  font-family: var(--font-display);
-  font-size: 28vw;
-  font-weight: 600;
-  color: rgba(255,255,255,0.013);
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-  letter-spacing: -0.05em;
-}
-
-/* ── Shared animation ─────────────────────────── */
+/* ── Shared ───────────────────────────────────── */
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -209,14 +200,17 @@
   .hero {
     padding: 0 1.5rem;
     justify-content: flex-end;
-    padding-bottom: 10rem;
+    padding-bottom: 9rem;
   }
-  .hero__name-line--italic { padding-left: 0.5rem; }
+  .hero__name-second { padding-left: 0.5rem; }
+  .hero__squiggle    { left: 0.5rem; }
   .hero__bottom {
     left: 1.5rem; right: 1.5rem;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.8rem;
     bottom: 2.5rem;
   }
+  .hero__doodle--b,
+  .hero__doodle--c { display: none; }
 }

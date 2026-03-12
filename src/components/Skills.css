@@ -1,77 +1,90 @@
 .skills {
-  position: relative;
   padding: 10rem 4rem;
   border-top: 1px solid var(--border);
-  overflow: hidden;
+  background: var(--bg-2);
 }
 
 .skills__label { margin-bottom: 3rem; }
 
 .skills__heading {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 6.5rem);
-  font-weight: 300;
+  font-size: clamp(3rem, 7.5vw, 6rem);
+  font-weight: 700;
   line-height: 1.05;
-  letter-spacing: -0.025em;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
+  color: var(--text);
 }
 .skills__heading em {
   font-style: italic;
   color: var(--accent);
 }
+.skills__heading-line {
+  display: block;
+  position: relative;
+  display: inline-block;
+}
+.skills__heading-squiggle {
+  position: absolute;
+  bottom: -0.2em;
+  left: 0;
+  display: block;
+}
 
-/* Tags */
+/* Cloud layout with brackets */
+.skills__cloud {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.skills__bracket {
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
 .skills__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 0.75rem;
+  flex: 1;
 }
 
+/* Tags */
 .skill-tag {
   display: inline-block;
-  padding: 0.55rem 1.4rem;
-  border: 1px solid var(--border);
+  padding: 0.5rem 1.3rem;
+  border: 1.5px solid var(--border-dark);
   border-radius: 100px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
   cursor: default;
+  background: var(--bg-card);
 
   opacity: 0;
-  transform: translateY(16px) scale(0.94);
+  transform: translateY(14px) scale(0.93);
   transition:
-    opacity   0.5s var(--ease-out),
-    transform 0.5s var(--ease-out),
-    color     0.3s,
+    opacity      0.5s var(--ease-out),
+    transform    0.5s var(--ease-out),
+    color        0.3s,
     border-color 0.3s,
-    background   0.3s;
+    background   0.3s,
+    box-shadow   0.3s;
 }
 .skill-tag.visible {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 .skill-tag:hover {
-  border-color: var(--border-hover);
+  border-color: var(--accent);
   color: var(--accent);
-  background: var(--accent-glow);
-}
-
-/* Watermark */
-.skills__watermark {
-  position: absolute;
-  right: -2rem; bottom: -4rem;
-  font-family: var(--font-display);
-  font-size: 22vw;
-  font-weight: 600;
-  color: rgba(255,255,255,0.013);
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  background: rgba(200, 90, 42, 0.05);
+  box-shadow: 2px 2px 0 0 var(--accent);
 }
 
 @media (max-width: 768px) {
   .skills { padding: 6rem 1.5rem; }
+  .skills__bracket { display: none; }
+  .skills__heading-squiggle { display: none; }
 }

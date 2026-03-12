@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { data } from '../data'
+import { WigglyArrow, HandCircle, WavyLine } from './Icons'
 import './About.css'
 
 export default function About() {
@@ -9,7 +10,7 @@ export default function About() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach((el, i) => {
+          entry.target.querySelectorAll('.reveal, .reveal-left').forEach((el, i) => {
             setTimeout(() => el.classList.add('revealed'), i * 130)
           })
           observer.disconnect()
@@ -28,36 +29,38 @@ export default function About() {
       </div>
 
       <div className="about__grid">
-        {/* Left col — big stat */}
-        <div className="about__left">
-          <div className="about__stat reveal-left">{data.about.stat}</div>
-          <div className="about__stat-label reveal-left" style={{ transitionDelay: '0.1s' }}>
-            {data.about.statLabel}
+        {/* Left: big stat in a hand-drawn box */}
+        <div className="about__left reveal-left">
+          <div className="about__stat-box">
+            <HandCircle size={160} color="var(--accent)" className="about__stat-circle" />
+            <div className="about__stat-inner">
+              <span className="about__stat">{data.about.stat}</span>
+              <span className="about__stat-label">{data.about.statLabel}</span>
+            </div>
           </div>
-          <div className="about__divider reveal-left" style={{ transitionDelay: '0.2s' }} />
+          <WavyLine width={80} color="var(--accent)" className="about__divider" />
         </div>
 
-        {/* Right col — bio */}
+        {/* Right: bio */}
         <div className="about__right">
-          <p className="about__bio reveal" style={{ transitionDelay: '0.15s' }}>
+          <p className="about__bio reveal" style={{ transitionDelay: '0.1s' }}>
             {data.about.bio}
           </p>
-          <p className="about__bio about__bio--dim reveal" style={{ transitionDelay: '0.28s' }}>
+          <p className="about__bio about__bio--muted reveal" style={{ transitionDelay: '0.22s' }}>
             {data.about.secondaryBio}
           </p>
-          <div className="about__links reveal" style={{ transitionDelay: '0.42s' }}>
+          <div className="about__links reveal" style={{ transitionDelay: '0.36s' }}>
             <a href={data.about.resumeUrl} className="about__link" data-cursor>
-              View Resume <span className="about__link-arrow">↗</span>
+              View Resume
+              <WigglyArrow size={44} color="var(--accent)" className="about__link-arrow" />
             </a>
             <a href="#contact" className="about__link" data-cursor>
-              Work Together <span className="about__link-arrow">↗</span>
+              Work Together
+              <WigglyArrow size={44} color="var(--accent)" className="about__link-arrow" />
             </a>
           </div>
         </div>
       </div>
-
-      {/* Decorative watermark */}
-      <span className="about__watermark" aria-hidden="true">About</span>
     </section>
   )
 }

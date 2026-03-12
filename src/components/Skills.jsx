@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { data } from '../data'
+import { HandBracket, SquiggleUnderline } from './Icons'
 import './Skills.css'
 
 export default function Skills() {
@@ -9,13 +10,11 @@ export default function Skills() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Heading reveals first
           entry.target.querySelectorAll('.reveal').forEach((el, i) => {
             setTimeout(() => el.classList.add('revealed'), i * 150)
           })
-          // Tags stagger after a short offset
           entry.target.querySelectorAll('.skill-tag').forEach((el, i) => {
-            setTimeout(() => el.classList.add('visible'), 300 + i * 55)
+            setTimeout(() => el.classList.add('visible'), 350 + i * 55)
           })
           observer.disconnect()
         }
@@ -33,19 +32,24 @@ export default function Skills() {
       </div>
 
       <h2 className="skills__heading reveal" style={{ transitionDelay: '0.1s' }}>
-        What I bring<br />
-        <em>to the table</em>
+        What I bring
+        <span className="skills__heading-line">
+          <em>to the table</em>
+          <SquiggleUnderline width={300} color="var(--accent)" className="skills__heading-squiggle" />
+        </span>
       </h2>
 
-      <div className="skills__tags">
-        {data.skills.map((skill) => (
-          <span key={skill} className="skill-tag" data-cursor>
-            {skill}
-          </span>
-        ))}
+      <div className="skills__cloud">
+        <HandBracket height={200} color="var(--border-dark)" className="skills__bracket skills__bracket--left" />
+        <div className="skills__tags">
+          {data.skills.map((skill) => (
+            <span key={skill} className="skill-tag" data-cursor>
+              {skill}
+            </span>
+          ))}
+        </div>
+        <HandBracket height={200} color="var(--border-dark)" flip className="skills__bracket skills__bracket--right" />
       </div>
-
-      <span className="skills__watermark" aria-hidden="true">Skills</span>
     </section>
   )
 }
