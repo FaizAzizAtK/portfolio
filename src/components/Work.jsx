@@ -17,9 +17,10 @@ export default function Work() {
     const track  = trackRef.current
     if (!driver || !sticky || !track) return
 
+    const exitBuffer = 500 // px of smooth scroll after last card lands
     const setDriverHeight = () => {
       const maxT = track.scrollWidth - sticky.offsetWidth
-      driver.style.height = `${sticky.offsetHeight + Math.max(0, maxT)}px`
+      driver.style.height = `${sticky.offsetHeight + Math.max(0, maxT) + exitBuffer}px`
     }
 
     setDriverHeight()
@@ -116,9 +117,12 @@ export default function Work() {
                       <span className="work__card-year">{project.year}</span>
                     </div>
                     <h3 className="work__card-title">{project.title}</h3>
+                    {project.status && (
+                      <span className="work__card-status">{project.status}</span>
+                    )}
                     <p className="work__card-desc">{project.description}</p>
                     <span className="work__card-link">
-                      View project
+                      {project.status ? 'In progress' : 'View project'}
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>

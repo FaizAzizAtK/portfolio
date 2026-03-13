@@ -61,41 +61,34 @@ export const data = {
   work: [
     {
       id: "01",
-      title: "Project Alpha",
-      category: "Web Design & Development",
+      title: "Prompt Eval & Auto-Optimiser",
+      category: "AI Engineering",
       year: "2024",
+      status: null, // live
       description:
-        "A comprehensive platform redesign that increased user engagement by 40%. Focused on reducing friction and elevating the visual language.",
+        "An automated system that evaluates LLM prompt quality across multiple dimensions, then generates and benchmarks optimised variants — reducing manual prompt engineering time and improving output consistency at scale.",
       image: null,
       url: "#",
     },
     {
       id: "02",
-      title: "Project Beta",
-      category: "Product Design & Branding",
-      year: "2024",
+      title: "Agentic Workflow Engine",
+      category: "AI Agents",
+      year: "2025",
+      status: "In Progress",
       description:
-        "End-to-end product design for a fintech startup — research, wireframes, design system, and handoff.",
+        "A modular framework for orchestrating multi-agent pipelines. Agents reason, delegate sub-tasks, and call tools autonomously — enabling complex enterprise workflows to run end-to-end without human handoffs.",
       image: null,
       url: "#",
     },
     {
       id: "03",
-      title: "Project Gamma",
-      category: "Creative Direction",
-      year: "2023",
+      title: "AI Delivery Accelerator",
+      category: "Platform / Consulting Tool",
+      year: "2025",
+      status: "In Progress",
       description:
-        "Visual identity for a luxury brand spanning digital, print, and environmental touchpoints.",
-      image: null,
-      url: "#",
-    },
-    {
-      id: "04",
-      title: "Project Delta",
-      category: "Web Application",
-      year: "2023",
-      description:
-        "Full-stack web application with complex data visualisation and real-time collaboration features.",
+        "Internal tooling built at IBM to accelerate Data & AI programme delivery — automated project health scoring, risk flagging, and stakeholder reporting powered by LLM analysis of project artefacts.",
       image: null,
       url: "#",
     },
