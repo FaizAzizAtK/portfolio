@@ -4,24 +4,25 @@
 
 export const data = {
   name: "Faiz Aziz",
+  role: "Designer & Developer",
+  location: "London, UK",
 
   nav: {
     links: ["About", "Work", "Skills", "Contact"],
   },
 
   hero: {
-    greeting: "Hello, I'm",
     roles: ["Product Designer", "Frontend Developer", "Creative Thinker", "Problem Solver"],
     scrollLabel: "Scroll to explore",
   },
 
   about: {
-    stat: "05+",
-    statLabel: "Years of experience",
-    bio: "I'm a multidisciplinary designer and developer passionate about crafting digital experiences that sit at the intersection of form and function. I believe great design is invisible — it simply feels right.",
-    secondaryBio:
-      "Currently open to new opportunities and collaborations. Let's build something remarkable together.",
-    location: "Based in London, UK",
+    bio: "I design and build digital products that balance form with function. My work sits at the intersection of visual design and engineering — I care about how things look, how they feel, and how they're built.",
+    stats: [
+      { value: "5+", label: "Years experience" },
+      { value: "30+", label: "Projects delivered" },
+      { value: "10+", label: "Happy clients" },
+    ],
     resumeUrl: "#",
   },
 
@@ -29,21 +30,21 @@ export const data = {
     {
       id: "01",
       title: "Project Alpha",
-      category: "Web Design / Development",
+      category: "Web Design & Development",
       year: "2024",
       description:
-        "A comprehensive platform redesign that increased user engagement significantly. Focused on reducing friction and elevating the visual language across the entire product.",
-      color: "#c8903a",
+        "A comprehensive platform redesign that increased user engagement by 40%. Focused on reducing friction and elevating the visual language.",
+      image: null, // Replace with image path: "/images/project-alpha.jpg"
       url: "#",
     },
     {
       id: "02",
       title: "Project Beta",
-      category: "UI/UX / Branding",
+      category: "Product Design & Branding",
       year: "2024",
       description:
-        "End-to-end product design for a fintech startup — from research and wireframes through to a polished design system and handoff.",
-      color: "#4a90a4",
+        "End-to-end product design for a fintech startup — research, wireframes, design system, and handoff.",
+      image: null,
       url: "#",
     },
     {
@@ -52,34 +53,30 @@ export const data = {
       category: "Creative Direction",
       year: "2023",
       description:
-        "Creative direction and visual identity for a luxury brand. Built a cohesive language spanning digital, print, and environmental touchpoints.",
-      color: "#7a6a8a",
+        "Visual identity for a luxury brand spanning digital, print, and environmental touchpoints.",
+      image: null,
+      url: "#",
+    },
+    {
+      id: "04",
+      title: "Project Delta",
+      category: "Web Application",
+      year: "2023",
+      description:
+        "Full-stack web application with complex data visualisation and real-time collaboration features.",
+      image: null,
       url: "#",
     },
   ],
 
-  skills: [
-    "UI Design",
-    "UX Research",
-    "React",
-    "TypeScript",
-    "Figma",
-    "Motion Design",
-    "CSS / Sass",
-    "Node.js",
-    "Brand Identity",
-    "Prototyping",
-    "Design Systems",
-    "Next.js",
-    "Tailwind",
-    "Accessibility",
-    "Product Strategy",
-    "Interaction Design",
-  ],
+  skills: {
+    design: ["UI Design", "UX Research", "Brand Identity", "Motion Design", "Design Systems", "Prototyping", "Interaction Design"],
+    development: ["React", "TypeScript", "Next.js", "Node.js", "CSS / Sass", "Tailwind", "REST APIs"],
+    tools: ["Figma", "VS Code", "Git", "Vercel", "Adobe Suite", "Framer", "Notion"],
+  },
 
   contact: {
-    cta: "Let's create something",
-    ctaAccent: "extraordinary.",
+    heading: "Let's work together.",
     email: "hello@faizaziz.com",
     availability: "Currently available for freelance & full-time roles",
     socials: [

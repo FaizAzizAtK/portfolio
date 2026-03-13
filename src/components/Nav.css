@@ -5,65 +5,41 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.8rem 4rem;
+  padding: 1.6rem 4rem;
   transition:
-    transform    0.6s var(--ease-out),
-    background   0.4s ease,
-    padding      0.4s var(--ease-out),
-    border-color 0.4s ease;
+    transform  0.55s var(--ease-out),
+    background 0.4s ease,
+    padding    0.4s var(--ease-out);
 }
-
-.nav--hidden  { transform: translateY(-100%); }
-.nav--visible { transform: translateY(0); }
-
+.nav--hidden { transform: translateY(-100%); }
 .nav--scrolled {
-  padding: 1.1rem 4rem;
-  background: rgba(250, 246, 240, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  padding: 1rem 4rem;
+  background: rgba(250,250,250,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
 
-/* Logo */
 .nav__logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: none;
+  background: none; border: none;
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--text);
-  cursor: pointer;
-  transition: color 0.3s;
   padding: 0;
+  transition: opacity 0.3s;
 }
-.nav__logo:hover { color: var(--accent); }
+.nav__logo:hover { opacity: 0.5; }
 
-.nav__logo-star {
-  transition: transform 0.5s var(--ease-out);
-}
-.nav__logo:hover .nav__logo-star {
-  transform: rotate(45deg) scale(1.2);
-}
-
-/* Links */
-.nav__links {
-  display: flex;
-  list-style: none;
-  gap: 2.5rem;
-}
+.nav__links { display: flex; list-style: none; gap: 2.4rem; }
 
 .nav__link {
-  background: none;
-  border: none;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  background: none; border: none;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 400;
   color: var(--text-muted);
-  cursor: pointer;
   padding: 0;
   position: relative;
   transition: color 0.3s;
@@ -72,9 +48,8 @@
   content: '';
   position: absolute;
   bottom: -2px; left: 0;
-  width: 0; height: 1.5px;
+  width: 0; height: 1px;
   background: var(--accent);
-  border-radius: 2px;
   transition: width 0.35s var(--ease-out);
 }
 .nav__link:hover { color: var(--text); }
@@ -82,5 +57,5 @@
 
 @media (max-width: 768px) {
   .nav, .nav--scrolled { padding: 1.2rem 1.5rem; }
-  .nav__links { gap: 1.5rem; }
+  .nav__links { gap: 1.4rem; }
 }

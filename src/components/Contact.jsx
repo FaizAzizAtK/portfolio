@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { data } from '../data'
-import { SquiggleUnderline, HandAsterisk, ScribbleStar, WigglyArrow } from './Icons'
 import './Contact.css'
 
 export default function Contact() {
@@ -12,7 +11,7 @@ export default function Contact() {
       ([entry]) => {
         if (entry.isIntersecting) {
           entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-            setTimeout(() => el.classList.add('revealed'), i * 180)
+            setTimeout(() => el.classList.add('revealed'), i * 160)
           })
           observer.disconnect()
         }
@@ -32,60 +31,62 @@ export default function Contact() {
 
   return (
     <section className="contact" id="contact" ref={ref}>
-
-      {/* Floating doodles */}
-      <HandAsterisk size={26} color="var(--accent)"   className="contact__doodle contact__doodle--a" />
-      <ScribbleStar size={20} color="var(--accent-2)" className="contact__doodle contact__doodle--b" />
-
       <div className="contact__inner">
-        <div className="contact__tag reveal">
-          <span className="section-tag">/ Contact</span>
+        {/* Section label */}
+        <div className="section-label reveal">
+          <span className="section-num section-num--inv">04</span>
+          <span className="section-name section-name--inv">Contact</span>
         </div>
 
-        <h2 className="contact__heading reveal" style={{ transitionDelay: '0.12s' }}>
-          {data.contact.cta}
-          <span className="contact__heading-accent">
-            <em>{data.contact.ctaAccent}</em>
-            <SquiggleUnderline width={380} color="var(--accent)" className="contact__heading-squiggle" />
-          </span>
+        {/* Big CTA heading */}
+        <h2 className="contact__heading reveal">
+          {data.contact.heading}
         </h2>
 
-        <p className="contact__avail reveal" style={{ transitionDelay: '0.26s' }}>
-          ✦ {data.contact.availability}
+        {/* Availability badge */}
+        <p className="contact__avail reveal">
+          <span className="contact__avail-dot" />
+          {data.contact.availability}
         </p>
 
-        {/* Email */}
+        {/* Email — click to copy */}
         <button
           className={`contact__email reveal ${copied ? 'contact__email--copied' : ''}`}
-          style={{ transitionDelay: '0.4s' }}
           onClick={copyEmail}
           data-cursor
         >
           <span className="contact__email-text">
-            {copied ? 'Copied!' : data.contact.email}
+            {copied ? 'Copied to clipboard' : data.contact.email}
           </span>
-          <WigglyArrow size={48} color="var(--accent)" className="contact__email-arrow" />
-          <span className="contact__email-hint">
-            {copied ? '✓ done' : 'click to copy'}
-          </span>
+          <svg className="contact__email-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
 
         {/* Socials */}
-        <div className="contact__socials reveal" style={{ transitionDelay: '0.54s' }}>
-          {data.contact.socials.map((s, i) => (
-            <span key={s.label} className="contact__social-item">
-              {i > 0 && <span className="contact__sep" aria-hidden="true">·</span>}
-              <a href={s.url} className="contact__social" data-cursor target="_blank" rel="noopener noreferrer">
-                {s.label}
-              </a>
-            </span>
+        <div className="contact__socials reveal">
+          {data.contact.socials.map((s) => (
+            <a
+              key={s.label}
+              href={s.url}
+              className="contact__social"
+              data-cursor
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {s.label}
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
           ))}
         </div>
       </div>
 
+      {/* Footer bar */}
       <footer className="contact__footer">
         <p className="contact__copy">© {new Date().getFullYear()} {data.name}</p>
-        <p className="contact__made">Made with a lot of ✦ intention</p>
+        <p className="contact__made">Designed & built with intention</p>
       </footer>
     </section>
   )

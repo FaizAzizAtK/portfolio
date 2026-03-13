@@ -1,7 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { data } from '../data'
-import { HandBracket, SquiggleUnderline } from './Icons'
 import './Skills.css'
+
+const COLUMNS = [
+  { key: 'design', label: 'Design' },
+  { key: 'development', label: 'Development' },
+  { key: 'tools', label: 'Tools' },
+]
 
 export default function Skills() {
   const ref = useRef(null)
@@ -11,15 +16,15 @@ export default function Skills() {
       ([entry]) => {
         if (entry.isIntersecting) {
           entry.target.querySelectorAll('.reveal').forEach((el, i) => {
-            setTimeout(() => el.classList.add('revealed'), i * 150)
+            setTimeout(() => el.classList.add('revealed'), i * 120)
           })
-          entry.target.querySelectorAll('.skill-tag').forEach((el, i) => {
-            setTimeout(() => el.classList.add('visible'), 350 + i * 55)
+          entry.target.querySelectorAll('.skill-item').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), 400 + i * 45)
           })
           observer.disconnect()
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     )
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
@@ -27,28 +32,33 @@ export default function Skills() {
 
   return (
     <section className="skills" id="skills" ref={ref}>
-      <div className="skills__label reveal">
-        <span className="section-tag">/ Skills</span>
-      </div>
+      <div className="skills__inner">
+        {/* Left: label + heading */}
+        <div className="skills__left">
+          <div className="section-label reveal">
+            <span className="section-num">03</span>
+            <span className="section-name">Skills</span>
+          </div>
+          <h2 className="skills__heading reveal">
+            What I<br />bring
+          </h2>
+        </div>
 
-      <h2 className="skills__heading reveal" style={{ transitionDelay: '0.1s' }}>
-        What I bring
-        <span className="skills__heading-line">
-          <em>to the table</em>
-          <SquiggleUnderline width={300} color="var(--accent)" className="skills__heading-squiggle" />
-        </span>
-      </h2>
-
-      <div className="skills__cloud">
-        <HandBracket height={200} color="var(--border-dark)" className="skills__bracket skills__bracket--left" />
-        <div className="skills__tags">
-          {data.skills.map((skill) => (
-            <span key={skill} className="skill-tag" data-cursor>
-              {skill}
-            </span>
+        {/* Right: 3-column skill lists */}
+        <div className="skills__grid reveal" style={{ transitionDelay: '0.2s' }}>
+          {COLUMNS.map((col) => (
+            <div key={col.key} className="skills__col">
+              <p className="skills__col-label">{col.label}</p>
+              <ul className="skills__list">
+                {data.skills[col.key].map((skill, i) => (
+                  <li key={skill} className="skill-item" style={{ transitionDelay: `${i * 0.04}s` }}>
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
-        <HandBracket height={200} color="var(--border-dark)" flip className="skills__bracket skills__bracket--right" />
       </div>
     </section>
   )

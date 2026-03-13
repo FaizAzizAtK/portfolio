@@ -1,7 +1,40 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { data } from '../data'
-import { WigglyArrow, HandCircle, WavyLine } from './Icons'
 import './About.css'
+
+function AnimatedStat({ value, label }) {
+  const [display, setDisplay] = useState('0')
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const num = parseInt(value)
+          const suffix = value.replace(String(num), '')
+          let i = 0
+          const step = () => {
+            i += 1
+            setDisplay(Math.min(i, num) + suffix)
+            if (i < num) requestAnimationFrame(step)
+          }
+          requestAnimationFrame(step)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.5 }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [value])
+
+  return (
+    <div className="stat" ref={ref}>
+      <span className="stat__val">{display}</span>
+      <span className="stat__label">{label}</span>
+    </div>
+  )
+}
 
 export default function About() {
   const ref = useRef(null)
@@ -10,13 +43,13 @@ export default function About() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.reveal, .reveal-left').forEach((el, i) => {
-            setTimeout(() => el.classList.add('revealed'), i * 130)
+          entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+            setTimeout(() => el.classList.add('revealed'), i * 120)
           })
           observer.disconnect()
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     )
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
@@ -24,42 +57,36 @@ export default function About() {
 
   return (
     <section className="about" id="about" ref={ref}>
-      <div className="about__label reveal">
-        <span className="section-tag">/ About</span>
+      <div className="about__left reveal">
+        <div className="section-label">
+          <span className="section-num">01</span>
+          <span className="section-name">About</span>
+        </div>
       </div>
 
-      <div className="about__grid">
-        {/* Left: big stat in a hand-drawn box */}
-        <div className="about__left reveal-left">
-          <div className="about__stat-box">
-            <HandCircle size={160} color="var(--accent)" className="about__stat-circle" />
-            <div className="about__stat-inner">
-              <span className="about__stat">{data.about.stat}</span>
-              <span className="about__stat-label">{data.about.statLabel}</span>
-            </div>
-          </div>
-          <WavyLine width={80} color="var(--accent)" className="about__divider" />
+      <div className="about__right">
+        <p className="about__bio reveal" style={{ transitionDelay: '0.1s' }}>
+          {data.about.bio}
+        </p>
+
+        <div className="about__stats reveal" style={{ transitionDelay: '0.24s' }}>
+          {data.about.stats.map((s) => (
+            <AnimatedStat key={s.label} value={s.value} label={s.label} />
+          ))}
         </div>
 
-        {/* Right: bio */}
-        <div className="about__right">
-          <p className="about__bio reveal" style={{ transitionDelay: '0.1s' }}>
-            {data.about.bio}
-          </p>
-          <p className="about__bio about__bio--muted reveal" style={{ transitionDelay: '0.22s' }}>
-            {data.about.secondaryBio}
-          </p>
-          <div className="about__links reveal" style={{ transitionDelay: '0.36s' }}>
-            <a href={data.about.resumeUrl} className="about__link" data-cursor>
-              View Resume
-              <WigglyArrow size={44} color="var(--accent)" className="about__link-arrow" />
-            </a>
-            <a href="#contact" className="about__link" data-cursor>
-              Work Together
-              <WigglyArrow size={44} color="var(--accent)" className="about__link-arrow" />
-            </a>
+        {/* Portrait placeholder */}
+        <div className="about__image reveal" style={{ transitionDelay: '0.38s' }}>
+          <div className="about__image-frame">
+            <div className="about__image-placeholder">
+              <span>Your photo</span>
+            </div>
           </div>
         </div>
+
+        <a href={data.about.resumeUrl} className="about__resume reveal" data-cursor style={{ transitionDelay: '0.5s' }}>
+          View resume →
+        </a>
       </div>
     </section>
   )

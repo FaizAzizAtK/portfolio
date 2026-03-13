@@ -1,179 +1,220 @@
+/* ── Work — horizontal scroll showcase ──────── */
 .work {
-  padding: 10rem 4rem;
-  border-top: 1px solid var(--border);
-}
-
-.work__header { margin-bottom: 5rem; }
-
-.work__heading {
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  font-weight: 700;
-  line-height: 1.05;
-  margin-top: 1rem;
-  color: var(--text);
-}
-.work__heading em {
-  font-style: italic;
-  color: var(--accent);
-}
-
-/* ── Grid ─────────────────────────────────────── */
-.work__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-/* ── Card ─────────────────────────────────────── */
-.project-card {
   position: relative;
+}
+
+/* The tall container that drives scroll height */
+.work__scroll-driver {
+  height: 350vh; /* extra height = scrollable distance */
+}
+
+/* Sticky pane that fills viewport while scrolling */
+.work__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 2.2rem;
-  background: var(--bg-card);
-  border: 1.5px solid var(--border);
-  border-radius: 4px;
-  text-decoration: none;
-  color: inherit;
-  transition:
-    border-color 0.35s,
-    box-shadow   0.35s,
-    transform    0.35s var(--ease-out);
-  min-height: 360px;
-  /* Slightly offset hand-drawn shadow on hover */
-}
-.project-card:hover {
-  border-color: var(--accent);
-  box-shadow: 4px 5px 0 0 var(--accent);
-  transform: translate(-2px, -3px);
+  padding-top: 6rem;
 }
 
-/* Badge */
-.project-card__badge {
-  position: relative;
-  width: 52px; height: 52px;
+/* Header row */
+.work__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 4rem 2rem;
+  flex-shrink: 0;
+}
+
+.work__scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* Track wrapper: contains overflow */
+.work__track-wrap {
+  flex: 1;
+  overflow: hidden;
+  padding: 0 4rem;
+  display: flex;
+  align-items: stretch;
+}
+
+/* The horizontally translated track */
+.work__track {
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+  will-change: transform;
+  transition: transform 0.05s linear;
+  /* Add right padding so last card has breathing room */
+  padding-right: 8rem;
+}
+
+/* ── Project card ────────────────────────── */
+.work__card {
+  flex: 0 0 auto;
+  width: clamp(340px, 32vw, 520px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.3s;
+  cursor: none;
+}
+
+.work__card:hover {
+  border-color: var(--accent);
+}
+
+/* Image area */
+.work__card-img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-muted);
+  flex-shrink: 0;
+}
+
+.work__card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.work__card:hover .work__card-img img {
+  transform: scale(1.04);
+}
+
+.work__card-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.8rem;
 }
-.project-card__badge-star {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  transition: transform 0.5s var(--ease-out);
-}
-.project-card:hover .project-card__badge-star {
-  transform: rotate(20deg) scale(1.1);
-}
-.project-card__num {
-  position: relative;
+
+.work__card-placeholder span {
   font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 800;
+  color: var(--border-dark);
+  letter-spacing: -0.04em;
+  transition: color 0.3s;
+}
+
+.work__card:hover .work__card-placeholder span {
   color: var(--accent);
-  z-index: 1;
 }
 
-/* Body */
-.project-card__body { flex: 1; }
-
-.project-card__cat {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.6rem;
+/* Meta area */
+.work__card-meta {
+  padding: 1.8rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
 }
 
-.project-card__title {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.5vw, 2rem);
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--text);
-  margin-bottom: 1.2rem;
-  position: relative;
-  display: inline-block;
-}
-
-/* Squiggle underline shows on hover */
-.project-card__underline {
-  position: absolute;
-  bottom: -0.25em;
-  left: 0;
-  display: block;
-  line-height: 0;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.project-card:hover .project-card__underline { opacity: 1; }
-
-.project-card__desc {
-  font-size: 0.9rem;
-  line-height: 1.75;
-  color: var(--text-muted);
-}
-
-/* Footer */
-.project-card__foot {
+.work__card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 2rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--border);
 }
-.project-card__year {
+
+.work__card-cat {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  letter-spacing: 0.12em;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--text-dim);
 }
-.project-card__cta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  transition: color 0.3s;
-}
-.project-card__arrow {
-  transition: transform 0.35s var(--ease-out);
-  opacity: 0;
-}
-.project-card:hover .project-card__cta { color: var(--accent); }
-.project-card:hover .project-card__arrow {
-  opacity: 1;
-  transform: translateX(4px);
+
+.work__card-year {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
 }
 
-/* More */
-.work__more {
-  margin-top: 4rem;
+.work__card-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
-.work__more-link {
+
+.work__card-desc {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.work__card-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.3s;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-top: 0.4rem;
+  transition: gap 0.3s var(--ease-out);
 }
-.work__more-link:hover { color: var(--accent); }
 
-/* Responsive */
-@media (max-width: 960px) {
-  .work__grid { grid-template-columns: 1fr 1fr; }
+.work__card:hover .work__card-link {
+  gap: 0.8rem;
 }
-@media (max-width: 640px) {
-  .work { padding: 6rem 1.5rem; }
-  .work__grid { grid-template-columns: 1fr; }
+
+/* ── Mobile: revert to vertical stack ────── */
+@media (max-width: 900px) {
+  .work__scroll-driver {
+    height: auto;
+  }
+
+  .work__sticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    padding-top: 6rem;
+  }
+
+  .work__header {
+    padding: 0 2rem 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .work__track-wrap {
+    padding: 0 2rem;
+    overflow-x: auto;
+    align-items: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .work__track {
+    padding-right: 2rem;
+    transition: none;
+  }
+
+  .work__card {
+    width: min(80vw, 340px);
+  }
 }
