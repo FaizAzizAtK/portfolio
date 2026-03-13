@@ -2,55 +2,69 @@ import { useEffect, useRef } from 'react'
 import './Cursor.css'
 
 export default function Cursor() {
-  const dotRef  = useRef(null)
-  const ringRef = useRef(null)
+  const aRef = useRef(null)  // lead dot — fast, snappy
+  const bRef = useRef(null)  // follow dot — slow, trails A
 
   useEffect(() => {
-    let mx = 0, my = 0, rx = 0, ry = 0, rafId
+    let mx = 0, my = 0
+    let ax = 0, ay = 0   // dot A position
+    let bx = 0, by = 0   // dot B position
+    let isHover = false
+    let raf
 
     const onMove = (e) => {
       mx = e.clientX
       my = e.clientY
-      if (dotRef.current) dotRef.current.style.transform = `translate(${mx}px, ${my}px)`
     }
 
     const tick = () => {
-      rx += (mx - rx) * 0.09
-      ry += (my - ry) * 0.09
-      if (ringRef.current) ringRef.current.style.transform = `translate(${rx}px, ${ry}px)`
-      rafId = requestAnimationFrame(tick)
+      // A tracks mouse — slightly smoothed so it doesn't feel robotic
+      ax += (mx - ax) * 0.22
+      ay += (my - ay) * 0.22
+
+      // B tracks A — much slower: creates the "companion lagging behind" effect
+      const lerpB = isHover ? 0.16 : 0.07
+      bx += (ax - bx) * lerpB
+      by += (ay - by) * lerpB
+
+      if (aRef.current) aRef.current.style.transform = `translate(${ax}px, ${ay}px)`
+      if (bRef.current) bRef.current.style.transform = `translate(${bx}px, ${by}px)`
+
+      raf = requestAnimationFrame(tick)
     }
 
     const onOver = (e) => {
       if (e.target.closest('a, button, [data-cursor]')) {
-        dotRef.current?.classList.add('active')
-        ringRef.current?.classList.add('active')
+        isHover = true
+        aRef.current?.classList.add('active')
+        bRef.current?.classList.add('active')
       }
     }
     const onOut = (e) => {
       if (e.target.closest('a, button, [data-cursor]')) {
-        dotRef.current?.classList.remove('active')
-        ringRef.current?.classList.remove('active')
+        isHover = false
+        aRef.current?.classList.remove('active')
+        bRef.current?.classList.remove('active')
       }
     }
 
-    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mousemove', onMove, { passive: true })
     document.addEventListener('mouseover', onOver)
     document.addEventListener('mouseout', onOut)
-    rafId = requestAnimationFrame(tick)
+    raf = requestAnimationFrame(tick)
 
     return () => {
       window.removeEventListener('mousemove', onMove)
       document.removeEventListener('mouseover', onOver)
       document.removeEventListener('mouseout', onOut)
-      cancelAnimationFrame(rafId)
+      cancelAnimationFrame(raf)
     }
   }, [])
 
   return (
     <>
-      <div ref={dotRef}  className="cur-dot" />
-      <div ref={ringRef} className="cur-ring" />
+      <div ref={aRef} className="cur-a" />
+      <div ref={bRef} className="cur-b" />
     </>
   )
 }

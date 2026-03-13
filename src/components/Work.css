@@ -3,10 +3,9 @@
   position: relative;
 }
 
-/* The tall container that drives scroll height */
+/* Tall container — height is set dynamically by JS based on actual card track width */
 .work__scroll-driver {
-  height: 350vh; /* extra height = scrollable distance */
-  padding-bottom: 6rem;
+  height: 100vh; /* fallback; overridden by JS */
 }
 
 /* Sticky pane that fills viewport while scrolling */
@@ -29,6 +28,29 @@
   flex-shrink: 0;
 }
 
+/* Card counter: 01 / 04 */
+.work__counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+}
+
+.work__counter-current {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+
+.work__counter-sep,
+.work__counter-total {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
 .work__scroll-hint {
   display: flex;
   align-items: center;
@@ -38,6 +60,22 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-dim);
+}
+
+/* Progress bar */
+.work__progress-track {
+  height: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+  margin: 0 4rem;
+}
+
+.work__progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.08s linear;
 }
 
 /* Track wrapper: contains overflow */

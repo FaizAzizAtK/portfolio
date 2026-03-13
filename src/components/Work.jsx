@@ -1,29 +1,52 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { data } from '../data'
 import './Work.css'
 
 export default function Work() {
-  const stickyRef = useRef(null)
-  const trackRef = useRef(null)
-  const headerRef = useRef(null)
+  const driverRef   = useRef(null)
+  const stickyRef   = useRef(null)
+  const trackRef    = useRef(null)
+  const headerRef   = useRef(null)
+  const progressRef = useRef(null)
+  const [activeCard, setActiveCard] = useState(0)
 
-  // Horizontal scroll driven by vertical scroll position
+  // Dynamic driver height + horizontal scroll
   useEffect(() => {
+    const driver = driverRef.current
     const sticky = stickyRef.current
-    const track = trackRef.current
-    if (!sticky || !track) return
+    const track  = trackRef.current
+    if (!driver || !sticky || !track) return
+
+    const setDriverHeight = () => {
+      const maxT = track.scrollWidth - sticky.offsetWidth
+      driver.style.height = `${sticky.offsetHeight + Math.max(0, maxT)}px`
+    }
+
+    setDriverHeight()
 
     const onScroll = () => {
       const rect = sticky.getBoundingClientRect()
-      const stickyH = sticky.offsetHeight
-      const scrollableH = sticky.parentElement.offsetHeight - stickyH
+      const scrollableH = driver.offsetHeight - sticky.offsetHeight
+      if (scrollableH <= 0) return
+
       const progress = Math.max(0, Math.min(1, -rect.top / scrollableH))
-      const maxTranslate = track.scrollWidth - track.offsetWidth
-      track.style.transform = `translateX(-${progress * maxTranslate}px)`
+      const maxT = track.scrollWidth - sticky.offsetWidth
+      track.style.transform = `translateX(-${progress * maxT}px)`
+
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${progress})`
+      }
+
+      setActiveCard(Math.min(data.work.length - 1, Math.floor(progress * data.work.length)))
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', setDriverHeight)
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', setDriverHeight)
+    }
   }, [])
 
   // Reveal header
@@ -47,16 +70,25 @@ export default function Work() {
 
   return (
     <section className="work" id="work">
-      {/* Tall scroll container that drives horizontal movement */}
-      <div className="work__scroll-driver">
+      <div className="work__scroll-driver" ref={driverRef}>
         <div className="work__sticky" ref={stickyRef}>
 
-          {/* Header */}
           <div className="work__header" ref={headerRef}>
             <div className="section-label reveal">
               <span className="section-num">03</span>
               <span className="section-name">Work</span>
             </div>
+
+            <div className="work__counter reveal">
+              <span className="work__counter-current">
+                {String(activeCard + 1).padStart(2, '0')}
+              </span>
+              <span className="work__counter-sep">/</span>
+              <span className="work__counter-total">
+                {String(data.work.length).padStart(2, '0')}
+              </span>
+            </div>
+
             <p className="work__scroll-hint reveal">
               <span>Scroll to explore</span>
               <svg width="40" height="12" viewBox="0 0 40 12" fill="none" aria-hidden="true">
@@ -65,17 +97,10 @@ export default function Work() {
             </p>
           </div>
 
-          {/* Horizontal track */}
           <div className="work__track-wrap">
             <div className="work__track" ref={trackRef}>
               {data.work.map((project) => (
-                <a
-                  key={project.id}
-                  href={project.url}
-                  className="work__card"
-                  data-cursor
-                >
-                  {/* Image / placeholder */}
+                <a key={project.id} href={project.url} className="work__card" data-cursor>
                   <div className="work__card-img">
                     {project.image ? (
                       <img src={project.image} alt={project.title} />
@@ -85,8 +110,6 @@ export default function Work() {
                       </div>
                     )}
                   </div>
-
-                  {/* Meta */}
                   <div className="work__card-meta">
                     <div className="work__card-top">
                       <span className="work__card-cat">{project.category}</span>
@@ -104,6 +127,10 @@ export default function Work() {
                 </a>
               ))}
             </div>
+          </div>
+
+          <div className="work__progress-track">
+            <div className="work__progress-bar" ref={progressRef} />
           </div>
 
         </div>
