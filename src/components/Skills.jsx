@@ -36,7 +36,7 @@ export default function Skills() {
         {/* Left: label + heading */}
         <div className="skills__left">
           <div className="section-label reveal">
-            <span className="section-num">03</span>
+            <span className="section-num">04</span>
             <span className="section-name">Skills</span>
           </div>
           <h2 className="skills__heading reveal">

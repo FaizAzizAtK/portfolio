@@ -112,6 +112,9 @@ a      { color: inherit; text-decoration: none; }
 button { font-family: var(--font-body); cursor: none; }
 img    { display: block; max-width: 100%; }
 
+/* Sit above FloatingOrbs (z-index: 0) */
+nav, main { position: relative; z-index: 1; }
+
 /* ── Shared keyframes ─────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }

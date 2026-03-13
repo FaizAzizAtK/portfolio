@@ -54,7 +54,7 @@ export default function Work() {
           {/* Header */}
           <div className="work__header" ref={headerRef}>
             <div className="section-label reveal">
-              <span className="section-num">02</span>
+              <span className="section-num">03</span>
               <span className="section-name">Work</span>
             </div>
             <p className="work__scroll-hint reveal">

@@ -6,6 +6,7 @@
 /* The tall container that drives scroll height */
 .work__scroll-driver {
   height: 350vh; /* extra height = scrollable distance */
+  padding-bottom: 6rem;
 }
 
 /* Sticky pane that fills viewport while scrolling */

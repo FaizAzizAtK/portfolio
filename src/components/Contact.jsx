@@ -34,7 +34,7 @@ export default function Contact() {
       <div className="contact__inner">
         {/* Section label */}
         <div className="section-label reveal">
-          <span className="section-num section-num--inv">04</span>
+          <span className="section-num section-num--inv">05</span>
           <span className="section-name section-name--inv">Contact</span>
         </div>
 
