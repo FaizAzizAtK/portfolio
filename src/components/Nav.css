@@ -22,15 +22,44 @@
 
 .nav__logo {
   background: none; border: none;
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
   color: var(--text);
   padding: 0;
-  transition: opacity 0.3s;
+  cursor: none;
+  position: relative;
 }
-.nav__logo:hover { opacity: 0.5; }
+
+/* Liquid Logo Container */
+.nav__logo-liquid {
+  display: flex;
+  align-items: center;
+  filter: url('#gooey-refined');
+  position: relative;
+  height: 36px;
+}
+
+/* Individual Characters */
+.nav__logo-char {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  display: block;
+  position: relative;
+  transition: font-family 0.1s ease;
+}
+
+/* F Character */
+.nav__logo-char-f {
+  z-index: 2;
+}
+
+/* A Character - precise overlap point */
+.nav__logo-char-a {
+  margin-left: -0.35rem;
+  z-index: 1;
+}
 
 .nav__links { display: flex; list-style: none; gap: 2.4rem; }
 

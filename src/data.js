@@ -4,7 +4,7 @@
 
 export const data = {
   name: "Faiz Aziz",
-  role: "Data & AI Consultant",
+  role: "Shipping AI that acts, not just responds",
   location: "London, UK",
 
   nav: {
@@ -61,34 +61,34 @@ export const data = {
   work: [
     {
       id: "01",
-      title: "Prompt Eval & Auto-Optimiser",
-      category: "AI Engineering",
+      title: "spart-prompt",
+      category: "Python Package",
       year: "2024",
-      status: null, // live
+      status: null,
       description:
-        "An automated system that evaluates LLM prompt quality across multiple dimensions, then generates and benchmarks optimised variants — reducing manual prompt engineering time and improving output consistency at scale.",
+        "An open-source Python library for structured prompt engineering. Write, version, and evaluate LLM prompts with a clean API — includes automatic optimisation that benchmarks variants and surfaces the highest-performing prompt at scale.",
       image: null,
-      url: "#",
+      url: "https://github.com/FaizAzizAtK/spart-prompt",
     },
     {
       id: "02",
-      title: "Agentic Workflow Engine",
-      category: "AI Agents",
+      title: "The Agentic Shift",
+      category: "Perspective",
       year: "2025",
-      status: "In Progress",
+      status: null,
       description:
-        "A modular framework for orchestrating multi-agent pipelines. Agents reason, delegate sub-tasks, and call tools autonomously — enabling complex enterprise workflows to run end-to-end without human handoffs.",
+        "AI is moving from co-pilot to autonomous agent. The paradigm shift isn't incremental — it fundamentally changes how software is built, how organisations operate, and what it means to 'do work'. Agents are the new apps.",
       image: null,
       url: "#",
     },
     {
       id: "03",
-      title: "AI Delivery Accelerator",
-      category: "Platform / Consulting Tool",
+      title: "Prompting Is an Interface",
+      category: "Perspective",
       year: "2025",
-      status: "In Progress",
+      status: null,
       description:
-        "Internal tooling built at IBM to accelerate Data & AI programme delivery — automated project health scoring, risk flagging, and stakeholder reporting powered by LLM analysis of project artefacts.",
+        "The prompt is the new UI. As LLMs become the runtime for software, prompt design becomes the most valuable engineering discipline. Structured prompting, evaluation loops, and auto-optimisation are the new frontend.",
       image: null,
       url: "#",
     },
@@ -105,7 +105,7 @@ export const data = {
     email: "hello@faizaziz.com",
     availability: "Currently available for freelance & full-time roles",
     socials: [
-      { label: "LinkedIn", url: "#" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/in/faiz-aziz-01524425a/" },
       { label: "GitHub", url: "#" },
       { label: "Twitter", url: "#" },
     ],

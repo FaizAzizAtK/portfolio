@@ -4,10 +4,28 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 4rem;
+  padding: 0 0 0 4rem;
 }
 
-.hero__content { position: relative; z-index: 1; }
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+}
+
+.hero__text {
+  flex: 0 0 auto;
+}
+
+/* Glitch Letter */
+.glitch-letter {
+  display: inline-block;
+  transition: font-family 0.2s ease;
+}
 
 /* ── Giant name ───────────────────────────────── */
 .hero__name {
@@ -24,33 +42,21 @@
   padding-left: clamp(1rem, 4vw, 4rem);
 }
 
-/* ── Blue accent dot ──────────────────────────── */
-.hero__dot {
-  width: 12px; height: 12px;
-  background: var(--accent);
-  border-radius: 50%;
-  margin: 2rem 0 2.5rem;
+
+/* ── Hero intro ───────────────────────────────── */
+.hero__intro {
+  margin-top: 2rem;
+  padding-left: clamp(1rem, 4vw, 4rem);
+  max-width: 48vw;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--text-muted);
   opacity: 0;
-  animation:
-    fadeUp 0.6s var(--ease-out) 0.65s both,
-    pulse 2.5s ease-in-out 1.4s infinite;
+  animation: fadeUp 0.7s var(--ease-out) 3.2s both;
 }
 
-/* ── Subtitle row ─────────────────────────────── */
-.hero__sub {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  opacity: 0;
-  animation: fadeUp 0.7s var(--ease-out) 0.85s both;
-}
-.hero__role {
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--text);
-}
 .hero__sep {
   width: 24px; height: 1px;
   background: var(--border-dark);
@@ -118,10 +124,18 @@
 .hero__scroll:hover .hero__scroll-arrow { color: var(--accent); }
 .hero__scroll:hover .hero__scroll-arrow { transform: translateY(4px); }
 
+@media (max-width: 900px) {
+  .hero__content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+}
+
 @media (max-width: 768px) {
-  .hero { padding: 0 1.5rem; }
+  .hero { padding: 0 0 0 1.5rem; }
   .hero__bottom {
-    left: 1.5rem; right: 1.5rem;
+    left: 1.5rem; right: 0;
     flex-direction: column-reverse;
     align-items: flex-start; gap: 1rem;
   }
