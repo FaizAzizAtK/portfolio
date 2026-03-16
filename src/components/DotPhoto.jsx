@@ -234,12 +234,25 @@ export default function DotPhoto({
       stateRef.current.mouse.y = -9999
     }
 
+    // ── click / tap: burst jitter on all dots ────────────────────────────────
+    const onTap = () => {
+      for (const d of state.dots) {
+        if (!d.active) continue
+        const angle = Math.random() * Math.PI * 2
+        const force = 4 + Math.random() * 6
+        d.vx += Math.cos(angle) * force
+        d.vy += Math.sin(angle) * force
+      }
+    }
+
     canvas.addEventListener('mousemove', onMove)
     canvas.addEventListener('mouseleave', onLeave)
+    canvas.addEventListener('click', onTap)
 
     return () => {
       canvas.removeEventListener('mousemove', onMove)
       canvas.removeEventListener('mouseleave', onLeave)
+      canvas.removeEventListener('click', onTap)
       if (stateRef.current.raf) cancelAnimationFrame(stateRef.current.raf)
       if (stateRef.current.introObserver) stateRef.current.introObserver.disconnect()
     }
