@@ -101,7 +101,7 @@ export const data = {
       url: null,
     },
     {
-      id: "03",
+      id: "02",
       title: "Context Is the New Code",
       category: "Essay",
       year: "2025",
@@ -109,6 +109,17 @@ export const data = {
       blogId: "prompting-interface",
       description:
         "Most teams have figured out prompting. The harder problem — the one that breaks production agents — is context. Context rot, retrieval precision, memory design, and why most agent failures aren't prompt problems.",
+      image: null,
+      url: null,
+    },
+    {
+      id: "03",
+      title: "Why HRAG Is How Production Agents Should Retrieve",
+      category: "Essay",
+      year: "2025",
+      type: "article",
+      blogId: "hrag",
+      description: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human — table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
       image: null,
       url: null,
     },
@@ -122,7 +133,7 @@ export const data = {
 
   contact: {
     heading: "Let's work together.",
-    email: "hello@faizaziz.com",
+    email: "faizazizatk@gmail.com",
     availability: "Open to advisory, speaking & collaboration",
     socials: [
       { label: "LinkedIn", url: "https://www.linkedin.com/in/faiz-aziz-01524425a/" },

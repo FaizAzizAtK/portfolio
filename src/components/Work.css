@@ -64,20 +64,9 @@
   color: var(--text-dim);
 }
 
-/* Progress bar */
+/* Progress bar — hidden */
 .work__progress-track {
-  height: 1px;
-  background: var(--border);
-  flex-shrink: 0;
-  margin: 0 4rem;
-}
-
-.work__progress-bar {
-  height: 100%;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.08s linear;
+  display: none;
 }
 
 /* Track wrapper: contains overflow */
@@ -297,6 +286,7 @@
     height: auto;
     overflow: visible;
     padding-top: 6rem;
+    padding-bottom: 4rem;
   }
 
   .work__header {
@@ -304,6 +294,10 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
+  }
+
+  .work__scroll-hint {
+    display: none;
   }
 
   .work__track-wrap {
@@ -320,5 +314,23 @@
 
   .work__card {
     width: min(80vw, 340px);
+  }
+}
+
+@media (max-width: 600px) {
+  .work__track-wrap {
+    padding: 0 1.5rem;
+    overflow-x: auto;
+  }
+
+  .work__track {
+    flex-direction: column;
+    align-items: stretch;
+    padding-right: 0;
+    gap: 1.5rem;
+  }
+
+  .work__card {
+    width: 100%;
   }
 }

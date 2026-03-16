@@ -37,10 +37,6 @@ export default function Work({ onOpenBlog }) {
       const maxT = track.scrollWidth - sticky.offsetWidth
       track.style.transform = `translateX(-${progress * maxT}px)`
 
-      if (progressRef.current) {
-        progressRef.current.style.transform = `scaleX(${progress})`
-      }
-
       setActiveCard(Math.min(data.work.length - 1, Math.floor(progress * data.work.length)))
     }
 

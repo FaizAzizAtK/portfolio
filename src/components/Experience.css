@@ -22,6 +22,26 @@
   }
 }
 
+@media (max-width: 600px) {
+  .experience {
+    padding: 4rem 1.5rem;
+  }
+
+  .exp__entry {
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0 1rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .exp__tags {
+    gap: 0.4rem;
+  }
+
+  .exp__tag {
+    font-size: 0.58rem;
+  }
+}
+
 /* Sticky label */
 .experience__left {
   padding-top: 0.5rem;

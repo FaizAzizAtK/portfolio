@@ -242,6 +242,21 @@
   max-width: 100%;
 }
 
+@media (max-width: 768px) {
+  .contact__heading {
+    font-size: clamp(2.2rem, 10vw, 3rem);
+  }
+
+  .contact__email-text {
+    font-size: clamp(1.1rem, 5vw, 1.4rem);
+  }
+
+  .contact__socials {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+}
+
 @media (max-width: 900px) {
   .contact__footer {
     padding: 1.5rem 2rem;

@@ -77,7 +77,7 @@
 /* Col 2 — portrait */
 .about__portrait {
   position: sticky;
-  top: 7rem;
+  top: calc(50vh - 210px);
   align-self: start;
 }
 

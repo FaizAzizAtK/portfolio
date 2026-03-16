@@ -24,6 +24,7 @@
 
 @media (max-width: 600px) {
   .sphere-wrap {
-    display: none;
+    flex: 0 0 min(70vw, 280px);
+    height: min(70vw, 280px);
   }
 }

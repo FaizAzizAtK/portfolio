@@ -46,7 +46,78 @@
   margin-top: 1rem;
 }
 
-/* Right: skill map */
+/* Right container */
+.skills__right {
+  width: 100%;
+}
+
+/* ── SVG Network Graph ─────────────────────────── */
+.skills__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.skills__cat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: rgba(10, 10, 10, 0.4);
+}
+
+/* Edges */
+.skills__edge {
+  stroke: rgba(10, 10, 10, 0.12);
+  stroke-width: 1;
+  transition: stroke 0.2s, opacity 0.2s, stroke-width 0.2s;
+}
+
+.skills__edge--default  { stroke: rgba(10, 10, 10, 0.12); opacity: 1; }
+.skills__edge--active   { stroke: var(--accent); opacity: 0.7; stroke-width: 1.5; }
+.skills__edge--dimmed   { stroke: rgba(10, 10, 10, 0.12); opacity: 0.15; }
+
+/* Node groups */
+.skills__node-g {
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.skills__node-g--in       { opacity: 1; }
+.skills__node-g--default  { opacity: 1; }
+.skills__node-g--active   { opacity: 1; }
+.skills__node-g--connected { opacity: 1; }
+.skills__node-g--dimmed   { opacity: 0.2; }
+
+/* Node circles */
+.skills__node {
+  fill: rgba(10, 10, 10, 0.22);
+  transition: fill 0.2s;
+}
+
+.skills__node--default   { fill: rgba(10, 10, 10, 0.22); }
+.skills__node--active    { fill: var(--accent); }
+.skills__node--connected { fill: var(--accent); fill-opacity: 0.5; }
+.skills__node--dimmed    { fill: rgba(10, 10, 10, 0.22); }
+
+/* Node labels */
+.skills__node-label {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 400;
+  fill: rgba(10, 10, 10, 0.5);
+  pointer-events: none;
+  transition: fill 0.2s;
+}
+
+.skills__node-label--default   { fill: rgba(10, 10, 10, 0.5); }
+.skills__node-label--active    { fill: rgba(10, 10, 10, 0.9); font-weight: 600; }
+.skills__node-label--connected { fill: rgba(10, 10, 10, 0.75); }
+.skills__node-label--dimmed    { fill: rgba(10, 10, 10, 0.5); }
+
+/* ── Chip fallback (mobile) ───────────────────── */
 .skills__map {
   display: flex;
   flex-direction: column;
@@ -55,7 +126,6 @@
   padding-top: 2.5rem;
 }
 
-/* Each category row */
 .skills__track {
   display: flex;
   flex-direction: column;
@@ -85,14 +155,12 @@
   color: var(--text-muted);
 }
 
-/* Chip container */
 .skills__track-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-/* Individual chip */
 .skills__chip {
   font-family: var(--font-body);
   font-size: 0.85rem;
