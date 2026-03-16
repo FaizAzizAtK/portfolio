@@ -142,6 +142,7 @@
   }
   .hero__name {
     font-size: clamp(3.8rem, 18vw, 5.5rem);
+    align-self: center;
   }
   .hero__intro {
     max-width: 100%;
@@ -155,8 +156,5 @@
     bottom: 1rem;
     flex-direction: row;
     align-items: center;
-  }
-  .hero__name {
-    align-self: flex-end;
   }
 }
