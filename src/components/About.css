@@ -76,7 +76,8 @@
 
 /* Col 2 — portrait */
 .about__portrait {
-  align-self: center;
+  align-self: start;
+  margin-top: 3.5rem;
 }
 
 /* Reactive dot-matrix portrait */
