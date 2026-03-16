@@ -221,7 +221,8 @@ export default function DotPhoto({
 
     img.src = src
 
-    // ── mouse tracking ────────────────────────────────────────────────────────
+    // ── mouse tracking (hover: pointer devices only) ─────────────────────────
+    const isTouch = window.matchMedia('(hover: none)').matches
     const onMove = (e) => {
       const rect   = canvas.getBoundingClientRect()
       const scaleX = (canvas.width  / (window.devicePixelRatio || 1)) / rect.width
@@ -245,13 +246,17 @@ export default function DotPhoto({
       }
     }
 
-    canvas.addEventListener('mousemove', onMove)
-    canvas.addEventListener('mouseleave', onLeave)
+    if (!isTouch) {
+      canvas.addEventListener('mousemove', onMove)
+      canvas.addEventListener('mouseleave', onLeave)
+    }
     canvas.addEventListener('click', onTap)
 
     return () => {
-      canvas.removeEventListener('mousemove', onMove)
-      canvas.removeEventListener('mouseleave', onLeave)
+      if (!isTouch) {
+        canvas.removeEventListener('mousemove', onMove)
+        canvas.removeEventListener('mouseleave', onLeave)
+      }
       canvas.removeEventListener('click', onTap)
       if (stateRef.current.raf) cancelAnimationFrame(stateRef.current.raf)
       if (stateRef.current.introObserver) stateRef.current.introObserver.disconnect()

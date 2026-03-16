@@ -61,21 +61,34 @@ export default function Skills() {
   const [entered, setEntered] = useState([])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+    let fired = false
+    const trigger = () => {
+      if (fired) return
+      fired = true
+      if (ref.current) {
+        ref.current.querySelectorAll('.reveal').forEach((el, i) => {
           setTimeout(() => el.classList.add('revealed'), i * 130)
         })
-        CARDS.forEach((_, i) => {
-          setTimeout(() => setEntered(prev => [...prev, i]), 220 + i * 120)
-        })
-        observer.disconnect()
-      },
-      { threshold: 0, rootMargin: '0px 0px 0px 0px' }
+      }
+      CARDS.forEach((_, i) => {
+        setTimeout(() => setEntered(prev => [...prev, i]), 220 + i * 120)
+      })
+      observer.disconnect()
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) trigger() },
+      { threshold: 0, rootMargin: '0px 0px 200px 0px' }
     )
     if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
+
+    // Fallback: fire after 3 s in case observer never triggers (e.g. iOS Safari)
+    const fallback = setTimeout(trigger, 3000)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(fallback)
+    }
   }, [])
 
   return (

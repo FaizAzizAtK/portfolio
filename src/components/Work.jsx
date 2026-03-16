@@ -23,6 +23,11 @@ export default function Work({ onOpenBlog }) {
     let scrollableH  = 0
 
     const recalc = () => {
+      if (window.innerWidth <= 900) {
+        driver.style.height = ''
+        scrollableH = 0
+        return
+      }
       const maxT = track.scrollWidth - sticky.offsetWidth
       driver.style.height = `${sticky.offsetHeight + Math.max(0, maxT) + exitBuffer}px`
       driverTop   = driver.offsetTop

@@ -39,15 +39,6 @@ export default function About() {
           {data.about.bio}
         </p>
 
-        <div className="about__capabilities reveal" style={{ transitionDelay: '0.24s' }}>
-          {data.about.capabilities.map((cap) => (
-            <div key={cap.verb} className="about__cap">
-              <span className="about__cap-verb">{cap.verb}</span>
-              <span className="about__cap-detail">{cap.detail}</span>
-            </div>
-          ))}
-        </div>
-
         {data.about.resumeUrl !== '#' && (
           <a href={data.about.resumeUrl} className="about__resume reveal" data-cursor style={{ transitionDelay: '0.38s' }}>
             View resume →
