@@ -19,6 +19,7 @@
   .sphere-wrap {
     flex: 0 0 min(80vw, 360px);
     height: min(80vw, 360px);
+    align-self: center;
   }
 }
 
@@ -26,6 +27,7 @@
   .sphere-wrap {
     flex: 0 0 min(62vw, 250px);
     height: min(62vw, 250px);
+    align-self: center;
   }
 }
 
@@ -33,5 +35,6 @@
   .sphere-wrap {
     flex: 0 0 min(56vw, 210px);
     height: min(56vw, 210px);
+    align-self: center;
   }
 }

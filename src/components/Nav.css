@@ -112,8 +112,120 @@
 .nav__link:hover::after,
 .nav__link--active::after { width: 100%; }
 
+/* ── Hamburger button ─────────────────────────── */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  z-index: 101;
+  position: relative;
+}
+
+.nav__burger-line {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text);
+  transition:
+    transform 0.35s var(--ease-out),
+    opacity   0.25s ease;
+}
+
+.nav__burger--open .nav__burger-line:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.nav__burger--open .nav__burger-line:nth-child(2) {
+  opacity: 0;
+}
+.nav__burger--open .nav__burger-line:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── Mobile full-screen menu ──────────────────── */
+.nav__mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav__mobile-menu--open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.nav__mobile-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav__mobile-links li {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity   0.35s ease,
+    transform 0.35s var(--ease-out);
+}
+
+.nav__mobile-menu--open .nav__mobile-links li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav__mobile-link {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 9vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.2;
+  transition: color 0.2s;
+}
+
+.nav__mobile-link:hover {
+  color: var(--accent);
+}
+
+.nav__mobile-linkedin {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition:
+    color   0.2s,
+    opacity 0.35s ease;
+  opacity: 0;
+}
+
+.nav__mobile-menu--open .nav__mobile-linkedin {
+  opacity: 1;
+}
+
+.nav__mobile-linkedin:hover {
+  color: var(--text);
+}
+
 @media (max-width: 768px) {
   .nav, .nav--scrolled { padding: 1.2rem 1.5rem; }
-  .nav__right { gap: 1.2rem; }
-  .nav__links { gap: 1.2rem; }
+  .nav__right { display: none; }
+  .nav__burger { display: flex; }
 }
