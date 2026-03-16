@@ -1,15 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { data } from '../data'
 import './Skills.css'
 
-const COLUMNS = [
-  { key: 'design', label: 'Design' },
+const CATEGORIES = [
+  { key: 'delivery',    label: 'Delivery' },
   { key: 'development', label: 'Development' },
-  { key: 'tools', label: 'Tools' },
+  { key: 'tools',       label: 'AI Tools' },
 ]
 
 export default function Skills() {
   const ref = useRef(null)
+  const [hoveredSkill, setHoveredSkill] = useState(null)
+  const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -18,9 +20,7 @@ export default function Skills() {
           entry.target.querySelectorAll('.reveal').forEach((el, i) => {
             setTimeout(() => el.classList.add('revealed'), i * 120)
           })
-          entry.target.querySelectorAll('.skill-item').forEach((el, i) => {
-            setTimeout(() => el.classList.add('visible'), 400 + i * 45)
-          })
+          setTimeout(() => setRevealed(true), 300)
           observer.disconnect()
         }
       },
@@ -33,6 +33,7 @@ export default function Skills() {
   return (
     <section className="skills" id="skills" ref={ref}>
       <div className="skills__inner">
+
         {/* Left: label + heading */}
         <div className="skills__left">
           <div className="section-label reveal">
@@ -44,21 +45,32 @@ export default function Skills() {
           </h2>
         </div>
 
-        {/* Right: 3-column skill lists */}
-        <div className="skills__grid reveal" style={{ transitionDelay: '0.2s' }}>
-          {COLUMNS.map((col) => (
-            <div key={col.key} className="skills__col">
-              <p className="skills__col-label">{col.label}</p>
-              <ul className="skills__list">
-                {data.skills[col.key].map((skill, i) => (
-                  <li key={skill} className="skill-item" style={{ transitionDelay: `${i * 0.04}s` }}>
+        {/* Right: interactive chip map */}
+        <div className="skills__map reveal" style={{ transitionDelay: '0.15s' }}>
+          {CATEGORIES.map((cat, ci) => (
+            <div key={cat.key} className="skills__track">
+              <div className="skills__track-header">
+                <span className="skills__track-dot" />
+                <span className="skills__track-label">{cat.label}</span>
+              </div>
+              <div className="skills__track-chips">
+                {data.skills[cat.key].map((skill, i) => (
+                  <button
+                    key={skill}
+                    className={`skills__chip ${revealed ? 'skills__chip--in' : ''} ${hoveredSkill === skill ? 'skills__chip--active' : ''}`}
+                    style={{ transitionDelay: revealed ? `${ci * 0.12 + i * 0.05}s` : '0s' }}
+                    onMouseEnter={() => setHoveredSkill(skill)}
+                    onMouseLeave={() => setHoveredSkill(null)}
+                    tabIndex={0}
+                  >
                     {skill}
-                  </li>
+                  </button>
                 ))}
-              </ul>
+              </div>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   )

@@ -15,7 +15,7 @@
   padding: 10rem 4rem 6rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 0;
 }
 
 @media (max-width: 900px) {
@@ -42,6 +42,8 @@
   letter-spacing: -0.04em;
   color: var(--text-inv);
   max-width: 900px;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
 }
 
 /* Availability */
@@ -53,7 +55,8 @@
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 3.5rem;
 }
 
 .contact__avail-dot {
@@ -82,6 +85,7 @@
   cursor: none;
   transition: border-color 0.3s;
   width: fit-content;
+  margin-bottom: 3rem;
 }
 
 .contact__email:hover {
@@ -198,7 +202,7 @@
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  margin-top: 1rem;
+  margin-top: 2.5rem;
 }
 
 .contact__social {

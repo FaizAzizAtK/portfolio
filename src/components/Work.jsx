@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { data } from '../data'
 import './Work.css'
 
-export default function Work() {
+export default function Work({ onOpenBlog }) {
   const driverRef   = useRef(null)
   const stickyRef   = useRef(null)
   const trackRef    = useRef(null)
@@ -18,19 +18,22 @@ export default function Work() {
     if (!driver || !sticky || !track) return
 
     const exitBuffer = 500 // px of smooth scroll after last card lands
-    const setDriverHeight = () => {
+    // Cache driver offset to avoid getBoundingClientRect in scroll handler
+    let driverTop    = 0
+    let scrollableH  = 0
+
+    const recalc = () => {
       const maxT = track.scrollWidth - sticky.offsetWidth
       driver.style.height = `${sticky.offsetHeight + Math.max(0, maxT) + exitBuffer}px`
+      driverTop   = driver.offsetTop
+      scrollableH = driver.offsetHeight - sticky.offsetHeight
     }
 
-    setDriverHeight()
+    recalc()
 
     const onScroll = () => {
-      const rect = sticky.getBoundingClientRect()
-      const scrollableH = driver.offsetHeight - sticky.offsetHeight
       if (scrollableH <= 0) return
-
-      const progress = Math.max(0, Math.min(1, -rect.top / scrollableH))
+      const progress = Math.max(0, Math.min(1, (window.scrollY - driverTop) / scrollableH))
       const maxT = track.scrollWidth - sticky.offsetWidth
       track.style.transform = `translateX(-${progress * maxT}px)`
 
@@ -42,11 +45,11 @@ export default function Work() {
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', setDriverHeight)
+    window.addEventListener('resize', recalc)
 
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', setDriverHeight)
+      window.removeEventListener('resize', recalc)
     }
   }, [])
 
@@ -100,11 +103,27 @@ export default function Work() {
 
           <div className="work__track-wrap">
             <div className="work__track" ref={trackRef}>
-              {data.work.map((project) => (
-                <a key={project.id} href={project.url} className="work__card" data-cursor>
+              {data.work.map((project) => {
+                const hasLink = project.url && project.url !== '#'
+                const hasBlog = project.type === 'article' && project.blogId
+                const Tag = hasLink ? 'a' : 'div'
+                const linkProps = hasLink
+                  ? { href: project.url, target: '_blank', rel: 'noopener noreferrer' }
+                  : {}
+                const clickProps = hasBlog
+                  ? { onClick: () => onOpenBlog?.(project.blogId), role: 'button', tabIndex: 0 }
+                  : {}
+                return (
+                <Tag key={project.id} {...linkProps} {...clickProps} className={`work__card${(!hasLink && !hasBlog) ? ' work__card--no-link' : ''}`} data-cursor>
                   <div className="work__card-img">
                     {project.image ? (
                       <img src={project.image} alt={project.title} />
+                    ) : project.type === 'article' ? (
+                      <div className="work__card-placeholder work__card-placeholder--article">
+                        <div className="work__card-lines" aria-hidden="true">
+                          <span /><span /><span /><span /><span />
+                        </div>
+                      </div>
                     ) : (
                       <div className="work__card-placeholder">
                         <span>{project.id}</span>
@@ -121,15 +140,18 @@ export default function Work() {
                       <span className="work__card-status">{project.status}</span>
                     )}
                     <p className="work__card-desc">{project.description}</p>
-                    <span className="work__card-link">
-                      {project.status ? 'In progress' : 'View project'}
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </span>
+                    {(hasLink || hasBlog) && (
+                      <span className="work__card-link">
+                        {hasBlog ? 'Read essay' : 'View project'}
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </span>
+                    )}
                   </div>
-                </a>
-              ))}
+                </Tag>
+                )
+              })}
             </div>
           </div>
 

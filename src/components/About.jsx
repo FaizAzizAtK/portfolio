@@ -1,40 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { data } from '../data'
+import DotPhoto from './DotPhoto'
 import './About.css'
-
-function AnimatedStat({ value, label }) {
-  const [display, setDisplay] = useState('0')
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const num = parseInt(value)
-          const suffix = value.replace(String(num), '')
-          let i = 0
-          const step = () => {
-            i += 1
-            setDisplay(Math.min(i, num) + suffix)
-            if (i < num) requestAnimationFrame(step)
-          }
-          requestAnimationFrame(step)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.5 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [value])
-
-  return (
-    <div className="stat" ref={ref}>
-      <span className="stat__val">{display}</span>
-      <span className="stat__label">{label}</span>
-    </div>
-  )
-}
 
 export default function About() {
   const ref = useRef(null)
@@ -57,37 +24,52 @@ export default function About() {
 
   return (
     <section className="about" id="about" ref={ref}>
-      <div className="about__left reveal">
-        <div className="section-label">
+
+      {/* Col 1 — label + bio + capabilities */}
+      <div className="about__main">
+        <div className="section-label reveal">
           <span className="section-num">01</span>
           <span className="section-name">About</span>
         </div>
-      </div>
 
-      <div className="about__right">
-        <p className="about__bio reveal" style={{ transitionDelay: '0.1s' }}>
+        <p className="about__bio reveal" style={{ transitionDelay: '0.12s' }}>
           {data.about.bio}
         </p>
 
-        <div className="about__stats reveal" style={{ transitionDelay: '0.24s' }}>
-          {data.about.stats.map((s) => (
-            <AnimatedStat key={s.label} value={s.value} label={s.label} />
+        <div className="about__capabilities reveal" style={{ transitionDelay: '0.24s' }}>
+          {data.about.capabilities.map((cap) => (
+            <div key={cap.verb} className="about__cap">
+              <span className="about__cap-verb">{cap.verb}</span>
+              <span className="about__cap-detail">{cap.detail}</span>
+            </div>
           ))}
         </div>
 
-        {/* Portrait placeholder */}
-        <div className="about__image reveal" style={{ transitionDelay: '0.38s' }}>
-          <div className="about__image-frame">
-            <div className="about__image-placeholder">
-              <span>Your photo</span>
-            </div>
-          </div>
-        </div>
-
-        <a href={data.about.resumeUrl} className="about__resume reveal" data-cursor style={{ transitionDelay: '0.5s' }}>
-          View resume →
-        </a>
+        {data.about.resumeUrl !== '#' && (
+          <a href={data.about.resumeUrl} className="about__resume reveal" data-cursor style={{ transitionDelay: '0.38s' }}>
+            View resume →
+          </a>
+        )}
       </div>
+
+      {/* Col 2 — reactive portrait */}
+      <div className="about__portrait reveal" style={{ transitionDelay: '0.2s' }}>
+        <div className="about__portrait-circle">
+          <DotPhoto
+            src={`${import.meta.env.BASE_URL}photo.png`}
+            gridSize={3}
+            satBoost={0}
+            smoothing={1.5}
+            colored={false}
+            square={true}
+            focalY={0.51}
+            shiftX={-22}
+            intro={true}
+            className="about__dot-photo"
+          />
+        </div>
+      </div>
+
     </section>
   )
 }

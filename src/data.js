@@ -12,16 +12,16 @@ export const data = {
   },
 
   hero: {
-    roles: ["Data & AI Consultant", "Product Designer", "Frontend Developer", "AI & Agents Specialist"],
+    roles: ["AI & Data Consultant", "Agentic Systems Engineer", "Frontend Developer", "Open-Source Developer"],
     scrollLabel: "Scroll to explore",
   },
 
   about: {
-    bio: "I sit at the intersection of AI, design, and engineering. By day I deliver Data & AI transformations at IBM — by night I design and build things that feel as good as they work. Specialised in AI Agents, I help organisations move from AI curiosity to AI capability.",
-    stats: [
-      { value: "5+", label: "Years experience" },
-      { value: "30+", label: "Projects delivered" },
-      { value: "10+", label: "Happy clients" },
+    bio: "I build and deliver AI agent systems that work in the real world, not just in demos. At IBM, I help enterprise clients move from AI experimentation to production deployment — translating complex business challenges into autonomous agent architectures. I also ship open-source tooling and write about the engineering principles behind modern agentic AI.",
+    capabilities: [
+      { verb: "Builds",   detail: "Autonomous agent systems for enterprise AI transformation" },
+      { verb: "Ships",    detail: "Open-source tooling for LLM prompt engineering (spart-prompt)" },
+      { verb: "Advises",  detail: "AI strategy, agent architecture & delivery best practices" },
     ],
     resumeUrl: "#",
   },
@@ -30,32 +30,49 @@ export const data = {
     {
       id: "01",
       company: "IBM",
-      role: "Data & AI Delivery Consultant",
-      period: "2022 — Present",
+      role: "AI & Data Delivery Consultant",
+      period: "Nov 2025 — Present",
       location: "London, UK",
-      description: "Leading end-to-end delivery of Data & AI transformation programmes for enterprise clients across financial services and the public sector. Specialised in AI Agents — designing, building, and deploying autonomous agent systems that automate complex workflows.",
-      tags: ["AI Agents", "LLMs", "Data Strategy", "Enterprise Architecture", "Stakeholder Management"],
+      description: "Delivering end-to-end AI transformation engagements for enterprise clients. Specialised in agentic systems — designing and deploying autonomous agent architectures that automate complex, multi-step workflows. Combines deep technical delivery with stakeholder management and solution engineering.",
+      tags: ["AI Agents", "LLMs", "RAG", "Solution Architecture", "Stakeholder Management"],
       current: true,
     },
     {
       id: "02",
-      company: "Previous Role",
-      role: "Consultant / Developer",
-      period: "2020 — 2022",
+      company: "Julius Baer",
+      role: "HR Business Technology Intern",
+      period: "Jul 2025 — Sep 2025",
+      location: "Zurich, Switzerland",
+      description: "Supported the pilot rollout of an HR case management solution on Workday. Delivered a service catalogue, KPIs, and user documentation while driving change management and process optimisation across cross-functional teams.",
+      tags: ["Workday", "Process Optimisation", "Business Analysis", "Change Management"],
+      current: false,
+    },
+    {
+      id: "03",
+      company: "IBM",
+      role: "AI Engineer Intern",
+      period: "Jun 2024 — Sep 2024",
       location: "London, UK",
-      description: "Placeholder — add your previous role details here.",
-      tags: ["Placeholder"],
+      description: "Built AI prototypes in fast-paced, client-facing environments — RAG pipelines, LLM-powered interfaces, and full-stack integrations across Python and React. Delivered client presentations, ran coding workshops for the intern cohort, and was recognised as Voice of the Interns.",
+      tags: ["Python", "LLMs", "RAG", "React", "Prompt Engineering", "Vector DBs"],
       current: false,
     },
   ],
 
   education: [
     {
-      institution: "University Name",
-      degree: "BSc Computer Science",    // ← update with your degree
-      period: "2017 — 2020",
-      detail: "Placeholder — update with your university and degree details.",
+      institution: "Queen Mary University of London",
+      degree: "BSc Computer Science",
+      period: "2022 — 2025",
+      detail: "First Class Honours · 78.1% Weighted Average. Modules in Neural Networks & Deep Learning, Distributed Systems, Algorithms & Data Structures, Security Engineering, and Big Data Processing. Final Year Project graded A.",
     },
+  ],
+
+  credentials: [
+    { label: "IBM Global Sales School",  meta: "Dec 2025" },
+    { label: "First Class Honours",      meta: "Queen Mary · 2025" },
+    { label: "Voice of the Interns",     meta: "IBM · 2024" },
+    { label: "spart-prompt on PyPI",     meta: "Open Source · 2024" },
   ],
 
   work: [
@@ -64,50 +81,51 @@ export const data = {
       title: "spart-prompt",
       category: "Python Package",
       year: "2024",
-      status: null,
+      type: "project",
       description:
-        "An open-source Python library for structured prompt engineering. Write, version, and evaluate LLM prompts with a clean API — includes automatic optimisation that benchmarks variants and surfaces the highest-performing prompt at scale.",
+        "An open-source Python library that turns prompt engineering into a measurable science. Achieves 112% improvement in syntactic similarity on data transformation tasks and 80%+ semantic match on math reasoning. Auto-generates, evaluates, and optimises prompts against real output metrics.",
       image: null,
-      url: "https://github.com/FaizAzizAtK/spart-prompt",
+      url: "https://github.com/FaizAzizAtK/SPART",
     },
     {
       id: "02",
       title: "The Agentic Shift",
-      category: "Perspective",
+      category: "Essay",
       year: "2025",
-      status: null,
+      type: "article",
+      blogId: "agentic-shift",
       description:
-        "AI is moving from co-pilot to autonomous agent. The paradigm shift isn't incremental — it fundamentally changes how software is built, how organisations operate, and what it means to 'do work'. Agents are the new apps.",
+        "The shift from co-pilot to autonomous agent is real — but the timeline in your head is probably wrong. On adoption, trust, accountability gaps, and the unglamorous work between a convincing demo and a production system.",
       image: null,
-      url: "#",
+      url: null,
     },
     {
       id: "03",
-      title: "Prompting Is an Interface",
-      category: "Perspective",
+      title: "Context Is the New Code",
+      category: "Essay",
       year: "2025",
-      status: null,
+      type: "article",
+      blogId: "prompting-interface",
       description:
-        "The prompt is the new UI. As LLMs become the runtime for software, prompt design becomes the most valuable engineering discipline. Structured prompting, evaluation loops, and auto-optimisation are the new frontend.",
+        "Most teams have figured out prompting. The harder problem — the one that breaks production agents — is context. Context rot, retrieval precision, memory design, and why most agent failures aren't prompt problems.",
       image: null,
-      url: "#",
+      url: null,
     },
   ],
 
   skills: {
-    design: ["UI Design", "UX Research", "Brand Identity", "Motion Design", "Design Systems", "Prototyping", "Interaction Design"],
-    development: ["React", "TypeScript", "Next.js", "Node.js", "CSS / Sass", "Tailwind", "REST APIs"],
-    tools: ["Figma", "VS Code", "Git", "Vercel", "Adobe Suite", "Framer", "Notion"],
+    delivery:    ["Enterprise Architecture", "Solution Design", "Stakeholder Management", "Requirements Analysis", "Agile Delivery", "Client Presentations", "Change Management"],
+    development: ["Python", "AI Agents", "LLMs", "RAG", "Context Engineering", "Prompt Engineering", "API Integration"],
+    tools:       ["LangChain", "MCPs", "LLM Observability / Evals", "Vector DBs", "Git", "VS Code", "Tooling Design"],
   },
 
   contact: {
     heading: "Let's work together.",
     email: "hello@faizaziz.com",
-    availability: "Currently available for freelance & full-time roles",
+    availability: "Open to advisory, speaking & collaboration",
     socials: [
       { label: "LinkedIn", url: "https://www.linkedin.com/in/faiz-aziz-01524425a/" },
-      { label: "GitHub", url: "#" },
-      { label: "Twitter", url: "#" },
+      { label: "GitHub",   url: "https://github.com/FaizAzizAtK" },
     ],
   },
 }

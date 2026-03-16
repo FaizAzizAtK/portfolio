@@ -84,6 +84,21 @@ export default function Experience() {
             </div>
           </div>
 
+          {/* Credentials strip */}
+          {data.credentials?.length > 0 && (
+            <div className="exp__block reveal">
+              <p className="exp__block-label">Recognition & Credentials</p>
+              <div className="exp__cred-list">
+                {data.credentials.map((c) => (
+                  <div key={c.label} className="exp__cred">
+                    <span className="exp__cred-label">{c.label}</span>
+                    <span className="exp__cred-meta">{c.meta}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
     </section>

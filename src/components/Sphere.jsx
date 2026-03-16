@@ -4,7 +4,7 @@ import './Sphere.css'
 // All nodes on the sphere — primary = the 4 typewriter roles, secondary = supporting skills
 const NODES = [
   { phi: 0.0,  theta: 1.15, text: 'Agentic AI Engineer',   primary: true },
-  { phi: 1.57, theta: 1.65, text: 'Product Designer',       primary: true },
+  { phi: 1.57, theta: 1.65, text: 'Context Engineering',     primary: true },
   { phi: 3.14, theta: 0.95, text: 'Frontend Developer',     primary: true },
   { phi: 4.71, theta: 1.40, text: 'AI & Agents',            primary: true },
   { phi: 0.85, theta: 0.42, text: 'LLMs',                  primary: false },
@@ -12,7 +12,7 @@ const NODES = [
   { phi: 5.20, theta: 1.22, text: 'React',                 primary: false },
   { phi: 3.80, theta: 0.52, text: 'Enterprise AI',         primary: false },
   { phi: 1.10, theta: 2.10, text: 'Python',                primary: false },
-  { phi: 4.10, theta: 2.30, text: 'UX Design',             primary: false },
+  { phi: 4.10, theta: 2.30, text: 'Agent Workflows',        primary: false },
   { phi: 2.80, theta: 1.70, text: 'Open Source',           primary: false },
   { phi: 5.80, theta: 0.72, text: 'spart-prompt',          primary: false },
   { phi: 1.90, theta: 0.78, text: 'AI Strategy',           primary: false },
@@ -78,7 +78,7 @@ export default function Sphere() {
       const H  = canvas.height
       const cx = W / 2
       const cy = H / 2
-      const r  = W * 0.32      // sphere radius in canvas px
+      const r  = W * 0.28      // sphere radius in canvas px
       const dpr = window.devicePixelRatio
 
       ctx.clearRect(0, 0, W, H)
@@ -214,7 +214,7 @@ export default function Sphere() {
       const W = canvas.width
       const H = canvas.height
       const cx = W / 2, cy = H / 2
-      const r  = W * 0.32
+      const r  = W * 0.28
 
       let closest = -1, minDist = 24 * dpr
       NODES.forEach((n, i) => {
@@ -231,7 +231,7 @@ export default function Sphere() {
     function onMouseDown(e) {
       dragging = true
       lastX = e.clientX; lastY = e.clientY
-      canvas.style.cursor = 'grabbing'
+      canvas.style.cursor = 'none'
     }
     function onMouseMove(e) {
       if (dragging) {
@@ -242,12 +242,12 @@ export default function Sphere() {
       } else {
         const h = hitTest(e.clientX, e.clientY)
         hoveredIdx = h
-        canvas.style.cursor = h >= 0 ? 'default' : 'grab'
+        canvas.style.cursor = 'none'
       }
     }
     function onMouseUp() {
       dragging = false
-      canvas.style.cursor = 'grab'
+      canvas.style.cursor = 'none'
       // Compute release velocity from recent moves (last 100 ms)
       const now = performance.now()
       const recent = moveLog.filter(m => now - m.t < 100)
@@ -296,7 +296,7 @@ export default function Sphere() {
       if (dragging) return  // window handler takes over while dragging
       const h = hitTest(e.clientX, e.clientY)
       hoveredIdx = h
-      canvas.style.cursor = h >= 0 ? 'default' : 'grab'
+      canvas.style.cursor = 'none'
     }
 
     canvas.addEventListener('mousedown',  onMouseDown)
@@ -307,7 +307,7 @@ export default function Sphere() {
     canvas.addEventListener('touchstart', onTouchStart, { passive: true })
     window.addEventListener('touchmove',  onTouchMove,  { passive: true })
     window.addEventListener('touchend',   onTouchEnd)
-    canvas.style.cursor = 'grab'
+    canvas.style.cursor = 'none'
 
     return () => {
       cancelAnimationFrame(raf)

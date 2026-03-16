@@ -6,6 +6,7 @@ export default function Nav() {
   const [visible, setVisible] = useState(true)
   const [scrolled, setScrolled] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
   const intervalRef = useRef(null)
 
   useEffect(() => {
@@ -18,6 +19,21 @@ export default function Nav() {
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Active section via IntersectionObserver
+  useEffect(() => {
+    const sections = data.nav.links.map(l => document.getElementById(l.toLowerCase())).filter(Boolean)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id)
+        })
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    )
+    sections.forEach(s => observer.observe(s))
+    return () => observer.disconnect()
   }, [])
 
   const fonts = [
@@ -103,7 +119,11 @@ export default function Nav() {
       <ul className="nav__links">
         {data.nav.links.map((link) => (
           <li key={link}>
-            <button className="nav__link" onClick={() => scrollTo(link)}>{link}</button>
+            <a
+              className={`nav__link${activeSection === link.toLowerCase() ? ' nav__link--active' : ''}`}
+              href={`#${link.toLowerCase()}`}
+              onClick={(e) => { e.preventDefault(); scrollTo(link) }}
+            >{link}</a>
           </li>
         ))}
       </ul>

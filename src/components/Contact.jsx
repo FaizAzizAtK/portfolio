@@ -54,6 +54,7 @@ export default function Contact() {
           className={`contact__email reveal ${copied ? 'contact__email--copied' : ''}`}
           onClick={copyEmail}
           data-cursor
+          aria-label={copied ? 'Email copied to clipboard' : 'Copy email address'}
         >
           <span className="contact__email-text">
             {copied ? 'Copied to clipboard' : data.contact.email}
@@ -105,7 +106,7 @@ export default function Contact() {
 
       {/* Footer bar */}
       <footer className="contact__footer">
-        <p className="contact__copy">© {new Date().getFullYear()} {data.name}</p>
+        <p className="contact__copy" suppressHydrationWarning>© {new Date().getFullYear()} {data.name}</p>
         <p className="contact__made">Designed & built with intention</p>
       </footer>
     </section>

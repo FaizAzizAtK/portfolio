@@ -25,8 +25,8 @@ export default function Hero() {
     const settleOrder = [0, 1, 2, 3, 4, 5, 6, 7] // F-a-i-z-A-z-i-z
     let settleIndex = 0
     const startTime = Date.now()
-    const scrambleDuration = 1500 // Scramble for 1.5s before settling starts
-    const settleDelay = 150 // Delay between each letter settling
+    const scrambleDuration = 800  // Scramble for 0.8s before settling starts
+    const settleDelay = 150       // 150ms × 8 letters = 1.2s → total ~2s
 
     // Start scrambling all letters
     intervalRef.current = setInterval(() => {
@@ -71,40 +71,39 @@ export default function Hero() {
   return (
     <section className="hero" id="home">
       <div className="hero__content">
-        {/* Left: name + subtitle */}
-        <div className="hero__text">
-          <h1 className="hero__name">
-            <span className="clip-reveal" style={{ animationDelay: '0.2s' }}>
-              <span>
-                <span className="glitch-letter">F</span>
-                <span className="glitch-letter">a</span>
-                <span className="glitch-letter">i</span>
-                <span className="glitch-letter">z</span>
-              </span>
+        {/* Left: name only — keeps globe vertically centred with name, not name+intro */}
+        <h1 className="hero__name" aria-label="Faiz Aziz">
+          <span className="clip-reveal" style={{ animationDelay: '0.2s' }}>
+            <span>
+              <span className="glitch-letter">F</span>
+              <span className="glitch-letter">a</span>
+              <span className="glitch-letter">i</span>
+              <span className="glitch-letter">z</span>
             </span>
-            <span className="clip-reveal" style={{ animationDelay: '0.38s' }}>
-              <span>
-                <span className="glitch-letter">A</span>
-                <span className="glitch-letter">z</span>
-                <span className="glitch-letter">i</span>
-                <span className="glitch-letter">z</span>
-              </span>
+          </span>
+          <span className="clip-reveal" style={{ animationDelay: '0.38s' }}>
+            <span>
+              <span className="glitch-letter">A</span>
+              <span className="glitch-letter">z</span>
+              <span className="glitch-letter">i</span>
+              <span className="glitch-letter">z</span>
             </span>
-          </h1>
-
-          <p className="hero__intro">
-            I ship agentic AI that works after the demo ends. Consistent, reliable, and scalable, across real automation, tooling, and customer-facing products.
-          </p>
-        </div>
+          </span>
+        </h1>
 
         {/* Right: 3D skill sphere */}
         <Sphere />
       </div>
 
+      {/* Intro sits below the name+globe row */}
+      <p className="hero__intro">
+        I ship agentic AI that works after the demo ends. Consistent, reliable, and scalable, across real automation, tooling, and customer-facing products.
+      </p>
+
       {/* Bottom bar */}
       <div className="hero__bottom">
         <p className="hero__loc">{data.location}</p>
-        <button className="hero__scroll" onClick={scrollDown} data-cursor>
+        <button className="hero__scroll" onClick={scrollDown} data-cursor aria-label="Scroll to about section">
           <span className="hero__scroll-text">{data.hero.scrollLabel}</span>
           <span className="hero__scroll-arrow">↓</span>
         </button>

@@ -17,10 +17,6 @@
   width: 100%;
 }
 
-.hero__text {
-  flex: 0 0 auto;
-}
-
 /* Glitch Letter */
 .glitch-letter {
   display: inline-block;
@@ -29,6 +25,7 @@
 
 /* ── Giant name ───────────────────────────────── */
 .hero__name {
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   font-family: var(--font-display);
@@ -37,6 +34,7 @@
   line-height: 0.88;
   letter-spacing: -0.04em;
   color: var(--text);
+  white-space: nowrap;
 }
 .hero__name .clip-reveal:nth-child(2) {
   padding-left: clamp(1rem, 4vw, 4rem);
@@ -45,16 +43,16 @@
 
 /* ── Hero intro ───────────────────────────────── */
 .hero__intro {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   padding-left: clamp(1rem, 4vw, 4rem);
-  max-width: 48vw;
+  max-width: 40vw;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.65;
   color: var(--text-muted);
   opacity: 0;
-  animation: fadeUp 0.7s var(--ease-out) 3.2s both;
+  animation: fadeUp 0.7s var(--ease-out) 2.2s both;
 }
 
 .hero__sep {
