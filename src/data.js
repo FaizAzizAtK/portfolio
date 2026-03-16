@@ -8,7 +8,7 @@ export const data = {
   location: "London, UK",
 
   nav: {
-    links: ["About", "Experience", "Work", "Skills", "Contact"],
+    links: ["About", "Experience", "Writing", "Skills", "Contact"],
   },
 
   hero: {
@@ -66,29 +66,30 @@ export const data = {
       period: "2022 — 2025",
       detail: "First Class Honours · 78.1% Weighted Average. Modules in Neural Networks & Deep Learning, Distributed Systems, Algorithms & Data Structures, Security Engineering, and Big Data Processing. Final Year Project graded A.",
     },
+    {
+      institution: "IBM Global Sales School",
+      degree: "Sales & Consulting Certification",
+      period: "Dec 2025",
+      detail: "Intensive programme covering enterprise sales methodology, solution selling, and client engagement strategy.",
+    },
   ],
 
-  credentials: [
-    { label: "IBM Global Sales School",  meta: "Dec 2025" },
-    { label: "First Class Honours",      meta: "Queen Mary · 2025" },
-    { label: "Voice of the Interns",     meta: "IBM · 2024" },
-    { label: "spart-prompt on PyPI",     meta: "Open Source · 2024" },
-  ],
-
-  work: [
+  projects: [
     {
       id: "01",
       title: "spart-prompt",
       category: "Python Package",
       year: "2024",
-      type: "project",
       description:
         "An open-source Python library that turns prompt engineering into a measurable science. Achieves 112% improvement in syntactic similarity on data transformation tasks and 80%+ semantic match on math reasoning. Auto-generates, evaluates, and optimises prompts against real output metrics.",
-      image: null,
       url: "https://github.com/FaizAzizAtK/SPART",
+      tags: ["Python", "Open Source", "Prompt Engineering", "PyPI"],
     },
+  ],
+
+  work: [
     {
-      id: "02",
+      id: "01",
       title: "The Agentic Shift",
       category: "Essay",
       year: "2025",

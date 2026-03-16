@@ -2,237 +2,279 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Go to sleep, Ola.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>dot</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      min-height: 100dvh;
       background: #07080f;
-      color: #e8e6f0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      overflow-x: hidden;
+      overflow: hidden;
+      touch-action: none;
+      font-family: -apple-system, sans-serif;
     }
+    canvas { display: block; }
 
-    .stars {
+    #joystick {
       position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.4;
-      animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
-    }
-
-    @keyframes twinkle {
-      from { opacity: 0.1; }
-      to   { opacity: 0.8; }
-    }
-
-    .moon {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-      animation: float 4s ease-in-out infinite;
-      position: relative;
-      z-index: 1;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-10px); }
-    }
-
-    .title {
-      font-size: clamp(2rem, 8vw, 3.5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      margin-bottom: 0.75rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .reason {
-      font-size: clamp(1rem, 4vw, 1.25rem);
-      color: #9b8fc4;
-      margin-bottom: 2.5rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .reason span {
-      color: #c9b8ff;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .message {
-      min-height: 1.8rem;
-      font-size: clamp(0.85rem, 3vw, 1rem);
-      color: #6b7db3;
-      font-style: italic;
-      margin-bottom: 2rem;
-      position: relative;
-      z-index: 1;
-      transition: opacity 0.3s ease;
-    }
-
-    .sleep-btn {
-      position: relative;
-      z-index: 1;
-      background: #1a1a2e;
-      color: #c9b8ff;
-      border: 1.5px solid #3d3460;
-      border-radius: 100px;
-      font-size: clamp(1rem, 4vw, 1.1rem);
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 1rem 3rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .sleep-btn:hover {
-      background: #2a1f4e;
-      border-color: #7c6cbb;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(124, 108, 187, 0.25);
-    }
-
-    .sleep-btn:active {
-      transform: scale(0.96);
-    }
-
-    .zzz-container {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 130px;
       z-index: 10;
     }
-
-    .zzz {
+    #joy-base {
       position: absolute;
-      font-size: 1.5rem;
-      animation: floatUp 2s ease-out forwards;
-      opacity: 0;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
     }
-
-    @keyframes floatUp {
-      0%   { opacity: 1; transform: translateY(0) rotate(-10deg); }
-      100% { opacity: 0; transform: translateY(-120px) rotate(10deg); }
+    #joy-thumb {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      will-change: transform;
     }
-
-    .footer {
+    #hint {
       position: fixed;
-      bottom: 1.5rem;
-      font-size: 0.7rem;
-      color: #2e2e4a;
-      z-index: 1;
-      letter-spacing: 0.05em;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+      pointer-events: none;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
-
-  <div class="stars" id="stars"></div>
-  <div class="zzz-container" id="zzzContainer"></div>
-
-  <div class="moon">🌙</div>
-
-  <h1 class="title">Go to sleep, Ola.</h1>
-
-  <p class="reason">This is your <span id="num">14th</span> reason why.</p>
-
-  <p class="message" id="msg">&nbsp;</p>
-
-  <button class="sleep-btn" onclick="pressedSleep()">SLEEP</button>
-
-  <p class="footer">you really pressed it again huh</p>
+  <canvas id="c"></canvas>
+  <div id="joystick">
+    <div id="joy-base"></div>
+    <div id="joy-thumb"></div>
+  </div>
+  <p id="hint">drag the circle</p>
 
   <script>
-    // Stars
-    const starsEl = document.getElementById('stars')
-    for (let i = 0; i < 80; i++) {
-      const s = document.createElement('div')
-      s.className = 'star'
-      s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;opacity:${Math.random()*0.5+0.1};`
-      starsEl.appendChild(s)
+  (() => {
+    const canvas = document.getElementById('c')
+    const ctx    = canvas.getContext('2d')
+
+    const W = () => canvas.width  = window.innerWidth
+    const H = () => canvas.height = window.innerHeight
+    W(); H()
+    window.addEventListener('resize', () => { W(); H(); initParticles() })
+
+    // ── Particles ──────────────────────────────────────────
+    let particles = []
+    const PUSH_R   = 90
+    const PUSH_F   = 5.5
+    const RETURN   = 0.038
+    const DAMP     = 0.84
+
+    function initParticles() {
+      const count = Math.floor((canvas.width * canvas.height) / 5800)
+      particles = Array.from({ length: count }, () => {
+        const hx = Math.random() * canvas.width
+        const hy = Math.random() * canvas.height
+        return {
+          hx, hy,
+          x: hx, y: hy,
+          vx: 0, vy: 0,
+          r: 1.5 + Math.random() * 2,
+          baseHue: Math.random() * 360,
+          hue: Math.random() * 360,
+          pushed: 0,
+          // subtle idle drift
+          driftAngle: Math.random() * Math.PI * 2,
+          driftSpeed: 0.003 + Math.random() * 0.004,
+        }
+      })
+    }
+    initParticles()
+
+    // ── Player ─────────────────────────────────────────────
+    const player = {
+      x: canvas.width  / 2,
+      y: canvas.height / 2,
+      vx: 0, vy: 0,
+      r: 9,
+      hue: 200,
+      trail: [],
     }
 
-    const messages = [
-      "sleep? do i sleep?",
-      "sheep i count",
-      "sleep is for the weak",
-      "just one more scroll",
-      "the pillow is calling",
-      "your eyes are lying to you",
-      "seriously. put the phone down.",
-      "the bed is RIGHT THERE",
-      "tomorrow-you is begging",
-      "zzz... zzz... zzz...",
-      "this is embarrassing now",
-      "the moon is watching",
-      "you need 8 hours. you have 4.",
-      "okay but for real this time",
-      "your dreams are waiting",
-      "the sheep have gone home",
-      "sleep deprivation speedrun",
-      "melatonin has left the chat",
-      "goodnight. GOODNIGHT. go to sleep.",
-      "why are you like this",
-      "i am a button. i cannot make you sleep.",
-      "pressing this again won't help btw",
-      "your circadian rhythm is crying",
-      "close your eyes. there. done.",
-    ]
+    // ── Joystick ───────────────────────────────────────────
+    const joyEl   = document.getElementById('joystick')
+    const thumbEl = document.getElementById('joy-thumb')
+    const JR      = 65 // max thumb travel radius
+    let joyX = 0, joyY = 0, touchId = null
 
-    const ordinals = n => {
-      const s = ['th','st','nd','rd']
-      const v = n % 100
-      return n + (s[(v-20)%10] || s[v] || s[0])
+    function joyMove(cx, cy) {
+      const rect = joyEl.getBoundingClientRect()
+      const ox = rect.left + rect.width  / 2
+      const oy = rect.top  + rect.height / 2
+      let dx = cx - ox, dy = cy - oy
+      const d = Math.sqrt(dx*dx + dy*dy)
+      if (d > JR) { dx = dx/d*JR; dy = dy/d*JR }
+      joyX = dx / JR; joyY = dy / JR
+      thumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`
+    }
+    function joyReset() {
+      joyX = 0; joyY = 0; touchId = null
+      thumbEl.style.transform = 'translate(-50%,-50%)'
     }
 
-    let count = 14
+    joyEl.addEventListener('touchstart', e => {
+      e.preventDefault()
+      if (touchId !== null) return
+      touchId = e.changedTouches[0].identifier
+      joyMove(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+    }, { passive: false })
 
-    function pressedSleep() {
-      count++
-      document.getElementById('num').textContent = ordinals(count)
+    window.addEventListener('touchmove', e => {
+      e.preventDefault()
+      for (const t of e.changedTouches)
+        if (t.identifier === touchId) joyMove(t.clientX, t.clientY)
+    }, { passive: false })
 
-      const msg = messages[Math.floor(Math.random() * messages.length)]
-      const el = document.getElementById('msg')
-      el.style.opacity = 0
-      setTimeout(() => { el.textContent = msg; el.style.opacity = 1 }, 150)
+    window.addEventListener('touchend', e => {
+      for (const t of e.changedTouches)
+        if (t.identifier === touchId) joyReset()
+    })
 
-      // Float some Zs
-      const container = document.getElementById('zzzContainer')
-      const count2 = Math.floor(Math.random() * 3) + 1
-      for (let i = 0; i < count2; i++) {
-        setTimeout(() => {
-          const z = document.createElement('div')
-          z.className = 'zzz'
-          z.textContent = ['💤','z','Z','zzz'][Math.floor(Math.random()*4)]
-          z.style.cssText = `left:${30+Math.random()*40}%;bottom:${30+Math.random()*20}%;`
-          container.appendChild(z)
-          setTimeout(() => z.remove(), 2100)
-        }, i * 150)
+    // Mouse fallback (desktop)
+    let mouseDown = false
+    joyEl.addEventListener('mousedown', e => { mouseDown = true; joyMove(e.clientX, e.clientY) })
+    window.addEventListener('mousemove', e => { if (mouseDown) joyMove(e.clientX, e.clientY) })
+    window.addEventListener('mouseup',   () => { mouseDown = false; joyReset() })
+
+    // ── Update ─────────────────────────────────────────────
+    const FRICTION = 0.89
+    const SPEED    = 4.5
+
+    function update() {
+      // Player
+      player.vx = player.vx * FRICTION + joyX * SPEED * 0.28
+      player.vy = player.vy * FRICTION + joyY * SPEED * 0.28
+      player.x  = Math.max(player.r, Math.min(canvas.width  - player.r, player.x + player.vx))
+      player.y  = Math.max(player.r, Math.min(canvas.height - player.r, player.y + player.vy))
+      player.hue = (player.hue + 0.6) % 360
+
+      // Trail
+      player.trail.unshift({ x: player.x, y: player.y, hue: player.hue })
+      if (player.trail.length > 28) player.trail.pop()
+
+      // Particles
+      for (const p of particles) {
+        // Idle breathe
+        p.driftAngle += p.driftSpeed
+        const idleX = Math.sin(p.driftAngle) * 0.12
+        const idleY = Math.cos(p.driftAngle * 0.7) * 0.12
+
+        const dx   = p.x - player.x
+        const dy   = p.y - player.y
+        const dist = Math.sqrt(dx*dx + dy*dy)
+
+        if (dist < PUSH_R && dist > 0) {
+          const force = Math.pow(1 - dist/PUSH_R, 1.6) * PUSH_F
+          p.vx += (dx/dist) * force
+          p.vy += (dy/dist) * force
+          p.pushed = Math.min(1, p.pushed + 0.12)
+        } else {
+          p.pushed = Math.max(0, p.pushed - 0.025)
+        }
+
+        // Spring back home + idle
+        p.vx += (p.hx - p.x) * RETURN + idleX
+        p.vy += (p.hy - p.y) * RETURN + idleY
+        p.vx *= DAMP
+        p.vy *= DAMP
+        p.x  += p.vx
+        p.y  += p.vy
+
+        // Hue: drift toward player hue when pushed, drift back to base otherwise
+        if (p.pushed > 0.02) {
+          p.hue += (player.hue - p.hue) * p.pushed * 0.08
+        } else {
+          p.hue += (p.baseHue - p.hue) * 0.03
+        }
       }
     }
+
+    // ── Draw ───────────────────────────────────────────────
+    function draw() {
+      // Motion blur style fade
+      ctx.fillStyle = 'rgba(7, 8, 15, 0.3)'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // Particles
+      for (const p of particles) {
+        const r   = p.r * (1 + p.pushed * 0.7)
+        const sat = p.pushed > 0.01 ? 65 + p.pushed * 30 : 20
+        const lit = p.pushed > 0.01 ? 60 + p.pushed * 20 : 55
+        const a   = 0.45 + p.pushed * 0.4
+
+        if (p.pushed > 0.05) {
+          // Soft glow ring when pushed
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 2.8)
+          g.addColorStop(0,   `hsla(${p.hue},${sat}%,${lit}%,${a})`)
+          g.addColorStop(0.5, `hsla(${p.hue},${sat}%,${lit}%,${a * 0.4})`)
+          g.addColorStop(1,   `hsla(${p.hue},${sat}%,${lit}%,0)`)
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, r * 2.8, 0, Math.PI * 2)
+          ctx.fillStyle = g
+          ctx.fill()
+        }
+
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
+        ctx.fillStyle = `hsla(${p.hue},${sat}%,${lit}%,${a})`
+        ctx.fill()
+      }
+
+      // Player trail
+      for (let i = 1; i < player.trail.length; i++) {
+        const t   = player.trail[i]
+        const pct = 1 - i / player.trail.length
+        ctx.beginPath()
+        ctx.arc(t.x, t.y, player.r * pct * 0.75, 0, Math.PI * 2)
+        ctx.fillStyle = `hsla(${t.hue}, 85%, 72%, ${pct * 0.45})`
+        ctx.fill()
+      }
+
+      // Player outer glow
+      const og = ctx.createRadialGradient(player.x, player.y, 0, player.x, player.y, player.r * 4)
+      og.addColorStop(0,   `hsla(${player.hue}, 90%, 75%, 0.35)`)
+      og.addColorStop(0.5, `hsla(${player.hue}, 90%, 65%, 0.1)`)
+      og.addColorStop(1,   `hsla(${player.hue}, 90%, 60%, 0)`)
+      ctx.beginPath()
+      ctx.arc(player.x, player.y, player.r * 4, 0, Math.PI * 2)
+      ctx.fillStyle = og
+      ctx.fill()
+
+      // Player core
+      ctx.beginPath()
+      ctx.arc(player.x, player.y, player.r, 0, Math.PI * 2)
+      ctx.fillStyle = `hsl(${player.hue}, 80%, 82%)`
+      ctx.fill()
+    }
+
+    // ── Loop ───────────────────────────────────────────────
+    function loop() {
+      update()
+      draw()
+      requestAnimationFrame(loop)
+    }
+    loop()
+  })()
   </script>
 </body>
 </html>

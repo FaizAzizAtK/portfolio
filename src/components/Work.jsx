@@ -73,14 +73,14 @@ export default function Work({ onOpenBlog }) {
   }, [])
 
   return (
-    <section className="work" id="work">
+    <section className="work" id="writing">
       <div className="work__scroll-driver" ref={driverRef}>
         <div className="work__sticky" ref={stickyRef}>
 
           <div className="work__header" ref={headerRef}>
             <div className="section-label reveal">
               <span className="section-num">03</span>
-              <span className="section-name">Work</span>
+              <span className="section-name">Writing</span>
             </div>
 
             <div className="work__counter reveal">

@@ -84,15 +84,37 @@ export default function Experience() {
             </div>
           </div>
 
-          {/* Credentials strip */}
-          {data.credentials?.length > 0 && (
+          {/* Projects */}
+          {data.projects?.length > 0 && (
             <div className="exp__block reveal">
-              <p className="exp__block-label">Recognition & Credentials</p>
-              <div className="exp__cred-list">
-                {data.credentials.map((c) => (
-                  <div key={c.label} className="exp__cred">
-                    <span className="exp__cred-label">{c.label}</span>
-                    <span className="exp__cred-meta">{c.meta}</span>
+              <p className="exp__block-label">Projects</p>
+              <div className="exp__timeline">
+                {data.projects.map((proj) => (
+                  <div key={proj.id} className="exp__entry">
+                    <div className="exp__entry-line" aria-hidden="true">
+                      <span className="exp__dot" />
+                    </div>
+                    <div className="exp__entry-body">
+                      <div className="exp__entry-head">
+                        <h3 className="exp__company">{proj.title}</h3>
+                        <span className="exp__period">{proj.year}</span>
+                      </div>
+                      <p className="exp__role">{proj.category}</p>
+                      <p className="exp__desc">{proj.description}</p>
+                      <div className="exp__tags">
+                        {proj.tags.map((t) => (
+                          <span key={t} className="exp__tag">{t}</span>
+                        ))}
+                      </div>
+                      {proj.url && (
+                        <a href={proj.url} target="_blank" rel="noopener noreferrer" className="exp__proj-link">
+                          View on GitHub
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                            <path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
