@@ -126,19 +126,19 @@
   .hero__content {
     flex-direction: column;
     align-items: flex-start;
-    gap: 3rem;
+    gap: 2rem;
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    padding: 6rem 1.5rem 0;
+    padding: 3.5rem 1.5rem 0;
     min-height: 100svh;
     justify-content: flex-start;
   }
   .hero__content {
-    padding-top: 2rem;
-    gap: 2rem;
+    padding-top: 0.5rem;
+    gap: 1.5rem;
   }
   .hero__name {
     font-size: clamp(3.8rem, 18vw, 5.5rem);
@@ -147,6 +147,7 @@
     max-width: 100%;
     padding-left: 0;
     font-size: 0.9rem;
+    margin-top: 0.75rem;
   }
   .hero__bottom {
     left: 1.5rem; right: 1.5rem;

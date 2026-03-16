@@ -13,7 +13,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "Every week I'm in a client meeting where someone shows a demo of an AI agent doing something impressive — researching a market, drafting a proposal, executing a workflow end to end. The demo is real. The capability is real. Then the meeting ends and we go back to talking about proof of concepts.",
+        text: "Every week I'm in a client meeting where someone shows a demo of an AI agent doing something impressive: researching a market, drafting a proposal, executing a workflow end to end. The demo is real. The capability is real. Then the meeting ends and we go back to talking about proof of concepts.",
       },
       {
         type: 'p',
@@ -25,11 +25,11 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "The co-pilot model was the first wave. AI augments a human doing the work — you ask, it responds, you decide. The human stays in the loop at every step. Agents are different. An agent doesn't just respond — it plans, executes, observes the result, and acts again. You give it a goal, not a question.",
+        text: "The co-pilot model was the first wave. AI augments a human doing the work: you ask, it responds, you decide. The human stays in the loop at every step. Agents are different. An agent doesn't just respond. It plans, executes, observes the result, and acts again. You give it a goal, not a question.",
       },
       {
         type: 'p',
-        text: "The architecture that enables this — perceive, reason, act, observe, repeat — works. I've built systems that use this loop to automate knowledge work that would have taken hours of coordination: reading a document, extracting structured data, updating records, flagging anomalies, drafting a response. When it works, the time savings aren't marginal. They're an order of magnitude.",
+        text: "The architecture that enables this (perceive, reason, act, observe, repeat) works. I've built systems that use this loop to automate knowledge work that would have taken hours of coordination: reading a document, extracting structured data, updating records, flagging anomalies, drafting a response. When it works, the time savings aren't marginal. They're an order of magnitude.",
       },
       {
         type: 'h2',
@@ -45,11 +45,11 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "Agents fail differently to traditional software. They don't throw exceptions. They don't return 404s. They confidently produce wrong answers — reasoning correctly through a task and still getting the conclusion wrong because of something subtle in how the problem was framed. The failures are quiet and hard to catch until something important goes wrong.",
+        text: "Agents fail differently to traditional software. They don't throw exceptions. They don't return 404s. They confidently produce wrong answers, reasoning correctly through a task and still getting the conclusion wrong because of something subtle in how the problem was framed. The failures are quiet and hard to catch until something important goes wrong.",
       },
       {
         type: 'p',
-        text: "The trust problem goes beyond hallucinations. When an agent makes a decision — routes a ticket, updates a record, sends a communication — and it's wrong, who's accountable? That question doesn't have a clean answer yet. Most enterprises I work with aren't avoiding agentic AI because they don't see the value. They're avoiding it because they can't explain the risk to their compliance team.",
+        text: "The trust problem goes beyond hallucinations. When an agent makes a decision (routes a ticket, updates a record, sends a communication) and it's wrong, who's accountable? That question doesn't have a clean answer yet. Most enterprises I work with aren't avoiding agentic AI because they don't see the value. They're avoiding it because they can't explain the risk to their compliance team.",
       },
       {
         type: 'h2',
@@ -61,11 +61,11 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "Not 'an agent that handles customer queries' — an agent that handles one category of query, for one product, with a defined set of actions it can take and a human escalation path for everything else. Narrow scope. Observable behaviour. Gradual expansion.",
+        text: "Not 'an agent that handles customer queries.' An agent that handles one category of query, for one product, with a defined set of actions it can take and a human escalation path for everything else. Narrow scope. Observable behaviour. Gradual expansion.",
       },
       {
         type: 'p',
-        text: "Trust isn't given to agents — it's accumulated through track record. The teams doing this well treat trust as an engineering problem. They measure it. Pass rates on eval sets. Accuracy on held-out cases. Escalation rates. They know what the agent handles reliably and where it needs help.",
+        text: "Trust isn't given to agents. It's accumulated through track record. The teams doing this well treat trust as an engineering problem. They measure it. Pass rates on eval sets. Accuracy on held-out cases. Escalation rates. They know what the agent handles reliably and where it needs help.",
       },
       {
         type: 'h2',
@@ -77,7 +77,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "Until you can answer those questions for the specific workflow you're automating, you're not ready for production. That's not an indictment of agents — it's how you should approach any system that touches real decisions.",
+        text: "Until you can answer those questions for the specific workflow you're automating, you're not ready for production. That's not an indictment of agents, it's how you should approach any system that touches real decisions.",
       },
       {
         type: 'p',
@@ -93,7 +93,7 @@ const POSTS = {
     body: [
       {
         type: 'lead',
-        text: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human — table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
+        text: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human: table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
       },
       {
         type: 'h2',
@@ -105,7 +105,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "It's one of the most practical patterns in production AI today. It makes LLMs useful for specific knowledge domains — internal documentation, product specs, legal policies, anything the model wasn't trained on.",
+        text: "It's one of the most practical patterns in production AI today. It makes LLMs useful for specific knowledge domains: internal documentation, product specs, legal policies, anything the model wasn't trained on.",
       },
       {
         type: 'h2',
@@ -125,7 +125,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "When the query is specific but the document is dense, this leads to a common failure mode: the system retrieves chunks that are on-topic but wrong — text that mentions the right concepts but from the wrong section, or from an outdated version, or that contradicts what the user actually needed. The model receives this confused context and either hallucinates a confident answer or hedges uselessly.",
+        text: "When the query is specific but the document is dense, this leads to a common failure mode: the system retrieves chunks that are on-topic but wrong, text that mentions the right concepts but from the wrong section, or from an outdated version, or that contradicts what the user actually needed. The model receives this confused context and either hallucinates a confident answer or hedges uselessly.",
       },
       {
         type: 'h2',
@@ -157,7 +157,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "In agentic workflows, the retrieved context is often passed directly into a reasoning chain that produces a decision — which record to update, which action to take, which response to send. If the retrieval step returns irrelevant or contradictory content, the agent reasons confidently from bad premises. The failure is silent and downstream.",
+        text: "In agentic workflows, the retrieved context is often passed directly into a reasoning chain that produces a decision: which record to update, which action to take, which response to send. If the retrieval step returns irrelevant or contradictory content, the agent reasons confidently from bad premises. The failure is silent and downstream.",
       },
       {
         type: 'p',
@@ -165,7 +165,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "If you're building agents that have to be right — not just plausible — the architecture of how they read matters as much as the model powering them.",
+        text: "If you're building agents that have to be right, not just plausible, the architecture of how they read matters as much as the model powering them.",
       },
     ],
   },
@@ -177,11 +177,11 @@ const POSTS = {
     body: [
       {
         type: 'lead',
-        text: "Most teams have figured out prompting. The harder problem — the one that actually breaks production agents — is context.",
+        text: "Most teams have figured out prompting. The harder problem, the one that actually breaks production agents, is context.",
       },
       {
         type: 'p',
-        text: "A year ago, every conversation was about prompts. How to write them, how to structure them, what format to request. That conversation has mostly resolved. There are patterns now — system prompt structure, few-shot examples, chain-of-thought formatting. If you've built more than two LLM applications, you probably have a rough mental model of what makes a prompt work.",
+        text: "A year ago, every conversation was about prompts. How to write them, how to structure them, what format to request. That conversation has mostly resolved. There are patterns now: system prompt structure, few-shot examples, chain-of-thought formatting. If you've built more than two LLM applications, you probably have a rough mental model of what makes a prompt work.",
       },
       {
         type: 'p',
@@ -193,7 +193,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "When I say context, I mean everything in the model's context window at inference time. Not just the system prompt — the conversation history, retrieved documents, tool call results, memory summaries, intermediate reasoning. All of it.",
+        text: "When I say context, I mean everything in the model's context window at inference time. Not just the system prompt: the conversation history, retrieved documents, tool call results, memory summaries, intermediate reasoning. All of it.",
       },
       {
         type: 'p',
@@ -209,15 +209,15 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "Not because the model changes. Because the context accumulates. A long-running agent starts clean — clear instructions, relevant context, good signal. But as it executes, the window fills up. Tool call results from earlier steps pile in. Intermediate reasoning from past actions takes up space. Old context that was relevant three steps ago is still there, slightly contradicting the new context that arrived after it.",
+        text: "Not because the model changes. Because the context accumulates. A long-running agent starts clean: clear instructions, relevant context, good signal. But as it executes, the window fills up. Tool call results from earlier steps pile in. Intermediate reasoning from past actions takes up space. Old context that was relevant three steps ago is still there, slightly contradicting the new context that arrived after it.",
       },
       {
         type: 'p',
-        text: "The model doesn't throw an error. It doesn't tell you the context is confusing. It just starts making slightly worse decisions — conflating things it shouldn't, missing details it would have caught at the start of the run.",
+        text: "The model doesn't throw an error. It doesn't tell you the context is confusing. It just starts making slightly worse decisions, conflating things it shouldn't, missing details it would have caught at the start of the run.",
       },
       {
         type: 'p',
-        text: "I've seen this on live agent deployments: a workflow that performed well in testing starts degrading in production after longer runs. The prompt didn't change. The tools didn't change. The context got messy. That's context rot — it's silent, gradual, and where a lot of production agent failures actually originate.",
+        text: "I've seen this on live agent deployments: a workflow that performed well in testing starts degrading in production after longer runs. The prompt didn't change. The tools didn't change. The context got messy. That's context rot, silent, gradual, and where a lot of production agent failures actually originate.",
       },
       {
         type: 'h2',
@@ -233,7 +233,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "Memory design is not optional for long-running agents. If an agent runs for more than a handful of steps, you need an architecture that summarises and compresses earlier context — not just appends to it. What does the agent actually need to remember? What can be discarded?",
+        text: "Memory design is not optional for long-running agents. If an agent runs for more than a handful of steps, you need an architecture that summarises and compresses earlier context, not just appends to it. What does the agent actually need to remember? What can be discarded?",
       },
       {
         type: 'p',
@@ -241,7 +241,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "Context ordering affects reasoning. In long contexts, models attend differently to information at the start versus the middle versus the end. This isn't a bug to work around — it's a property to design for. Put important instructions near the start and end. Noisy content in the middle.",
+        text: "Context ordering affects reasoning. In long contexts, models attend differently to information at the start versus the middle versus the end. This isn't a bug to work around. It's a property to design for. Put important instructions near the start and end. Noisy content in the middle.",
       },
       {
         type: 'h2',
@@ -257,7 +257,7 @@ const POSTS = {
       },
       {
         type: 'p',
-        text: "The teams doing this well treat context as a resource to be managed — budgeted, curated, and maintained. Not a buffer that fills up until something breaks.",
+        text: "The teams doing this well treat context as a resource to be managed: budgeted, curated, and maintained. Not a buffer that fills up until something breaks.",
       },
     ],
   },

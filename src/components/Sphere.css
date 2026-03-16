@@ -24,7 +24,14 @@
 
 @media (max-width: 600px) {
   .sphere-wrap {
-    flex: 0 0 min(70vw, 280px);
-    height: min(70vw, 280px);
+    flex: 0 0 min(62vw, 250px);
+    height: min(62vw, 250px);
+  }
+}
+
+@media (max-width: 440px) {
+  .sphere-wrap {
+    flex: 0 0 min(56vw, 210px);
+    height: min(56vw, 210px);
   }
 }

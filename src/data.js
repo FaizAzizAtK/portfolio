@@ -17,7 +17,7 @@ export const data = {
   },
 
   about: {
-    bio: "I build and deliver AI agent systems that work in the real world, not just in demos. At IBM, I help enterprise clients move from AI experimentation to production deployment — translating complex business challenges into autonomous agent architectures. I also ship open-source tooling and write about the engineering principles behind modern agentic AI.",
+    bio: "I build and deliver AI agent systems that work in the real world, not just in demos. At IBM, I help enterprise clients move from AI experimentation to production deployment, translating complex business challenges into autonomous agent architectures. I also ship open-source tooling and write about the engineering principles behind modern agentic AI.",
     capabilities: [
       { verb: "Builds",   detail: "Autonomous agent systems for enterprise AI transformation" },
       { verb: "Ships",    detail: "Open-source tooling for LLM prompt engineering (spart-prompt)" },
@@ -33,7 +33,7 @@ export const data = {
       role: "AI & Data Delivery Consultant",
       period: "Nov 2025 — Present",
       location: "London, UK",
-      description: "Delivering end-to-end AI transformation engagements for enterprise clients. Specialised in agentic systems — designing and deploying autonomous agent architectures that automate complex, multi-step workflows. Combines deep technical delivery with stakeholder management and solution engineering.",
+      description: "Delivering end-to-end AI transformation engagements for enterprise clients. Specialised in agentic systems, designing and deploying autonomous agent architectures that automate complex, multi-step workflows. Combines deep technical delivery with stakeholder management and solution engineering.",
       tags: ["AI Agents", "LLMs", "RAG", "Solution Architecture", "Stakeholder Management"],
       current: true,
     },
@@ -53,7 +53,7 @@ export const data = {
       role: "AI Engineer Intern",
       period: "Jun 2024 — Sep 2024",
       location: "London, UK",
-      description: "Built AI prototypes in fast-paced, client-facing environments — RAG pipelines, LLM-powered interfaces, and full-stack integrations across Python and React. Delivered client presentations, ran coding workshops for the intern cohort, and was recognised as Voice of the Interns.",
+      description: "Built AI prototypes in fast-paced, client-facing environments: RAG pipelines, LLM-powered interfaces, and full-stack integrations across Python and React. Delivered client presentations, ran coding workshops for the intern cohort, and was recognised as Voice of the Interns.",
       tags: ["Python", "LLMs", "RAG", "React", "Prompt Engineering", "Vector DBs"],
       current: false,
     },
@@ -96,7 +96,7 @@ export const data = {
       type: "article",
       blogId: "agentic-shift",
       description:
-        "The shift from co-pilot to autonomous agent is real — but the timeline in your head is probably wrong. On adoption, trust, accountability gaps, and the unglamorous work between a convincing demo and a production system.",
+        "The shift from co-pilot to autonomous agent is real, but the timeline in your head is probably wrong. On adoption, trust, accountability gaps, and the unglamorous work between a convincing demo and a production system.",
       image: null,
       url: null,
     },
@@ -108,7 +108,7 @@ export const data = {
       type: "article",
       blogId: "prompting-interface",
       description:
-        "Most teams have figured out prompting. The harder problem — the one that breaks production agents — is context. Context rot, retrieval precision, memory design, and why most agent failures aren't prompt problems.",
+        "Most teams have figured out prompting. The harder problem, the one that breaks production agents, is context. Context rot, retrieval precision, memory design, and why most agent failures aren't prompt problems.",
       image: null,
       url: null,
     },
@@ -119,7 +119,7 @@ export const data = {
       year: "2025",
       type: "article",
       blogId: "hrag",
-      description: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human — table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
+      description: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human: table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
       image: null,
       url: null,
     },

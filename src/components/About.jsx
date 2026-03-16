@@ -25,13 +25,16 @@ export default function About() {
   return (
     <section className="about" id="about" ref={ref}>
 
-      {/* Col 1 — label + bio + capabilities */}
-      <div className="about__main">
-        <div className="section-label reveal">
+      {/* Section label — own grid item so it can be ordered above portrait on mobile */}
+      <div className="about__label-wrap reveal">
+        <div className="section-label">
           <span className="section-num">01</span>
           <span className="section-name">About</span>
         </div>
+      </div>
 
+      {/* Col 1 — bio + capabilities */}
+      <div className="about__main">
         <p className="about__bio reveal" style={{ transitionDelay: '0.12s' }}>
           {data.about.bio}
         </p>

@@ -3,22 +3,22 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   gap: 0 5rem;
-  padding: 10rem var(--side, 4rem) 10rem;
+  padding: 6rem var(--side, 4rem) 14rem;
   max-width: 1400px;
   margin: 0 auto;
   align-items: start;
 }
 
-@media (max-width: 900px) {
-  .about {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    padding: 6rem 2rem;
-  }
+/* Section label — col 1, row 1 */
+.about__label-wrap {
+  grid-column: 1;
+  grid-row: 1;
 }
 
-/* Col 1 — label + bio + capabilities */
+/* Col 1 — bio + capabilities — row 2 */
 .about__main {
+  grid-column: 1;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
@@ -74,10 +74,12 @@
   line-height: 1.5;
 }
 
-/* Col 2 — portrait */
+/* Col 2 — portrait — spans both rows */
 .about__portrait {
+  grid-column: 2;
+  grid-row: 1 / span 2;
   align-self: start;
-  margin-top: 3.5rem;
+  margin-top: 4rem;
 }
 
 /* Reactive dot-matrix portrait */
@@ -114,4 +116,47 @@
 .about__resume:hover {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+/* ── Mobile ───────────────────────────────────── */
+@media (max-width: 900px) {
+  .about {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 5rem 1.75rem 7rem;
+  }
+
+  /* Order: label (-2) → portrait (-1) → main (0) */
+  .about__label-wrap {
+    order: -2;
+    grid-column: 1;
+    grid-row: auto;
+    margin-bottom: 1.75rem;
+  }
+
+  /* Portrait sits above bio on mobile */
+  .about__portrait {
+    order: -1;
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 0;
+    margin-bottom: 2.75rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .about__main {
+    grid-column: 1;
+    grid-row: auto;
+    gap: 2rem;
+  }
+
+  .about__portrait-circle {
+    width: min(200px, 54vw);
+  }
+
+  .about__bio,
+  .about__capabilities {
+    max-width: 100%;
+  }
 }
