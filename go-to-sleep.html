@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Go to sleep, Ola.</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100dvh;
+      background: #07080f;
+      color: #e8e6f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.1; }
+      to   { opacity: 0.8; }
+    }
+
+    .moon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      animation: float 4s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .title {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .reason {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      color: #9b8fc4;
+      margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .reason span {
+      color: #c9b8ff;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .message {
+      min-height: 1.8rem;
+      font-size: clamp(0.85rem, 3vw, 1rem);
+      color: #6b7db3;
+      font-style: italic;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .sleep-btn {
+      position: relative;
+      z-index: 1;
+      background: #1a1a2e;
+      color: #c9b8ff;
+      border: 1.5px solid #3d3460;
+      border-radius: 100px;
+      font-size: clamp(1rem, 4vw, 1.1rem);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 1rem 3rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sleep-btn:hover {
+      background: #2a1f4e;
+      border-color: #7c6cbb;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124, 108, 187, 0.25);
+    }
+
+    .sleep-btn:active {
+      transform: scale(0.96);
+    }
+
+    .zzz-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .zzz {
+      position: absolute;
+      font-size: 1.5rem;
+      animation: floatUp 2s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0) rotate(-10deg); }
+      100% { opacity: 0; transform: translateY(-120px) rotate(10deg); }
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 1.5rem;
+      font-size: 0.7rem;
+      color: #2e2e4a;
+      z-index: 1;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+  <div class="zzz-container" id="zzzContainer"></div>
+
+  <div class="moon">🌙</div>
+
+  <h1 class="title">Go to sleep, Ola.</h1>
+
+  <p class="reason">This is your <span id="num">14th</span> reason why.</p>
+
+  <p class="message" id="msg">&nbsp;</p>
+
+  <button class="sleep-btn" onclick="pressedSleep()">SLEEP</button>
+
+  <p class="footer">you really pressed it again huh</p>
+
+  <script>
+    // Stars
+    const starsEl = document.getElementById('stars')
+    for (let i = 0; i < 80; i++) {
+      const s = document.createElement('div')
+      s.className = 'star'
+      s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*4}s;opacity:${Math.random()*0.5+0.1};`
+      starsEl.appendChild(s)
+    }
+
+    const messages = [
+      "sleep? do i sleep?",
+      "sheep i count",
+      "sleep is for the weak",
+      "just one more scroll",
+      "the pillow is calling",
+      "your eyes are lying to you",
+      "seriously. put the phone down.",
+      "the bed is RIGHT THERE",
+      "tomorrow-you is begging",
+      "zzz... zzz... zzz...",
+      "this is embarrassing now",
+      "the moon is watching",
+      "you need 8 hours. you have 4.",
+      "okay but for real this time",
+      "your dreams are waiting",
+      "the sheep have gone home",
+      "sleep deprivation speedrun",
+      "melatonin has left the chat",
+      "goodnight. GOODNIGHT. go to sleep.",
+      "why are you like this",
+      "i am a button. i cannot make you sleep.",
+      "pressing this again won't help btw",
+      "your circadian rhythm is crying",
+      "close your eyes. there. done.",
+    ]
+
+    const ordinals = n => {
+      const s = ['th','st','nd','rd']
+      const v = n % 100
+      return n + (s[(v-20)%10] || s[v] || s[0])
+    }
+
+    let count = 14
+
+    function pressedSleep() {
+      count++
+      document.getElementById('num').textContent = ordinals(count)
+
+      const msg = messages[Math.floor(Math.random() * messages.length)]
+      const el = document.getElementById('msg')
+      el.style.opacity = 0
+      setTimeout(() => { el.textContent = msg; el.style.opacity = 1 }, 150)
+
+      // Float some Zs
+      const container = document.getElementById('zzzContainer')
+      const count2 = Math.floor(Math.random() * 3) + 1
+      for (let i = 0; i < count2; i++) {
+        setTimeout(() => {
+          const z = document.createElement('div')
+          z.className = 'zzz'
+          z.textContent = ['💤','z','Z','zzz'][Math.floor(Math.random()*4)]
+          z.style.cssText = `left:${30+Math.random()*40}%;bottom:${30+Math.random()*20}%;`
+          container.appendChild(z)
+          setTimeout(() => z.remove(), 2100)
+        }, i * 150)
+      }
+    }
+  </script>
+</body>
+</html>

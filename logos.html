@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FA Monogram v4</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #e2e2e2; padding: 3rem; font-family: monospace; }
+  .title { font-size: 0.5rem; letter-spacing: 0.22em; text-transform: uppercase; color: #999; margin-bottom: 2rem; }
+
+  .rows { display: flex; flex-direction: column; gap: 1px; }
+  .row { display: flex; gap: 1px; }
+  .tag { width: 44px; background: #d4d4d4; display: flex; align-items: center; justify-content: center; font-size: 0.46rem; letter-spacing: 0.14em; color: #888; text-transform: uppercase; }
+  .bar { flex: 1; background: #fafafa; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .bar.inv { background: #0a0a0a; }
+  .links { display: flex; gap: 1.6rem; }
+  .links span { font-size: 0.68rem; color: #ccc; }
+  .bar.inv .links span { color: #2a2a2a; }
+
+  hr { border: none; border-top: 1px solid #ccc; margin: 2rem 0; }
+
+  .scales { display: flex; gap: 1px; }
+  .sc { background: #fafafa; flex: 1; padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  .sc.inv { background: #0a0a0a; }
+  .szs { display: flex; align-items: center; gap: 1.2rem; }
+  .sc-tag { font-size: 0.44rem; letter-spacing: 0.14em; text-transform: uppercase; color: #d0d0d0; }
+  .sc.inv .sc-tag { color: #1a1a1a; }
+
+  hr2 { display:block; height:0; border:none; border-top:1px solid #ccc; margin:2rem 0; }
+  .notes { display: flex; gap: 1px; margin-top: 1px; }
+  .note { flex: 1; background: #f0f0f0; padding: 0.9rem 0.8rem; }
+  .note strong { display: block; font-size: 0.5rem; letter-spacing: 0.12em; color: #555; margin-bottom: 0.4rem; text-transform: uppercase; }
+  .note p { font-size: 0.46rem; line-height: 1.8; color: #aaa; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<p class="title">FA — Monogram v4 · Pure SVG · All black</p>
+
+<div class="rows">
+
+  <!-- A: Balanced Ligature — F backbone = A left leg, proportionally balanced -->
+  <div class="row">
+    <div class="tag">A</div>
+    <div class="bar">
+      <svg viewBox="0 0 22 26" fill="none" width="28">
+        <path d="M3 2L3 24M3 2L12 2M12 2L20 24M3 13L17 13"
+              stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter"/>
+      </svg>
+      <div class="links"><span>About</span><span>Experience</span><span>Work</span><span>Skills</span><span>Contact</span></div>
+    </div>
+  </div>
+
+  <!-- B: Pixel Grid — FA as 3×5 dot matrix. Pure data aesthetic. -->
+  <div class="row">
+    <div class="tag">B</div>
+    <div class="bar">
+      <svg viewBox="-1 -1 28 22" width="42">
+        <!-- F: 3-wide × 5-tall dot grid -->
+        <rect x="0"  y="0"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="4"  y="0"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="8"  y="0"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="0"  y="4"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="0"  y="8"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="4"  y="8"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="0"  y="12" width="3" height="3" fill="#0a0a0a"/>
+        <rect x="0"  y="16" width="3" height="3" fill="#0a0a0a"/>
+        <!-- A: 3-wide × 5-tall dot grid (offset 14) -->
+        <rect x="18" y="0"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="14" y="4"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="22" y="4"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="14" y="8"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="18" y="8"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="22" y="8"  width="3" height="3" fill="#0a0a0a"/>
+        <rect x="14" y="12" width="3" height="3" fill="#0a0a0a"/>
+        <rect x="22" y="12" width="3" height="3" fill="#0a0a0a"/>
+        <rect x="14" y="16" width="3" height="3" fill="#0a0a0a"/>
+        <rect x="22" y="16" width="3" height="3" fill="#0a0a0a"/>
+      </svg>
+      <div class="links"><span>About</span><span>Experience</span><span>Work</span><span>Skills</span><span>Contact</span></div>
+    </div>
+  </div>
+
+  <!-- C: Monolith — tall black pillar, FA revealed as white negative space -->
+  <div class="row">
+    <div class="tag">C</div>
+    <div class="bar inv">
+      <svg viewBox="0 0 26 36" width="22">
+        <rect width="26" height="36" fill="#0a0a0a"/>
+        <path d="M4 9L4 27M4 9L13 9M4 16L11 16"
+              stroke="white" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 27L20 9L25 27M16.5 18L23.5 18"
+              stroke="white" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="links"><span>About</span><span>Experience</span><span>Work</span><span>Skills</span><span>Contact</span></div>
+    </div>
+  </div>
+
+  <!-- D: Slab — extremely thick strokes, letters as structural beams -->
+  <div class="row">
+    <div class="tag">D</div>
+    <div class="bar">
+      <svg viewBox="0 0 42 28" fill="none" width="52">
+        <path d="M4 4L4 24M4 4L18 4M4 14L13 14"
+              stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter"/>
+        <path d="M23 24L31 4L39 24M26 15L36 15"
+              stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter"/>
+      </svg>
+      <div class="links"><span>About</span><span>Experience</span><span>Work</span><span>Skills</span><span>Contact</span></div>
+    </div>
+  </div>
+
+  <!-- E: Circle crop — letters fill the circle almost to the edge, tight and bold -->
+  <div class="row">
+    <div class="tag">E</div>
+    <div class="bar">
+      <svg viewBox="0 0 38 38" fill="none" width="36">
+        <circle cx="19" cy="19" r="17.5" stroke="#0a0a0a" stroke-width="1.6"/>
+        <path d="M7 10L7 28M7 10L18 10M7 19L15 19"
+              stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20 28L27 10L34 28M22.5 20L31.5 20"
+              stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="links"><span>About</span><span>Experience</span><span>Work</span><span>Skills</span><span>Contact</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Notes -->
+<div class="notes" style="margin-top:1px">
+  <div class="note"><strong>A — Ligature</strong><p>F and A fused. Spine shared. Single glyph. 4 strokes.</p></div>
+  <div class="note"><strong>B — Pixel Grid</strong><p>FA as 3×5 dot matrix. Data-forward, tech identity. Reads perfectly at 16px.</p></div>
+  <div class="note"><strong>C — Monolith</strong><p>Black pillar. Letters carved as negative space. Bookmark / stamp energy.</p></div>
+  <div class="note"><strong>D — Slab</strong><p>Structural beams. Maximum weight. Industrial and architectural.</p></div>
+  <div class="note"><strong>E — Circle</strong><p>Letters fill circle to the edge. Tight, confident. App icon ready.</p></div>
+</div>
+
+<hr style="border:none;border-top:1px solid #ccc;margin:2rem 0">
+<p class="title" style="margin-bottom:1.2rem">Scale — 16px · 24px · 48px</p>
+
+<div class="scales">
+
+  <div class="sc">
+    <div class="szs">
+      <svg viewBox="0 0 22 26" fill="none" width="12"><path d="M3 2L3 24M3 2L12 2M12 2L20 24M3 13L17 13" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="square"/></svg>
+      <svg viewBox="0 0 22 26" fill="none" width="18"><path d="M3 2L3 24M3 2L12 2M12 2L20 24M3 13L17 13" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="square"/></svg>
+      <svg viewBox="0 0 22 26" fill="none" width="37"><path d="M3 2L3 24M3 2L12 2M12 2L20 24M3 13L17 13" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="square"/></svg>
+    </div>
+    <span class="sc-tag">A</span>
+  </div>
+
+  <div class="sc">
+    <div class="szs">
+      <svg viewBox="-1 -1 28 22" width="14"><rect x="0" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="4" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="8" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="4" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="16" width="3" height="3" fill="#0a0a0a"/><rect x="18" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="18" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="16" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="16" width="3" height="3" fill="#0a0a0a"/></svg>
+      <svg viewBox="-1 -1 28 22" width="20"><rect x="0" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="4" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="8" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="4" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="16" width="3" height="3" fill="#0a0a0a"/><rect x="18" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="18" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="16" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="16" width="3" height="3" fill="#0a0a0a"/></svg>
+      <svg viewBox="-1 -1 28 22" width="40"><rect x="0" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="4" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="8" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="4" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="0" y="16" width="3" height="3" fill="#0a0a0a"/><rect x="18" y="0" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="4" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="18" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="8" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="12" width="3" height="3" fill="#0a0a0a"/><rect x="14" y="16" width="3" height="3" fill="#0a0a0a"/><rect x="22" y="16" width="3" height="3" fill="#0a0a0a"/></svg>
+    </div>
+    <span class="sc-tag">B</span>
+  </div>
+
+  <div class="sc inv">
+    <div class="szs">
+      <svg viewBox="0 0 26 36" width="11"><rect width="26" height="36" fill="#0a0a0a"/><path d="M4 9L4 27M4 9L13 9M4 16L11 16" stroke="white" stroke-width="2.1" stroke-linecap="round"/><path d="M15 27L20 9L25 27M16.5 18L23.5 18" stroke="white" stroke-width="2.1" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 26 36" width="17"><rect width="26" height="36" fill="#0a0a0a"/><path d="M4 9L4 27M4 9L13 9M4 16L11 16" stroke="white" stroke-width="2.1" stroke-linecap="round"/><path d="M15 27L20 9L25 27M16.5 18L23.5 18" stroke="white" stroke-width="2.1" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 26 36" width="35"><rect width="26" height="36" fill="#0a0a0a"/><path d="M4 9L4 27M4 9L13 9M4 16L11 16" stroke="white" stroke-width="2.1" stroke-linecap="round"/><path d="M15 27L20 9L25 27M16.5 18L23.5 18" stroke="white" stroke-width="2.1" stroke-linecap="round"/></svg>
+    </div>
+    <span class="sc-tag">C</span>
+  </div>
+
+  <div class="sc">
+    <div class="szs">
+      <svg viewBox="0 0 42 28" fill="none" width="17"><path d="M4 4L4 24M4 4L18 4M4 14L13 14" stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt"/><path d="M23 24L31 4L39 24M26 15L36 15" stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt"/></svg>
+      <svg viewBox="0 0 42 28" fill="none" width="25"><path d="M4 4L4 24M4 4L18 4M4 14L13 14" stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt"/><path d="M23 24L31 4L39 24M26 15L36 15" stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt"/></svg>
+      <svg viewBox="0 0 42 28" fill="none" width="50"><path d="M4 4L4 24M4 4L18 4M4 14L13 14" stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt"/><path d="M23 24L31 4L39 24M26 15L36 15" stroke="#0a0a0a" stroke-width="7" stroke-linecap="butt"/></svg>
+    </div>
+    <span class="sc-tag">D</span>
+  </div>
+
+  <div class="sc">
+    <div class="szs">
+      <svg viewBox="0 0 38 38" fill="none" width="16"><circle cx="19" cy="19" r="17.5" stroke="#0a0a0a" stroke-width="1.6"/><path d="M7 10L7 28M7 10L18 10M7 19L15 19" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round"/><path d="M20 28L27 10L34 28M22.5 20L31.5 20" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 38 38" fill="none" width="24"><circle cx="19" cy="19" r="17.5" stroke="#0a0a0a" stroke-width="1.6"/><path d="M7 10L7 28M7 10L18 10M7 19L15 19" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round"/><path d="M20 28L27 10L34 28M22.5 20L31.5 20" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 38 38" fill="none" width="48"><circle cx="19" cy="19" r="17.5" stroke="#0a0a0a" stroke-width="1.6"/><path d="M7 10L7 28M7 10L18 10M7 19L15 19" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round"/><path d="M20 28L27 10L34 28M22.5 20L31.5 20" stroke="#0a0a0a" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <span class="sc-tag">E</span>
+  </div>
+
+</div>
+
+</body>
+</html>

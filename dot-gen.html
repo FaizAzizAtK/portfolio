@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dot Matrix Generator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f5f5f3;
+    font-family: 'DM Mono', ui-monospace, monospace;
+    font-size: 13px;
+    color: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  #sidebar {
+    flex: 0 0 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  h1 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.4; }
+  label { display: flex; flex-direction: column; gap: 0.35rem; }
+  input[type=range] { width: 100%; accent-color: #0a0a0a; }
+  .val { font-variant-numeric: tabular-nums; opacity: 0.5; }
+  button {
+    background: #0a0a0a; color: #f5f5f3;
+    border: none; padding: 0.6rem 1rem;
+    font-family: inherit; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    cursor: pointer; width: 100%;
+  }
+  button:hover { opacity: 0.75; }
+  #drop {
+    flex: 1;
+    border: 1.5px dashed #ccc;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; opacity: 0.4; text-align: center;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  #drop.over { border-color: #0a0a0a; opacity: 1; }
+  #drop canvas { position: absolute; inset: 0; margin: auto; }
+  #preview-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #f5f5f3;
+    overflow: hidden;
+  }
+  #preview-area canvas { max-width: 100%; max-height: 90vh; }
+  .row { display: flex; gap: 0.5rem; }
+  .row button { flex: 1; }
+  select {
+    font-family: inherit; font-size: 0.75rem;
+    background: #0a0a0a; color: #f5f5f3;
+    border: none; padding: 0.6rem 0.5rem;
+    width: 100%; cursor: pointer;
+  }
+  #bg-row { display: flex; gap: 0.5rem; align-items: center; }
+  .swatch {
+    width: 24px; height: 24px; border: 1px solid #ccc; cursor: pointer; flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h1>Dot Matrix</h1>
+
+  <label>
+    Grid spacing <span class="val" id="grid-val">7</span>px
+    <input type="range" id="grid" min="3" max="20" value="7" step="1">
+  </label>
+
+  <label>
+    Max dot size <span class="val" id="maxr-val">55</span>%
+    <input type="range" id="maxr" min="20" max="90" value="55" step="1">
+  </label>
+
+  <label>
+    Contrast boost <span class="val" id="boost-val">0</span>
+    <input type="range" id="boost" min="-50" max="100" value="0" step="1">
+  </label>
+
+  <label>
+    Saturation boost <span class="val" id="sat-val">0</span>%
+    <input type="range" id="sat" min="-100" max="200" value="0" step="1">
+  </label>
+
+  <label>
+    Alpha cutoff <span class="val" id="alpha-val">10</span>%
+    <input type="range" id="alpha" min="0" max="80" value="10" step="1">
+  </label>
+
+  <label>
+    Dot colour
+    <select id="dotcolor">
+      <option value="photo">Photo colours</option>
+      <option value="#0a0a0a">Black</option>
+      <option value="#f5f5f3">White</option>
+      <option value="#555">Mid grey</option>
+    </select>
+  </label>
+
+  <label>
+    Background
+    <select id="bgcolor">
+      <option value="transparent">Transparent</option>
+      <option value="#f5f5f3">Off-white</option>
+      <option value="#0a0a0a">Black</option>
+    </select>
+  </label>
+
+  <div class="row">
+    <button id="btn-svg">Export SVG</button>
+    <button id="btn-png">Export PNG</button>
+  </div>
+</div>
+
+<div id="drop">
+  <span id="drop-hint">Drop photo here<br>or click to browse</span>
+  <input type="file" accept="image/*" id="file-input" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+</div>
+
+<script>
+let imgEl    = null
+let W = 0, H = 0
+let offCanvas = null
+
+const canvas = document.createElement('canvas')
+document.getElementById('drop').appendChild(canvas)
+const ctx = canvas.getContext('2d')
+
+// Sliders
+const g  = id => document.getElementById(id)
+const controls = ['grid','maxr','boost','sat','alpha','dotcolor','bgcolor']
+controls.forEach(id => {
+  const el = g(id)
+  if (el.type === 'range') {
+    el.addEventListener('input', () => { g(id+'-val').textContent = el.value; draw() })
+  } else {
+    el.addEventListener('change', draw)
+  }
+})
+
+function loadImage(src) {
+  imgEl = new Image()
+  imgEl.onload = () => {
+    const maxEdge = 900
+    const scale  = Math.min(1, maxEdge / Math.max(imgEl.width, imgEl.height))
+    W = Math.round(imgEl.width  * scale)
+    H = Math.round(imgEl.height * scale)
+    offCanvas = document.createElement('canvas')
+    offCanvas.width  = W
+    offCanvas.height = H
+    const oc = offCanvas.getContext('2d', { willReadFrequently: true })
+    oc.drawImage(imgEl, 0, 0, W, H)
+    document.getElementById('drop-hint').style.display = 'none'
+    draw()
+  }
+  imgEl.src = src
+}
+
+// RGB ↔ HSL helpers for saturation boost
+function rgbToHsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255
+  const max = Math.max(r, g, b), min = Math.min(r, g, b)
+  let h, s, l = (max + min) / 2
+  if (max === min) { h = s = 0 } else {
+    const d = max - min
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    switch (max) {
+      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break
+      case g: h = ((b - r) / d + 2) / 6; break
+      case b: h = ((r - g) / d + 4) / 6; break
+    }
+  }
+  return [h, s, l]
+}
+function hue2rgb(p, q, t) {
+  if (t < 0) t += 1; if (t > 1) t -= 1
+  if (t < 1/6) return p + (q - p) * 6 * t
+  if (t < 1/2) return q
+  if (t < 2/3) return p + (q - p) * (2/3 - t) * 6
+  return p
+}
+function hslToRgb(h, s, l) {
+  if (s === 0) { const v = Math.round(l * 255); return [v, v, v] }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s
+  const p = 2 * l - q
+  return [
+    Math.round(hue2rgb(p, q, h + 1/3) * 255),
+    Math.round(hue2rgb(p, q, h)       * 255),
+    Math.round(hue2rgb(p, q, h - 1/3) * 255),
+  ]
+}
+function boostSat(r, g, b, pct) {
+  if (pct === 0) return [r, g, b]
+  const [h, s, l] = rgbToHsl(r, g, b)
+  const newS = Math.min(1, Math.max(0, s + pct / 100))
+  return hslToRgb(h, newS, l)
+}
+
+function draw() {
+  if (!imgEl || !offCanvas) return
+
+  const grid     = parseInt(g('grid').value)
+  const maxRPct  = parseInt(g('maxr').value) / 100
+  const boostVal = parseInt(g('boost').value)
+  const alphaCut = parseInt(g('alpha').value) / 100
+  const dotCol   = g('dotcolor').value
+  const bgCol    = g('bgcolor').value
+
+  const dpr = window.devicePixelRatio || 1
+  canvas.width  = W * dpr
+  canvas.height = H * dpr
+  canvas.style.width  = W + 'px'
+  canvas.style.height = H + 'px'
+  ctx.scale(dpr, dpr)
+
+  // Background
+  if (bgCol === 'transparent') {
+    ctx.clearRect(0, 0, W, H)
+  } else {
+    ctx.fillStyle = bgCol
+    ctx.fillRect(0, 0, W, H)
+  }
+
+  const maxR = grid * maxRPct
+  const oc   = offCanvas.getContext('2d', { willReadFrequently: true })
+  const { data } = oc.getImageData(0, 0, W, H)
+
+  const satVal      = parseInt(g('sat').value)
+  const usePhotoColor = dotCol === 'photo'
+  if (!usePhotoColor) ctx.fillStyle = dotCol
+
+  for (let row = grid / 2; row < H; row += grid) {
+    for (let col = grid / 2; col < W; col += grid) {
+      const px  = Math.round(col)
+      const py  = Math.round(row)
+      const idx = (py * W + px) * 4
+      const a   = data[idx + 3] / 255
+
+      if (a < alphaCut) continue
+
+      let [rr, gg, bb] = boostSat(data[idx], data[idx + 1], data[idx + 2], satVal)
+      let lum = (0.299 * rr + 0.587 * gg + 0.114 * bb) / 255
+      lum = Math.min(1, Math.max(0, lum - boostVal / 200))
+
+      const r = maxR * (1 - lum) * a
+      if (r < 0.3) continue
+
+      if (usePhotoColor) ctx.fillStyle = `rgb(${rr},${gg},${bb})`
+
+      ctx.beginPath()
+      ctx.arc(col, row, r, 0, Math.PI * 2)
+      ctx.fill()
+    }
+  }
+}
+
+// File input
+g('file-input').addEventListener('change', e => {
+  const f = e.target.files[0]
+  if (f) loadImage(URL.createObjectURL(f))
+})
+
+// Drag & drop
+const drop = g('drop')
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over') })
+drop.addEventListener('dragleave', () => drop.classList.remove('over'))
+drop.addEventListener('drop', e => {
+  e.preventDefault()
+  drop.classList.remove('over')
+  const f = e.dataTransfer.files[0]
+  if (f && f.type.startsWith('image/')) loadImage(URL.createObjectURL(f))
+})
+
+// Export PNG
+g('btn-png').addEventListener('click', () => {
+  if (!imgEl) return
+  const a = document.createElement('a')
+  a.download = 'faiz-dots.png'
+  a.href = canvas.toDataURL('image/png')
+  a.click()
+})
+
+// Export SVG — generate circles directly
+g('btn-svg').addEventListener('click', () => {
+  if (!imgEl || !offCanvas) return
+
+  const grid     = parseInt(g('grid').value)
+  const maxRPct  = parseInt(g('maxr').value) / 100
+  const boostVal = parseInt(g('boost').value)
+  const alphaCut = parseInt(g('alpha').value) / 100
+  const dotCol   = g('dotcolor').value
+  const bgCol    = g('bgcolor').value
+  const maxR     = grid * maxRPct
+
+  const oc   = offCanvas.getContext('2d', { willReadFrequently: true })
+  const { data } = oc.getImageData(0, 0, W, H)
+
+  const satVal        = parseInt(g('sat').value)
+  const usePhotoColorSVG = dotCol === 'photo'
+  let circles = ''
+  for (let row = grid / 2; row < H; row += grid) {
+    for (let col = grid / 2; col < W; col += grid) {
+      const px  = Math.round(col)
+      const py  = Math.round(row)
+      const idx = (py * W + px) * 4
+      const a   = data[idx + 3] / 255
+      if (a < alphaCut) continue
+      let [rr, gg, bb] = boostSat(data[idx], data[idx + 1], data[idx + 2], satVal)
+      let lum = (0.299 * rr + 0.587 * gg + 0.114 * bb) / 255
+      lum = Math.min(1, Math.max(0, lum - boostVal / 200))
+      const r = maxR * (1 - lum) * a
+      if (r < 0.3) continue
+      const fill = usePhotoColorSVG ? ` fill="rgb(${rr},${gg},${bb})"` : ''
+      circles += `<circle cx="${col.toFixed(1)}" cy="${row.toFixed(1)}" r="${r.toFixed(2)}"${fill}/>\n`
+    }
+  }
+
+  const groupFill = usePhotoColorSVG ? '' : ` fill="${dotCol}"`
+  const bg = bgCol !== 'transparent' ? `<rect width="${W}" height="${H}" fill="${bgCol}"/>` : ''
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+${bg}
+<g${groupFill}>
+${circles}</g>
+</svg>`
+
+  const blob = new Blob([svg], { type: 'image/svg+xml' })
+  const a    = document.createElement('a')
+  a.download = 'faiz-dots.svg'
+  a.href     = URL.createObjectURL(blob)
+  a.click()
+})
+
+// Auto-load photo.png if present
+fetch('../public/photo.png', { method: 'HEAD' })
+  .then(r => r.ok && loadImage('/photo.png'))
+  .catch(() => {})
+</script>
+</body>
+</html>
