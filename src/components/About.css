@@ -76,15 +76,7 @@
 
 /* Col 2 — portrait */
 .about__portrait {
-  position: sticky;
-  top: calc(50vh - 210px);
-  align-self: start;
-}
-
-@media (max-width: 900px) {
-  .about__portrait {
-    position: static;
-  }
+  align-self: center;
 }
 
 /* Reactive dot-matrix portrait */
