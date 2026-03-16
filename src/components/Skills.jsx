@@ -4,7 +4,7 @@ import './Skills.css'
 const CARDS = [
   {
     rank: 'J',
-    suit: '♣',
+    suit: '♣\uFE0E',
     category: 'Win',
     theme: 'black',
     skills: [
@@ -17,7 +17,7 @@ const CARDS = [
   },
   {
     rank: 'Q',
-    suit: '♠',
+    suit: '♠\uFE0E',
     category: 'Think',
     theme: 'white',
     skills: [
@@ -29,7 +29,7 @@ const CARDS = [
   },
   {
     rank: 'K',
-    suit: '♥',
+    suit: '♥\uFE0E',
     category: 'Build',
     theme: 'charcoal',
     skills: [
@@ -43,7 +43,7 @@ const CARDS = [
   },
   {
     rank: 'A',
-    suit: '♦',
+    suit: '♦\uFE0E',
     category: 'Ship',
     theme: 'silver',
     skills: [
