@@ -90,21 +90,20 @@ export const data = {
   work: [
     {
       id: "01",
-      title: "The Agentic Shift",
+      title: "Is RAG That Simple?",
       category: "Essay",
-      year: "2025",
+      year: "Mar 2026",
       type: "article",
-      blogId: "agentic-shift",
-      description:
-        "The shift from co-pilot to autonomous agent is real, but the timeline in your head is probably wrong. On adoption, trust, accountability gaps, and the unglamorous work between a convincing demo and a production system.",
+      blogId: "hrag",
+      description: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human: table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
       image: null,
       url: null,
     },
     {
       id: "02",
-      title: "Context Is the New Code",
+      title: "Your Context Is Rotting",
       category: "Essay",
-      year: "2025",
+      year: "Feb 2026",
       type: "article",
       blogId: "prompting-interface",
       description:
@@ -114,12 +113,13 @@ export const data = {
     },
     {
       id: "03",
-      title: "Why HRAG Is How Production Agents Should Retrieve",
+      title: "The Agentic Shift",
       category: "Essay",
-      year: "2025",
+      year: "Jan 2026",
       type: "article",
-      blogId: "hrag",
-      description: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human: table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
+      blogId: "agentic-shift",
+      description:
+        "The shift from co-pilot to autonomous agent is real, but the timeline in your head is probably wrong. On adoption, trust, accountability gaps, and the unglamorous work between a convincing demo and a production system.",
       image: null,
       url: null,
     },

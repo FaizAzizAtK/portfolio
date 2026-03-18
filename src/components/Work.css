@@ -129,6 +129,14 @@
   flex-shrink: 0;
 }
 
+/* Strip Player iframe border/outline and prevent focus stealing */
+.work__card-img iframe {
+  border: none !important;
+  outline: none !important;
+  display: block;
+  pointer-events: none;
+}
+
 .work__card-img img {
   width: 100%;
   height: 100%;
@@ -300,6 +308,20 @@
     padding-top: 4rem;
     padding-bottom: 2rem;
   }
+  /* Fade pinned to the visual right edge — stays fixed as user swipes */
+  .work__sticky::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 72px;
+    background: linear-gradient(to right, transparent, var(--bg) 90%);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Swipe-more fade: on the sticky parent so it never scrolls */
 
   .work__header {
     padding: 0 2rem 2rem;
@@ -317,6 +339,10 @@
     overflow-x: auto;
     align-items: flex-start;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .work__track-wrap::-webkit-scrollbar {
+    display: none;
   }
 
   .work__track {
@@ -330,6 +356,11 @@
 }
 
 @media (max-width: 600px) {
+  /* Hide swipe fade — cards are vertical here */
+  .work__sticky::after {
+    display: none;
+  }
+
   .work__track-wrap {
     padding: 0 1.5rem;
     overflow-x: auto;

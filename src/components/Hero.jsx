@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { data } from '../data'
 import Sphere from './Sphere'
 import './Hero.css'
@@ -19,6 +19,7 @@ const fonts = [
 export default function Hero() {
   const intervalRef = useRef(null)
   const settledIndices = useRef(new Set())
+  const [settled, setSettled] = useState(false)
 
   useEffect(() => {
     const letters = document.querySelectorAll('.glitch-letter')
@@ -56,6 +57,7 @@ export default function Hero() {
         // Stop when all letters are settled
         if (settledIndices.current.size === letters.length) {
           clearInterval(intervalRef.current)
+          setSettled(true)
         }
       }
     }, 80)
@@ -69,7 +71,7 @@ export default function Hero() {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section className="hero" id="home">
+    <section className={`hero${settled ? ' hero--settled' : ''}`} id="home">
       <div className="hero__content">
         {/* Left: name only — keeps globe vertically centred with name, not name+intro */}
         <h1 className="hero__name" aria-label="Faiz Aziz">

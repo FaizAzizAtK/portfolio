@@ -87,85 +87,85 @@ const POSTS = {
   },
 
   'hrag': {
-    title: "Why HRAG Is How Production Agents Should Retrieve",
-    date: "2025",
+    title: "Is RAG That Simple?",
+    date: "Mar 2026",
     readTime: "5 min read",
     body: [
       {
         type: 'lead',
-        text: "Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human: table of contents first, then drill down. Here's why that distinction matters when you're building agents that have to be right.",
+        text: "Most teams implement RAG in an afternoon. Embed your docs, store the vectors, retrieve the top-k at query time. Done. Except in production, it isn't.",
+      },
+      {
+        type: 'p',
+        text: "RAG — Retrieval-Augmented Generation — is one of the most practical patterns in production AI. Instead of relying purely on what an LLM was trained on, you give it access to your documents at query time. A question comes in, your system searches a knowledge base, pulls the relevant chunks, and passes them to the model alongside the question. The model answers from retrieved context, not memorised patterns.",
+      },
+      {
+        type: 'p',
+        text: "It works. It's useful. And for a lot of teams, the basic version gets them 80% of the way there.",
+      },
+      {
+        type: 'p',
+        text: "But that last 20% is where agents live. And flat RAG doesn't survive it.",
       },
       {
         type: 'h2',
-        text: "What RAG actually is",
+        text: "Is RAG that simple?",
       },
       {
         type: 'p',
-        text: "RAG stands for Retrieval-Augmented Generation. The idea is simple: instead of relying on what an LLM already knows, you give it access to your documents at query time. Ask the system a question, it searches your knowledge base, retrieves the relevant bits, and passes them to the model alongside the question. The model then answers using that retrieved context rather than just pattern-matching from training data.",
+        text: "The standard approach treats your documents as a flat pool. Every chunk of text gets embedded as a vector and stored in a database. When a query comes in, the system searches the entire pool and returns the chunks semantically closest to the question.",
       },
       {
         type: 'p',
-        text: "It's one of the most practical patterns in production AI today. It makes LLMs useful for specific knowledge domains: internal documentation, product specs, legal policies, anything the model wasn't trained on.",
+        text: "Simple, right? The problem is that 'semantically close' isn't the same as 'correct'.",
+      },
+      {
+        type: 'p',
+        text: "Flat RAG has no concept of document structure. It doesn't know your 40-page technical policy is split into sections, that section 3 covers security and section 7 covers pricing. It sees thousands of chunks of similar-sounding text and picks whichever ones score highest on a similarity metric.",
+      },
+      {
+        type: 'p',
+        text: "So when a query is specific but the document is dense, you get a predictable failure: the system retrieves chunks that are on-topic but wrong — from the right document but the wrong section, from an outdated version, or subtly contradicting what was actually asked. The model receives this confused context and either fabricates a confident answer or hedges uselessly. Both are bad in production.",
       },
       {
         type: 'h2',
-        text: "Why flat RAG breaks in practice",
+        text: "What structure gives you",
       },
       {
         type: 'p',
-        text: "The traditional approach treats your entire document set as a flat pool. Every chunk of text is embedded as a vector, stored in a database, and searched all at once when a query comes in. The system finds the chunks semantically closest to the question and returns them.",
+        text: "Hierarchical RAG (HRAG) adds a layer of structure that flat RAG is missing. Instead of one flat index, it builds two: a high-level index of document summaries and sections, and lower-level indexes of the actual content within each section.",
       },
       {
         type: 'p',
-        text: "This works well when your documents are small and well-structured. It starts breaking when they're not.",
+        text: "The retrieval process mirrors how a person reads a long document. You don't scan every paragraph looking for the answer. You read the table of contents, find the relevant chapter, then read that chapter closely.",
       },
       {
         type: 'p',
-        text: "The core problem: flat RAG has no concept of document structure. It doesn't know that a 40-page technical report is organised into sections, that section 3 is about security and section 7 is about pricing. It just sees thousands of chunks of similar-sounding text and picks the ones that seem most related to the query.",
+        text: "In practice: a query hits the high-level index first. The system identifies which sections or documents are most relevant — not which chunks. Then it does a targeted search within those sections only. Instead of searching 10,000 chunks and grabbing 5 from across the entire corpus, you search 50 section summaries, pick the 2 most relevant, and retrieve the best 5 chunks from within those 2 sections.",
       },
       {
         type: 'p',
-        text: "When the query is specific but the document is dense, this leads to a common failure mode: the system retrieves chunks that are on-topic but wrong, text that mentions the right concepts but from the wrong section, or from an outdated version, or that contradicts what the user actually needed. The model receives this confused context and either hallucinates a confident answer or hedges uselessly.",
+        text: "The context the model receives is focused, coherent, and correct. That's the difference.",
       },
       {
         type: 'h2',
-        text: "How HRAG changes the retrieval logic",
+        text: "Why agents can't afford the noise",
       },
       {
         type: 'p',
-        text: "Hierarchical RAG introduces structure. Instead of a single flat index, it builds a two-level retrieval system: a high-level index of document summaries or sections, and lower-level indexes of the actual content within each section.",
+        text: "Co-pilots can tolerate retrieval noise. A human reading the output catches when something seems off and asks a follow-up. Agents can't do that.",
       },
       {
         type: 'p',
-        text: "The process mimics how a human reads a long document: scan the table of contents first, decide which chapter is relevant, then read that chapter carefully.",
+        text: "In an agentic workflow, the retrieved context feeds directly into a reasoning chain that produces a decision: which record to update, which action to take, which message to send. If the retrieval step returns irrelevant or contradictory content, the agent reasons confidently from bad premises. The failure is silent, downstream, and often hard to trace back to the retrieval step.",
       },
       {
         type: 'p',
-        text: "In practice: when a query comes in, the system first searches the high-level index to identify which sections or documents are most relevant. Then it does a targeted search within those specific sections only. Instead of searching 10,000 chunks and grabbing the 5 most similar ones from across the entire corpus, you search 50 section summaries, identify the 2 most relevant, and retrieve the 5 best chunks from within those 2 sections.",
+        text: "The teams building agents that hold up in production treat retrieval as a first-class engineering concern. Not a library call. Not a solved problem. A system with real failure modes that needs to be designed deliberately.",
       },
       {
         type: 'p',
-        text: "The context the model receives is focused, coherent, and correct.",
-      },
-      {
-        type: 'h2',
-        text: "Why this matters for agents",
-      },
-      {
-        type: 'p',
-        text: "Co-pilots can tolerate retrieval noise. A human reading the AI's response can catch a wrong citation, notice when the answer seems off, and ask a follow-up. Agents can't.",
-      },
-      {
-        type: 'p',
-        text: "In agentic workflows, the retrieved context is often passed directly into a reasoning chain that produces a decision: which record to update, which action to take, which response to send. If the retrieval step returns irrelevant or contradictory content, the agent reasons confidently from bad premises. The failure is silent and downstream.",
-      },
-      {
-        type: 'p',
-        text: "The teams building agents that work in production treat retrieval as a first-class engineering concern. HRAG is a structural solution to a structural problem. It gives agents a retrieval mechanism that's suited to the precision requirements of autonomous decision-making.",
-      },
-      {
-        type: 'p',
-        text: "If you're building agents that have to be right, not just plausible, the architecture of how they read matters as much as the model powering them.",
+        text: "So — is RAG that simple? For demos and prototypes, yes. For agents that have to be right, the architecture of how they retrieve matters as much as the model powering them. HRAG is what that looks like.",
       },
     ],
   },

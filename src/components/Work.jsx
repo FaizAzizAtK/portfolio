@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { data } from '../data'
+import CardVisual from './CardVisual'
 import './Work.css'
 
 export default function Work({ onOpenBlog }) {
@@ -25,12 +26,13 @@ export default function Work({ onOpenBlog }) {
     const recalc = () => {
       if (window.innerWidth <= 900) {
         driver.style.height = ''
+        track.style.transform = ''
         scrollableH = 0
         return
       }
-      const maxT = track.scrollWidth - sticky.offsetWidth
-      driver.style.height = `${sticky.offsetHeight + Math.max(0, maxT) + exitBuffer}px`
-      driverTop   = driver.offsetTop
+      const maxT = Math.max(0, track.scrollWidth - sticky.offsetWidth)
+      driver.style.height = `${sticky.offsetHeight + maxT + exitBuffer}px`
+      driverTop   = driver.getBoundingClientRect().top + window.scrollY
       scrollableH = driver.offsetHeight - sticky.offsetHeight
     }
 
@@ -39,8 +41,8 @@ export default function Work({ onOpenBlog }) {
     const onScroll = () => {
       if (scrollableH <= 0) return
       const progress = Math.max(0, Math.min(1, (window.scrollY - driverTop) / scrollableH))
-      const maxT = track.scrollWidth - sticky.offsetWidth
-      track.style.transform = `translateX(-${progress * maxT}px)`
+      const maxT = Math.max(0, track.scrollWidth - sticky.offsetWidth)
+      track.style.transform = maxT > 0 ? `translateX(-${progress * maxT}px)` : ''
 
       setActiveCard(Math.min(data.work.length - 1, Math.floor(progress * data.work.length)))
     }
@@ -119,12 +121,8 @@ export default function Work({ onOpenBlog }) {
                   <div className="work__card-img">
                     {project.image ? (
                       <img src={project.image} alt={project.title} />
-                    ) : project.type === 'article' ? (
-                      <div className="work__card-placeholder work__card-placeholder--article">
-                        <div className="work__card-lines" aria-hidden="true">
-                          <span /><span /><span /><span /><span />
-                        </div>
-                      </div>
+                    ) : project.blogId ? (
+                      <CardVisual blogId={project.blogId} />
                     ) : (
                       <div className="work__card-placeholder">
                         <span>{project.id}</span>
