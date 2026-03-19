@@ -17,7 +17,7 @@ export const data = {
   },
 
   about: {
-    bio: "I build and deliver AI agent systems that work in the real world, not just in demos. At IBM, I help enterprise clients move from AI experimentation to production deployment, translating complex business challenges into autonomous agent architectures. I also ship open-source tooling and write about the engineering principles behind modern agentic AI.",
+    bio: "Most AI work is over-promised and under-engineered. I take the opposite position: understand the system completely, build it right, and make sure someone can actually depend on it. What keeps me in this field is the craft. There is always a sharper way to approach a hard problem, and finding it is the part that never gets old.",
     capabilities: [
       { verb: "Builds",   detail: "Autonomous agent systems for enterprise AI transformation" },
       { verb: "Ships",    detail: "Open-source tooling for LLM prompt engineering (spart-prompt)" },

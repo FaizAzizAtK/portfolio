@@ -81,8 +81,8 @@ export default function Nav() {
     const aChar = document.querySelector('.nav__logo-char-a')
 
     if (fChar && aChar) {
-      fChar.style.fontFamily = 'var(--font-display)'
-      aChar.style.fontFamily = 'var(--font-display)'
+      fChar.style.fontFamily = ''
+      aChar.style.fontFamily = ''
     }
   }
 
