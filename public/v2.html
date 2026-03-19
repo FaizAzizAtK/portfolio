@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faiz Aziz — Agentic AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #080808;
+      --bg-card:  #0E0E0E;
+      --text:     #F0EDE8;
+      --muted:    #5A5A5A;
+      --dim:      #222;
+      --border:   #1A1A1A;
+      --accent:   #F59E0B;
+      --acc-dim:  rgba(245,158,11,0.1);
+      --display:  'Syne', sans-serif;
+      --body:     'Inter', sans-serif;
+      --mono:     'Space Mono', monospace;
+      --ease:     cubic-bezier(0.16,1,0.3,1);
+    }
+
+    html {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    body { overflow-x: hidden; }
+
+    /* ── CURSOR ──────────────────────────────────────── */
+    #cur {
+      position: fixed; z-index: 9999;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      transition: width .3s var(--ease), height .3s var(--ease),
+                  background .3s, border .3s;
+      mix-blend-mode: normal;
+    }
+    #cur.big {
+      width: 44px; height: 44px;
+      background: transparent;
+      border: 1px solid var(--accent);
+    }
+    @media (pointer:coarse) { #cur { display:none; } }
+
+    /* ── NAV ──────────────────────────────────────────── */
+    #nav {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 3rem;
+      transition: background .4s, border-color .4s;
+    }
+    #nav.solid {
+      background: rgba(8,8,8,.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+    }
+    .nav-logo {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo em { color: var(--accent); font-style:normal; }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ─────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 5.5rem;
+      overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset:0;
+      width:100%; height:100%;
+      opacity: .45;
+    }
+    .hero-inner { position:relative; z-index:2; }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+      opacity:0;
+      animation: fu .8s var(--ease) .2s both;
+    }
+    .hero-name {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(4.5rem, 16vw, 17rem);
+      line-height: .86;
+      letter-spacing: -.04em;
+      overflow: hidden;
+    }
+    .hero-name-row { display:block; overflow:hidden; }
+    .hero-name-row span {
+      display: block;
+      opacity:0; transform: translateY(110%);
+      animation: su 1.1s var(--ease) both;
+    }
+    .hero-name-row:nth-child(1) span { animation-delay: .05s; }
+    .hero-name-row:nth-child(2) span { animation-delay: .2s; }
+    .hero-name-row:nth-child(2) span em {
+      color: var(--accent); font-style:normal;
+    }
+
+    .hero-foot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3rem;
+      margin-top: 3rem;
+      opacity:0;
+      animation: fu .8s var(--ease) .85s both;
+    }
+    .hero-statement {
+      font-family: var(--body);
+      font-size: clamp(.85rem,1.4vw,1.05rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 44ch;
+      line-height: 1.75;
+    }
+    .hero-statement strong { color: var(--text); font-weight:400; }
+    .hero-cta { display:flex; gap:.75rem; flex-shrink:0; }
+    .btn {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .85rem 1.75rem;
+      transition: all .25s var(--ease);
+      cursor: none;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--accent); color:#080808; font-weight:700; }
+    .btn-primary:hover { background: #fbbf24; }
+    .btn-ghost { border:1px solid var(--dim); color: var(--muted); }
+    .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+    /* ── MARQUEE STRIP ────────────────────────────────── */
+    .marquee-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: .85rem 0;
+      background: var(--bg-card);
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .marquee-track span {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 2.5rem;
+      white-space: nowrap;
+    }
+    .marquee-track span.accent { color: var(--accent); }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION BASE ─────────────────────────────────── */
+    .sec { padding: 8rem 3rem; border-top: 1px solid var(--border); }
+
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      margin-bottom: 5rem;
+    }
+    .sec-num {
+      font-family: var(--mono);
+      font-size: .6rem;
+      color: var(--accent);
+      letter-spacing: .15em;
+    }
+    .sec-title {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(1.8rem,4.5vw,3.5rem);
+      letter-spacing: -.03em;
+    }
+    .sec-rule { flex:1; height:1px; background: var(--border); margin-left:.5rem; }
+
+    /* ── ABOUT ────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .about-bio {
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(240,237,232,.82);
+      margin-bottom: 3rem;
+    }
+    .caps { border-top: 1px solid var(--border); }
+    .cap {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cap-v {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      min-width: 58px;
+    }
+    .cap-d { font-size: .875rem; color: var(--muted); }
+    .about-right { position: sticky; top: 8rem; }
+    .about-label {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .tag-cloud { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .tag {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: .35rem .75rem;
+      border: 1px solid var(--dim);
+      color: var(--muted);
+      transition: all .2s;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+    .edu-box {
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+    }
+    .edu-label {
+      font-family: var(--mono);
+      font-size: .58rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .edu-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: .95rem;
+      margin-bottom: .25rem;
+    }
+    .edu-sub { font-size: .8rem; color: var(--muted); }
+
+    /* ── WRITING ──────────────────────────────────────── */
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .essay {
+      background: var(--bg);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: background .3s;
+      cursor: none;
+    }
+    .essay:hover { background: var(--bg-card); }
+    .essay:hover .essay-cta { color: var(--accent); gap: .85rem; }
+
+    .essay-thumb {
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+    .essay-thumb canvas {
+      width: 100%; height: 100%;
+      display: block;
+    }
+
+    .essay-body { padding: 2rem; display:flex; flex-direction:column; gap:1rem; flex:1; }
+    .essay-meta { display:flex; justify-content:space-between; align-items:center; }
+    .essay-type {
+      font-family: var(--mono);
+      font-size: .58rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .essay-date {
+      font-family: var(--mono);
+      font-size: .58rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+    }
+    .essay-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -.02em;
+      line-height: 1.25;
+    }
+    .essay-desc {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex:1;
+    }
+    .essay-cta {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: all .2s var(--ease);
+    }
+
+    /* ── EXPERIENCE ───────────────────────────────────── */
+    .exp-item {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 4rem;
+      padding: 2.75rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: padding .3s, background .3s;
+    }
+    .exp-item:first-of-type { border-top: 1px solid var(--border); }
+    .exp-item:hover { background: var(--bg-card); padding: 2.75rem 1.5rem; margin: 0 -1.5rem; }
+    .exp-period {
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+      padding-top: .2rem;
+    }
+    .exp-role {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -.02em;
+      margin-bottom: .2rem;
+    }
+    .exp-company {
+      font-family: var(--mono);
+      font-size: .65rem;
+      color: var(--accent);
+      letter-spacing: .1em;
+      margin-bottom: .7rem;
+    }
+    .exp-desc { font-size: .85rem; color: var(--muted); line-height:1.7; max-width:55ch; }
+
+    /* ── SKILLS ───────────────────────────────────────── */
+    .skills { background: var(--bg-card); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 3rem;
+    }
+    .sk-group-title {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sk-list { display:flex; flex-direction:column; gap:.7rem; }
+    .sk {
+      font-size: .875rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      transition: color .2s;
+    }
+    .sk::before {
+      content:'';
+      width:4px; height:4px;
+      background: var(--dim);
+      border-radius:50%;
+      flex-shrink:0;
+      transition: background .2s;
+    }
+    .sk:hover { color: var(--text); }
+    .sk:hover::before { background: var(--accent); }
+
+    /* ── CONTACT ──────────────────────────────────────── */
+    .contact {
+      text-align: center;
+      padding: 10rem 3rem 9rem;
+    }
+    .contact-pre {
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .contact-h {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(3rem,9vw,9rem);
+      letter-spacing: -.04em;
+      line-height: .88;
+      margin-bottom: 3.5rem;
+    }
+    .contact-h em { color: var(--accent); font-style:normal; }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      font-family: var(--mono);
+      font-size: .85rem;
+      letter-spacing: .06em;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--dim);
+      padding-bottom: .3rem;
+      transition: all .2s;
+    }
+    .contact-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── FOOTER ───────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .f-text {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+    }
+
+    /* ── REVEAL ───────────────────────────────────────── */
+    .r {
+      opacity:0;
+      transform: translateY(20px);
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+    .r.on { opacity:1; transform: translateY(0); }
+    .r[data-d="1"] { transition-delay:.1s; }
+    .r[data-d="2"] { transition-delay:.2s; }
+    .r[data-d="3"] { transition-delay:.3s; }
+    .r[data-d="4"] { transition-delay:.4s; }
+
+    /* ── KEYFRAMES ────────────────────────────────────── */
+    @keyframes fu {
+      from { opacity:0; transform: translateY(14px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    @keyframes su {
+      from { opacity:0; transform: translateY(110%); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── MOBILE ───────────────────────────────────────── */
+    @media (max-width:900px) {
+      #nav { padding:1.2rem 1.5rem; }
+      .nav-links { display:none; }
+      .hero { padding:0 1.5rem 4.5rem; }
+      .hero-foot { flex-direction:column; align-items:flex-start; gap:2rem; }
+      .sec { padding:5rem 1.5rem; }
+      .about-grid { grid-template-columns:1fr; gap:3rem; }
+      .about-right { position:static; }
+      .writing-grid { grid-template-columns:1fr; }
+      .skills-grid { grid-template-columns:1fr; gap:2rem; }
+      .exp-item { grid-template-columns:1fr; gap:.5rem; }
+      .exp-item:hover { padding:2.75rem 0; margin:0; }
+      .contact { padding:6rem 1.5rem; }
+      footer { flex-direction:column; gap:.75rem; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">F<em>A</em></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Agentic AI &nbsp;·&nbsp; IBM Delivery &nbsp;·&nbsp; London</p>
+    <h1 class="hero-name">
+      <span class="hero-name-row"><span>FAIZ</span></span>
+      <span class="hero-name-row"><span><em>AZIZ</em></span></span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-statement">
+        The gap between a promising prototype and a system an organisation
+        can depend on is a <strong>craft problem.</strong>
+        Craft is what I care about.
+      </p>
+      <div class="hero-cta">
+        <a href="#writing" class="btn btn-primary">Read essays</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="mt"></div>
+</div>
+
+<!-- ABOUT -->
+<section class="sec" id="about">
+  <div class="sec-head r">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">About</h2>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="about-grid">
+    <div class="r" data-d="1">
+      <p class="about-bio">
+        Most AI work is over-promised and under-engineered. I take the opposite position:
+        understand the system completely, build it right, and make sure someone can actually
+        depend on it. What keeps me in this field is the craft — there is always a sharper
+        way to approach a hard problem, and finding it is the part that never gets old.
+      </p>
+      <div class="caps">
+        <div class="cap"><span class="cap-v">Builds</span><span class="cap-d">Autonomous agent systems for enterprise AI transformation</span></div>
+        <div class="cap"><span class="cap-v">Ships</span><span class="cap-d">Open-source tooling for LLM prompt engineering (spart-prompt)</span></div>
+        <div class="cap"><span class="cap-v">Advises</span><span class="cap-d">AI strategy, agent architecture and delivery best practices</span></div>
+      </div>
+    </div>
+    <div class="about-right r" data-d="2">
+      <p class="about-label">Skills &amp; Stack</p>
+      <div class="tag-cloud">
+        <span class="tag">Python</span><span class="tag">AI Agents</span><span class="tag">LLMs</span>
+        <span class="tag">RAG</span><span class="tag">Context Engineering</span><span class="tag">Prompt Engineering</span>
+        <span class="tag">LangChain</span><span class="tag">MCPs</span><span class="tag">LLM Observability</span>
+        <span class="tag">Vector DBs</span><span class="tag">Enterprise Architecture</span><span class="tag">Agile Delivery</span>
+      </div>
+      <div class="edu-box">
+        <p class="edu-label">Education</p>
+        <p class="edu-title">BSc Computer Science</p>
+        <p class="edu-sub">Queen Mary University of London &nbsp;·&nbsp; First Class Honours &nbsp;·&nbsp; 78.1%</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section class="sec" id="writing">
+  <div class="sec-head r">
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">Writing</h2>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="writing-grid r" data-d="1">
+    <a href="#" class="essay">
+      <div class="essay-thumb"><canvas id="c-rag"></canvas></div>
+      <div class="essay-body">
+        <div class="essay-meta"><span class="essay-type">Essay</span><span class="essay-date">Mar 2026</span></div>
+        <h3 class="essay-title">Is RAG That Simple?</h3>
+        <p class="essay-desc">Traditional RAG scans everything and guesses. Hierarchical RAG reads like a human — index first, then drill down. Why that distinction determines whether your production agent is reliable or not.</p>
+        <span class="essay-cta">Read essay <span>→</span></span>
+      </div>
+    </a>
+    <a href="#" class="essay">
+      <div class="essay-thumb"><canvas id="c-ctx"></canvas></div>
+      <div class="essay-body">
+        <div class="essay-meta"><span class="essay-type">Essay</span><span class="essay-date">Feb 2026</span></div>
+        <h3 class="essay-title">Your Context Is Rotting</h3>
+        <p class="essay-desc">Most teams have figured out prompting. The harder problem — the one that breaks production agents — is context. Context rot, retrieval precision, memory design, and why most agent failures aren't prompt problems.</p>
+        <span class="essay-cta">Read essay <span>→</span></span>
+      </div>
+    </a>
+    <a href="#" class="essay">
+      <div class="essay-thumb"><canvas id="c-agt"></canvas></div>
+      <div class="essay-body">
+        <div class="essay-meta"><span class="essay-type">Essay</span><span class="essay-date">Jan 2026</span></div>
+        <h3 class="essay-title">The Agentic Shift</h3>
+        <p class="essay-desc">The shift from co-pilot to autonomous agent is real, but the timeline in your head is probably wrong. On adoption, trust, accountability gaps, and the unglamorous work between a convincing demo and a production system.</p>
+        <span class="essay-cta">Read essay <span>→</span></span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="sec" id="experience">
+  <div class="sec-head r">
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">Experience</h2>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="exp-item r" data-d="1">
+    <div class="exp-period">Nov 2025 — Present</div>
+    <div>
+      <p class="exp-role">Delivery Consultant</p>
+      <p class="exp-company">IBM</p>
+      <p class="exp-desc">Delivering enterprise AI transformation for large-scale clients. Translating complex business challenges into autonomous agent architectures and seeing them through to production deployment.</p>
+    </div>
+  </div>
+  <div class="exp-item r" data-d="2">
+    <div class="exp-period">Jul — Sep 2025</div>
+    <div>
+      <p class="exp-role">Technology Intern</p>
+      <p class="exp-company">Julius Baer</p>
+      <p class="exp-desc">AI engineering in a high-stakes environment where reliability and precision were non-negotiable. Built agent workflows and tooling under real production constraints.</p>
+    </div>
+  </div>
+  <div class="exp-item r" data-d="3">
+    <div class="exp-period">Jun — Sep 2024</div>
+    <div>
+      <p class="exp-role">AI Engineer Intern</p>
+      <p class="exp-company">IBM</p>
+      <p class="exp-desc">Developed LLM-powered tooling and AI agent systems. First close look at the distance between a working prototype and something an organisation can actually depend on.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="sec skills" id="skills">
+  <div class="sec-head r">
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">Skills</h2>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="r" data-d="1">
+      <p class="sk-group-title">Delivery</p>
+      <div class="sk-list">
+        <span class="sk">Enterprise Architecture</span>
+        <span class="sk">Solution Design</span>
+        <span class="sk">Stakeholder Management</span>
+        <span class="sk">Requirements Analysis</span>
+        <span class="sk">Agile Delivery</span>
+        <span class="sk">Client Presentations</span>
+        <span class="sk">Change Management</span>
+      </div>
+    </div>
+    <div class="r" data-d="2">
+      <p class="sk-group-title">Development</p>
+      <div class="sk-list">
+        <span class="sk">Python</span>
+        <span class="sk">AI Agents</span>
+        <span class="sk">LLMs</span>
+        <span class="sk">RAG</span>
+        <span class="sk">Context Engineering</span>
+        <span class="sk">Prompt Engineering</span>
+        <span class="sk">API Integration</span>
+      </div>
+    </div>
+    <div class="r" data-d="3">
+      <p class="sk-group-title">AI Tooling</p>
+      <div class="sk-list">
+        <span class="sk">LangChain</span>
+        <span class="sk">MCPs</span>
+        <span class="sk">LLM Observability / Evals</span>
+        <span class="sk">Vector DBs</span>
+        <span class="sk">Git</span>
+        <span class="sk">VS Code</span>
+        <span class="sk">Tooling Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec contact" id="contact">
+  <p class="contact-pre r">Let's work together</p>
+  <h2 class="contact-h r" data-d="1">Get in<br><em>touch.</em></h2>
+  <a href="mailto:faizazizatk@gmail.com" class="contact-link r" data-d="2">
+    faizazizatk@gmail.com <span>→</span>
+  </a>
+</section>
+
+<footer>
+  <p class="f-text">© 2026 Faiz Aziz</p>
+  <p class="f-text">Agentic AI &nbsp;·&nbsp; London</p>
+</footer>
+
+<script>
+// ── CURSOR ────────────────────────────────────────────
+const cur = document.getElementById('cur');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+(function tick(){ cx+=(mx-cx)*.13; cy+=(my-cy)*.13; cur.style.left=cx+'px'; cur.style.top=cy+'px'; requestAnimationFrame(tick); })();
+document.querySelectorAll('a,button,.tag,.sk').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+// ── NAV SCROLL ────────────────────────────────────────
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>50),{passive:true});
+
+// ── MARQUEE ───────────────────────────────────────────
+const words = ['Craft','Precision','Delivery','Agentic AI','London','Open Source','LLM Evals','Production AI','Agent Systems','Context Engineering'];
+const mt = document.getElementById('mt');
+const built = words.map(w=>`<span>${w}</span>`).join('<span class="accent">·</span>');
+mt.innerHTML = (built+'<span style="padding:0 1rem"></span>').repeat(4);
+
+// ── HERO CANVAS — particle network ────────────────────
+(function(){
+  const cv = document.getElementById('hero-canvas');
+  const c = cv.getContext('2d');
+  let W,H,nodes=[],mouse={x:-999,y:-999};
+  const N=90, MAXD=145, REPEL=110;
+
+  function resize(){ W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight; }
+  function makeNode(){ return { x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, r:Math.random()*1.2+.4 }; }
+  function init(){ resize(); nodes=Array.from({length:N},makeNode); }
+
+  document.addEventListener('mousemove',e=>{ const r=cv.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
+
+  function draw(){
+    c.clearRect(0,0,W,H);
+    nodes.forEach(n=>{
+      const dx=n.x-mouse.x, dy=n.y-mouse.y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<REPEL){ const f=(REPEL-d)/REPEL*.4; n.vx+=(dx/d)*f; n.vy+=(dy/d)*f; }
+      n.vx*=.98; n.vy*=.98; n.x+=n.vx; n.y+=n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
+      n.x=Math.max(0,Math.min(W,n.x)); n.y=Math.max(0,Math.min(H,n.y));
+    });
+    for(let i=0;i<nodes.length;i++) for(let j=i+1;j<nodes.length;j++){
+      const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<MAXD){ const a=(1-d/MAXD)*.18; c.beginPath(); c.moveTo(nodes[i].x,nodes[i].y); c.lineTo(nodes[j].x,nodes[j].y); c.strokeStyle=`rgba(245,158,11,${a})`; c.lineWidth=.6; c.stroke(); }
+    }
+    nodes.forEach(n=>{ c.beginPath(); c.arc(n.x,n.y,n.r,0,Math.PI*2); c.fillStyle='rgba(240,237,232,.3)'; c.fill(); });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  init(); draw();
+})();
+
+// ── ESSAY THUMBNAILS ──────────────────────────────────
+// Helper: resize canvas to match display size
+function fitCanvas(cv){ cv.width=cv.offsetWidth||cv.parentElement.offsetWidth||400; cv.height=cv.offsetHeight||Math.round((cv.offsetWidth||400)*9/16)||225; }
+
+// RAG — hierarchical tree traversal
+(function(){
+  const cv=document.getElementById('c-rag'); if(!cv) return;
+  fitCanvas(cv);
+  const c=cv.getContext('2d'), W=cv.width, H=cv.height;
+  let t=0;
+  const nodes=[
+    {x:W/2,y:H*.12},{x:W*.25,y:H*.4},{x:W*.75,y:H*.4},
+    {x:W*.1,y:H*.72},{x:W*.4,y:H*.72},{x:W*.6,y:H*.72},{x:W*.9,y:H*.72}
+  ];
+  const edges=[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]];
+  function draw(){
+    c.fillStyle='#0D0D0D'; c.fillRect(0,0,W,H);
+    const phase=(t*.009)%(edges.length+4);
+    edges.forEach(([a,b],i)=>{
+      const na=nodes[a],nb=nodes[b],p=Math.max(0,Math.min(1,(phase-i)/1.4));
+      c.beginPath(); c.moveTo(na.x,na.y); c.lineTo(na.x+(nb.x-na.x)*p,na.y+(nb.y-na.y)*p);
+      c.strokeStyle=`rgba(245,158,11,${.25+p*.15})`; c.lineWidth=.8; c.stroke();
+    });
+    nodes.forEach((n,i)=>{
+      if(phase<i-.5) return;
+      const active=Math.floor(phase)>=i&&Math.floor(phase)<i+2;
+      c.beginPath(); c.arc(n.x,n.y,i===0?5:i<3?3.5:2.5,0,Math.PI*2);
+      c.fillStyle=active?'#F59E0B':'rgba(240,237,232,.45)'; c.fill();
+      if(active&&i===0){ c.beginPath(); c.arc(n.x,n.y,10,0,Math.PI*2); c.strokeStyle='rgba(245,158,11,.25)'; c.lineWidth=1; c.stroke(); }
+    });
+    c.font=`${W*.02}px Space Mono, monospace`; c.fillStyle='rgba(245,158,11,.55)'; c.textAlign='center';
+    c.fillText('INDEX',nodes[0].x,nodes[0].y-10);
+    c.fillStyle='rgba(90,90,90,.7)'; c.textAlign='right';
+    c.fillText('HIERARCHICAL RAG',W-10,H-10);
+    t++; requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Context Rot — decaying signal bars
+(function(){
+  const cv=document.getElementById('c-ctx'); if(!cv) return;
+  fitCanvas(cv);
+  const c=cv.getContext('2d'), W=cv.width, H=cv.height;
+  let t=0;
+  function draw(){
+    c.fillStyle='#0D0D0D'; c.fillRect(0,0,W,H);
+    const segs=14, sw=W/segs;
+    for(let i=0;i<segs;i++){
+      const age=i/segs, decay=Math.pow(age,1.4);
+      const ht=H*.35*(1-decay*.7)+Math.sin(t*.02+i*.9)*H*.05*decay;
+      const alpha=(1-decay*.75)*.85;
+      const y=H/2-ht/2;
+      c.fillStyle=`rgba(245,158,11,${alpha*.7})`; c.fillRect(i*sw+2,y,sw-4,Math.max(2,ht));
+      if(decay>.35) for(let d=0;d<Math.floor(decay*5);d++){
+        c.fillStyle=`rgba(245,158,11,${Math.random()*.25})`;
+        c.fillRect(i*sw+Math.random()*sw, y+Math.random()*ht, 1,1);
+      }
+    }
+    c.font=`${W*.02}px Space Mono, monospace`;
+    c.fillStyle='rgba(245,158,11,.5)'; c.textAlign='left'; c.fillText('FRESH',8,18);
+    c.fillStyle='rgba(90,90,90,.5)'; c.textAlign='right'; c.fillText('DECAYED',W-8,18);
+    c.fillStyle='rgba(90,90,90,.7)'; c.textAlign='right'; c.fillText('CONTEXT ROT',W-10,H-10);
+    t++; requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Agentic Shift — agent loop with traveling node
+(function(){
+  const cv=document.getElementById('c-agt'); if(!cv) return;
+  fitCanvas(cv);
+  const c=cv.getContext('2d'), W=cv.width, H=cv.height;
+  let t=0;
+  const stages=[{l:'PERCEIVE',a:-Math.PI/2},{l:'PLAN',a:0},{l:'ACT',a:Math.PI/2},{l:'LEARN',a:Math.PI}];
+  const ox=W/2, oy=H/2, R=Math.min(W,H)*.3;
+  function draw(){
+    c.fillStyle='#0D0D0D'; c.fillRect(0,0,W,H);
+    c.beginPath(); c.arc(ox,oy,R,0,Math.PI*2); c.strokeStyle='rgba(245,158,11,.1)'; c.lineWidth=1; c.stroke();
+    const prog=(t*.007)%1;
+    c.beginPath(); c.arc(ox,oy,R,-Math.PI/2,-Math.PI/2+prog*Math.PI*2);
+    c.strokeStyle='rgba(245,158,11,.55)'; c.lineWidth=1.5; c.stroke();
+    const da=-Math.PI/2+prog*Math.PI*2;
+    const grd=c.createRadialGradient(ox+Math.cos(da)*R,oy+Math.sin(da)*R,0,ox+Math.cos(da)*R,oy+Math.sin(da)*R,8);
+    grd.addColorStop(0,'rgba(245,158,11,.8)'); grd.addColorStop(1,'rgba(245,158,11,0)');
+    c.beginPath(); c.arc(ox+Math.cos(da)*R,oy+Math.sin(da)*R,5,0,Math.PI*2); c.fillStyle='#F59E0B'; c.fill();
+    c.beginPath(); c.arc(ox+Math.cos(da)*R,oy+Math.sin(da)*R,10,0,Math.PI*2); c.fillStyle=grd; c.fill();
+    stages.forEach(s=>{
+      const nx=ox+Math.cos(s.a)*R, ny=oy+Math.sin(s.a)*R;
+      const norm=((s.a+Math.PI/2)/(Math.PI*2)+1)%1;
+      const active=Math.abs(prog-norm)<.12||Math.abs(prog-norm+1)<.12;
+      c.beginPath(); c.arc(nx,ny,4,0,Math.PI*2); c.fillStyle=active?'#F59E0B':'rgba(240,237,232,.25)'; c.fill();
+      c.font=`${W*.019}px Space Mono, monospace`; c.textAlign='center';
+      c.fillStyle=active?'rgba(245,158,11,.95)':'rgba(90,90,90,.65)';
+      c.fillText(s.l,ox+Math.cos(s.a)*(R+R*.28),oy+Math.sin(s.a)*(R+R*.28)+3);
+    });
+    c.font=`bold ${W*.022}px Space Mono, monospace`; c.fillStyle='rgba(240,237,232,.55)'; c.textAlign='center'; c.fillText('AGENT',ox,oy+4);
+    c.font=`${W*.019}px Space Mono, monospace`; c.fillStyle='rgba(90,90,90,.7)'; c.textAlign='right'; c.fillText('AGENTIC LOOP',W-10,H-10);
+    t++; requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── SCROLL REVEAL ─────────────────────────────────────
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } }),{threshold:.08});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
