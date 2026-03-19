@@ -32,7 +32,6 @@
 .nav__logo-liquid {
   display: flex;
   align-items: center;
-  filter: url('#gooey-refined');
   position: relative;
   height: 36px;
 }

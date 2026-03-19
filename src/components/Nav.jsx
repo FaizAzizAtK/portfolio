@@ -112,20 +112,6 @@ export default function Nav() {
           onMouseLeave={handleMouseLeave}
           aria-label="Faiz Aziz — home"
         >
-          <svg width="0" height="0" style={{ position: 'absolute' }}>
-            <defs>
-              <filter id="gooey-refined">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur" />
-                <feColorMatrix
-                  in="blur"
-                  mode="matrix"
-                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 25 -10"
-                  result="gooey"
-                />
-                <feComposite in="SourceGraphic" in2="gooey" operator="atop"/>
-              </filter>
-            </defs>
-          </svg>
           <div className="nav__logo-liquid">
             <span className="nav__logo-char nav__logo-char-f">F</span>
             <span className="nav__logo-char nav__logo-char-a">A</span>
