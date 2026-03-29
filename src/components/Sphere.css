@@ -7,17 +7,22 @@
   opacity: 0;
   animation: fadeUp 3s var(--ease-out) 2.8s both;
   user-select: none;
+  position: relative;
+  overflow: visible;
 }
 
 .sphere-canvas {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 900px) {
   .sphere-wrap {
     flex: 0 0 min(84vw, 380px);
+    width: min(84vw, 380px);
     height: min(84vw, 380px);
     align-self: center;
   }
@@ -26,6 +31,7 @@
 @media (max-width: 600px) {
   .sphere-wrap {
     flex: 0 0 min(72vw, 280px);
+    width: min(72vw, 280px);
     height: min(72vw, 280px);
     align-self: center;
   }
@@ -34,6 +40,7 @@
 @media (max-width: 440px) {
   .sphere-wrap {
     flex: 0 0 min(68vw, 260px);
+    width: min(68vw, 260px);
     height: min(68vw, 260px);
     align-self: center;
   }

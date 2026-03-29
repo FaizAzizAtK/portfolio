@@ -60,13 +60,16 @@ export default function Sphere() {
     const moveLog  = []  // { dy: rotY delta, dx: rotX delta, t: timestamp }
 
     // ── sizing ──────────────────────────────────────────
+    let baseSize = 0
     function resize() {
       const { width, height } = wrap.getBoundingClientRect()
-      const size = Math.min(width, height)
-      canvas.width  = size * window.devicePixelRatio
-      canvas.height = size * window.devicePixelRatio
-      canvas.style.width  = size + 'px'
-      canvas.style.height = size + 'px'
+      baseSize = Math.min(width, height)
+      // Canvas is 1.5× the wrap so text labels have room beyond the sphere edge
+      const padded = baseSize * 1.5
+      canvas.width  = padded * window.devicePixelRatio
+      canvas.height = padded * window.devicePixelRatio
+      canvas.style.width  = padded + 'px'
+      canvas.style.height = padded + 'px'
     }
     resize()
     const ro = new ResizeObserver(resize)
@@ -78,8 +81,10 @@ export default function Sphere() {
       const H  = canvas.height
       const cx = W / 2
       const cy = H / 2
-      const r  = W * 0.28      // sphere radius in canvas px
       const dpr = window.devicePixelRatio
+      // Sphere radius is based on the original (unpadded) container size
+      // so it stays visually the same size while text has room beyond it
+      const r  = baseSize * 0.28 * dpr
 
       ctx.clearRect(0, 0, W, H)
 
@@ -214,7 +219,7 @@ export default function Sphere() {
       const W = canvas.width
       const H = canvas.height
       const cx = W / 2, cy = H / 2
-      const r  = W * 0.28
+      const r  = baseSize * 0.28 * window.devicePixelRatio
 
       let closest = -1, minDist = 24 * dpr
       NODES.forEach((n, i) => {
